@@ -40,9 +40,10 @@ export const contactMessages = {
   /** Cabeçalho, menu, botão flutuante e bloco de contato da home. */
   general: 'Olá! Vim pelo site e tenho interesse em alugar uma moto.',
   /** Card do catálogo/home: interesse no modelo clicado. */
-  catalog: (moto: string) => `Olá! Vi a moto ${moto} no catálogo do site e tenho interesse. Podem me passar mais informações?`,
+  catalog: (moto: string) =>
+    `Olá! Vi a moto ${moto} no catálogo do site e tenho interesse na locação. Gostaria de receber mais informações.`,
   /** Página individual: consulta sobre aquela moto. */
-  detail: (moto: string) => `Olá! Tenho interesse na moto ${moto} e gostaria de conhecer as condições de locação.`,
+  detail: (moto: string) => `Olá! Tenho interesse na locação da moto ${moto}. Gostaria de receber mais informações.`,
   /** Seção de modalidades. */
   modality: (modality?: string) =>
     modality

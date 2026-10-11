@@ -20,7 +20,8 @@ export const navigation: NavItem[] = [
 export const hero = {
   eyebrow: 'Locação de motos',
   title: 'Sua próxima moto começa aqui.',
-  subtitle: 'Mais liberdade para ir, trabalhar e conquistar seus objetivos. Encontre a moto ideal para sua rotina.',
+  subtitle:
+    'Alugue a moto certa para trabalhar e se deslocar no dia a dia. Escolha no catálogo e consulte as condições direto com a nossa equipe.',
   primaryCta: { label: 'Conhecer as motos', to: '/motos' },
   secondaryCta: { label: 'Como funciona', to: '/#como-funciona' },
   /** Fotos demonstrativas — substituir por fotos da frota real. */

@@ -54,9 +54,9 @@ describe('catálogo de motos', () => {
   it('mensagem do WhatsApp usa o nome da moto (com fabricante, se houver)', () => {
     const demo = motorcycles[0]
     expect(motorcycleInterestMessage(demo)).toBe(
-      `Olá! Tenho interesse na moto ${demo.name} e gostaria de conhecer as condições de locação.`,
+      `Olá! Tenho interesse na locação da moto ${demo.name}. Gostaria de receber mais informações.`,
     )
-    expect(motorcycleInterestMessage({ ...demo, brand: 'Marca' })).toContain(`na moto Marca ${demo.name} e`)
+    expect(motorcycleInterestMessage({ ...demo, brand: 'Marca' })).toContain(`da moto Marca ${demo.name}.`)
   })
 
   it('ficha técnica só inclui fabricante e transmissão quando informados', () => {

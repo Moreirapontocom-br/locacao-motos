@@ -103,7 +103,7 @@ describe('detalhes da moto', () => {
     renderAt(`/motos/${moto.slug}`)
     await user.click(screen.getByRole('button', { name: 'Consultar pelo WhatsApp' }))
     const dialog = screen.getByRole('dialog', { name: /canal de atendimento em configuração/i })
-    expect(within(dialog).getByText(new RegExp(`interesse na moto ${moto.name}`))).toBeInTheDocument()
+    expect(within(dialog).getByText(new RegExp(`interesse na locação da moto ${moto.name}`))).toBeInTheDocument()
     await user.click(within(dialog).getByRole('button', { name: 'Fechar' }))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
