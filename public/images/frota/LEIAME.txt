@@ -1,0 +1,23 @@
+FOTOS OFICIAIS DA FROTA
+=======================
+
+Coloque aqui as fotografias reais das motos da empresa (JPG ou WebP).
+
+- Proporcao recomendada: 4:3 (ex.: 1600x1200). A foto principal e as miniaturas usam esse enquadramento.
+- Peso recomendado: ate ~300 KB por foto (comprima antes de enviar).
+- Nome sugerido: <modelo>-<angulo>.jpg  (ex.: cg-160-frente.jpg, cg-160-lateral.jpg)
+
+Como usar em src/config/motorcycles.ts:
+
+  import { fleetPhoto } from '../lib/images'
+
+  images: [
+    fleetPhoto('cg-160-frente.jpg', 'Honda CG 160 vista de frente'),
+    fleetPhoto('cg-160-lateral.jpg', 'Honda CG 160 vista lateral'),
+  ],
+
+Escreva um texto alternativo (alt) que descreva a foto. Uma moto pode ter quantas fotos quiser:
+a galeria, as miniaturas e a visualizacao ampliada se adaptam sozinhas.
+Sem fotos (images: []), a pagina mostra "Fotos em breve". Se um arquivo nao carregar, um espaco reservado e exibido.
+
+Ao cadastrar uma moto real, remova "demo: true" e as fotos do Unsplash dessa moto.

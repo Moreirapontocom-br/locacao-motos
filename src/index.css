@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+
+/*
+ * IDENTIDADE VISUAL
+ * Paleta provisória centralizada aqui. Ao receber a identidade oficial,
+ * altere apenas estes tokens — todos os componentes usam essas cores.
+ */
+@theme {
+  --color-graphite: #15191d;
+  --color-graphite-800: #1d2227;
+  --color-graphite-700: #272d33;
+  --color-graphite-600: #353c43;
+  --color-ice: #f4f5f6;
+  --color-steel: #d3d8dc;
+  --color-muted: #5c656d; /* texto secundário em fundo claro (contraste AA) */
+  --color-muted-dark: #a3abb2; /* texto secundário em fundo escuro (contraste AA) */
+  --color-accent: #db6538; /* laranja provisório */
+  --color-accent-soft: #e8835b;
+  --color-accent-ink: #a8461f; /* laranja para textos pequenos em fundo claro (contraste AA) */
+
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Sora', 'Manrope', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Raio padrão dos cards e blocos de imagem */
+  --radius-card: 1.75rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-ice font-sans text-graphite antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight text-balance;
+  }
+
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    /* Animações CSS praticamente instantâneas (as do Motion já respeitam via MotionConfig). */
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+}
+
+/* Espaçamento vertical padrão das seções (mesmo ritmo em todo o site). */
+@utility section-y {
+  @apply py-18 sm:py-24 lg:py-28;
+}
