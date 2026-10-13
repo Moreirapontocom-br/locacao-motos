@@ -19,7 +19,7 @@ describe('mensagens por contexto', () => {
   it('cada origem gera a mensagem certa', () => {
     expect(buildContactMessage({ origin: 'header' })).toBe(contactMessages.general)
     expect(buildContactMessage({ origin: 'catalog', moto })).toContain(`moto ${moto.name} no catálogo`)
-    expect(buildContactMessage({ origin: 'detail', moto })).toContain(`interesse na moto ${moto.name}`)
+    expect(buildContactMessage({ origin: 'detail', moto })).toContain(`interesse na locação da moto ${moto.name}.`)
     expect(buildContactMessage({ origin: 'modality', modality: 'Locação mensal' })).toContain('"Locação mensal"')
     expect(buildContactMessage({ origin: 'modality' })).toBe(contactMessages.modality())
     expect(buildContactMessage({ origin: 'faq' })).toBe(contactMessages.faq)

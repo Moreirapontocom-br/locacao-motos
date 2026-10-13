@@ -60,12 +60,17 @@ export function CatalogPage() {
             <MotorcycleGrid motorcycles={list} origin="catalog" />
           </div>
 
-          <div className="mt-16 flex flex-col items-start gap-6 rounded-card bg-white p-8 ring-1 ring-graphite/[0.06] sm:flex-row sm:items-center sm:justify-between sm:p-10">
+          <div className="mt-16 flex flex-col items-start gap-6 rounded-card bg-white p-6 ring-1 ring-graphite/[0.06] sm:flex-row sm:items-center sm:justify-between sm:p-10">
             <div>
               <h2 className="text-2xl font-semibold">Não encontrou a moto que procura?</h2>
               <p className="mt-2 text-muted">A frota pode mudar. Fale com a equipe e consulte a disponibilidade.</p>
             </div>
-            <ContactButton variant="dark" context={{ origin: 'catalog-help' }} label="Consultar disponibilidade pelo WhatsApp" />
+            <ContactButton
+              variant="dark"
+              context={{ origin: 'catalog-help' }}
+              label="Consultar disponibilidade pelo WhatsApp"
+              className="w-full sm:w-auto"
+            />
           </div>
         </div>
       </section>

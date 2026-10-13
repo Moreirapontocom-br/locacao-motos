@@ -5,7 +5,7 @@ type Variant = 'primary' | 'dark' | 'light' | 'outline' | 'outline-light' | 'gho
 type Size = 'sm' | 'md' | 'lg'
 
 const base =
-  'group/btn inline-flex items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap transition-[background-color,color,border-color,transform] duration-200 ease-out-soft active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50'
+  'group/btn inline-flex items-center justify-center gap-2 rounded-full text-center leading-tight font-semibold sm:whitespace-nowrap transition-[background-color,color,border-color,transform] duration-200 ease-out-soft active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50'
 
 const variants: Record<Variant, string> = {
   primary: 'bg-accent text-graphite hover:bg-accent-soft',
@@ -43,7 +43,10 @@ function buttonClasses(variant: Variant = 'primary', size: Size = 'md', classNam
   return `${base} ${variants[variant]} ${sizes[size]} ${className}`
 }
 
-/** Botão único para links internos (`to`), externos (`href`) e ações (`onClick`). */
+/**
+ * Botão único para links internos (`to`), externos (`href`) e ações (`onClick`).
+ * No celular, rótulos longos quebram em duas linhas em vez de ultrapassar a largura da tela.
+ */
 export function Button(props: ButtonProps) {
   const { variant, size, className, children, ...rest } = props
   const classes = buttonClasses(variant, size, className)

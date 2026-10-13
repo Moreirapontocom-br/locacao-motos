@@ -40,6 +40,9 @@ export function FeaturedMotorcycles() {
           </DemoNotice>
         )}
 
+        <p className="sr-only" aria-live="polite">
+          {list.length} {list.length === 1 ? 'moto' : 'motos'}
+        </p>
         <div className="mt-10">
           <MotorcycleGrid motorcycles={list} origin="home-featured" />
         </div>

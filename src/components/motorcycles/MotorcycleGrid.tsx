@@ -22,7 +22,7 @@ export function MotorcycleGrid({
   }
 
   return (
-    <motion.ul layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+    <motion.ul layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <AnimatePresence mode="popLayout" initial={false}>
         {motorcycles.map((moto) => (
           <motion.li

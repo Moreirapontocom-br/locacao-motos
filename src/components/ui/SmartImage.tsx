@@ -62,8 +62,9 @@ export function SmartImage({
         }}
         onLoad={() => setLoaded(true)}
         onError={() => setFailed(true)}
+        // Imagens prioritárias (primeira dobra) aparecem sem esperar o fade, para não atrasar o carregamento percebido.
         className={`h-full w-full object-cover transition-opacity duration-700 ${
-          loaded ? 'opacity-100' : 'opacity-0'
+          loaded || priority ? 'opacity-100' : 'opacity-0'
         } ${imgClassName}`}
       />
     </div>
