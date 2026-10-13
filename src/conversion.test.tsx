@@ -95,7 +95,10 @@ describe('formulário de interesse (home, sem moto selecionada)', () => {
     renderAt('/')
     const contact = screen.getByRole('region', { name: /encontre a moto certa/i })
     await user.click(within(contact).getByRole('button', { name: /detalhar minha consulta/i }))
-    expect(within(contact).getByRole('option', { name: `${moto.name} (exemplo)` })).toBeInTheDocument()
+    const demo = motorcycles.find((m) => m.demo)!
+    expect(within(contact).getByRole('option', { name: `${demo.name} (exemplo)` })).toBeInTheDocument()
+    // As CG 160 são modelos informados pela empresa: sem o sufixo de exemplo.
+    expect(within(contact).getByRole('option', { name: moto.name })).toBeInTheDocument()
   })
 })
 

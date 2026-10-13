@@ -1,7 +1,7 @@
 import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { App } from './App'
 import { motorcycles } from './config/motorcycles'
 
@@ -16,7 +16,7 @@ function renderAt(path: string) {
 describe('homepage', () => {
   it('exibe o título de motos e os CTAs principais', () => {
     renderAt('/')
-    expect(screen.getByRole('heading', { level: 1, name: /sua próxima moto começa aqui/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: /honda cg 160 para a sua rotina/i })).toBeInTheDocument()
     // Todos os CTAs "Conhecer as motos" (hero, seções e contato) levam ao catálogo.
     for (const link of screen.getAllByRole('link', { name: /conhecer as motos/i })) {
       expect(link).toHaveAttribute('href', '/motos')
@@ -29,16 +29,37 @@ describe('homepage', () => {
     expect(container.textContent).not.toMatch(/\bcarros?\b|automóve|\bSUV\b|sedã/i)
   })
 
-  it('filtra as motos em destaque por estilo', async () => {
-    const user = userEvent.setup()
+  it('mostra as 4 motos em destaque em um carrossel, com as CG 160 primeiro', () => {
     renderAt('/')
-    const section = screen.getByRole('region', { name: /encontre sua próxima moto/i })
-    await user.click(within(section).getByRole('button', { name: 'Esportiva' }))
-    await waitFor(() => {
-      const names = within(section).getAllByRole('heading', { level: 3 }).map((h) => h.textContent)
-      expect(names.length).toBeGreaterThan(0)
-      expect(names.every((n) => motorcycles.some((m) => m.name === n && m.style === 'esportiva'))).toBe(true)
-    })
+    const carousel = screen.getByRole('region', { name: 'Motos em destaque' })
+    const names = within(carousel).getAllByRole('heading', { level: 3 }).map((h) => h.textContent)
+    expect(names).toEqual(motorcycles.filter((m) => m.featured).map((m) => m.name))
+    expect(names.slice(0, 2)).toEqual(['Honda CG 160 Start', 'Honda CG 160 Fan'])
+    // Sem filtro de estilo na home: o carrossel já é a versão compacta.
+    expect(screen.queryByRole('group', { name: /filtrar motos/i })).not.toBeInTheDocument()
+  })
+
+  it('setas do carrossel rolam para a moto seguinte e anterior', async () => {
+    const user = userEvent.setup()
+    const scrollTo = vi.fn()
+    const original = Element.prototype.scrollTo
+    Element.prototype.scrollTo = scrollTo as unknown as typeof Element.prototype.scrollTo
+    try {
+      renderAt('/')
+      const carousel = screen.getByRole('region', { name: 'Motos em destaque' })
+      const prev = within(carousel).getByRole('button', { name: 'Motos anteriores' })
+      const next = within(carousel).getByRole('button', { name: 'Próximas motos' })
+      expect(prev).toBeDisabled()
+      scrollTo.mockClear()
+      await user.click(next)
+      expect(scrollTo).toHaveBeenCalled()
+      expect(prev).toBeEnabled()
+      expect(within(carousel).getByRole('button', { name: 'Ir para a moto 2' })).toHaveAttribute('aria-current', 'true')
+      await user.click(prev)
+      expect(prev).toBeDisabled()
+    } finally {
+      Element.prototype.scrollTo = original
+    }
   })
 
   it('não promete aquisição da moto', () => {
@@ -59,9 +80,9 @@ describe('homepage', () => {
 
 describe('catálogo', () => {
   it('aplica o filtro de estilo vindo da URL', () => {
-    renderAt('/motos?estilo=esportiva')
-    const count = motorcycles.filter((m) => m.style === 'esportiva').length
-    expect(screen.getByRole('heading', { level: 1, name: 'Motos Esportiva' })).toBeInTheDocument()
+    renderAt('/motos?estilo=street')
+    const count = motorcycles.filter((m) => m.style === 'street').length
+    expect(screen.getByRole('heading', { level: 1, name: 'Motos Street' })).toBeInTheDocument()
     expect(screen.getByText(`${count} motos`)).toBeInTheDocument()
   })
 
@@ -76,7 +97,7 @@ describe('catálogo', () => {
 
   it('redireciona links antigos de /veiculos', () => {
     renderAt('/veiculos')
-    expect(screen.getByRole('heading', { level: 1, name: 'Encontre sua próxima moto' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'Motos Honda para locação' })).toBeInTheDocument()
   })
 
   it('cards oferecem consulta direta da moto', async () => {

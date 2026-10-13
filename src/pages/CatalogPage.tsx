@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom'
 import { PageHeader } from '../components/layout/PageHeader'
-import { MotorcycleGrid } from '../components/motorcycles/MotorcycleGrid'
+import { MotorcycleCarousel } from '../components/motorcycles/MotorcycleCarousel'
 import { StyleFilter } from '../components/motorcycles/StyleFilter'
 import { ContactButton } from '../components/ui/ContactButton'
 import { DemoNotice } from '../components/ui/DemoNotice'
@@ -17,11 +17,11 @@ export function CatalogPage() {
   const parsed = parseStyleFilter(params.get('estilo'))
   const filter = options.some((o) => o.value === parsed) ? parsed : 'todas'
   const list = filterMotorcycles(motorcycles, filter)
-  const title = filter === 'todas' ? 'Encontre sua próxima moto' : `Motos ${styleLabels[filter]}`
+  const title = filter === 'todas' ? 'Motos Honda para locação' : `Motos ${styleLabels[filter]}`
 
   usePageMeta(
     filter === 'todas' ? 'Motos para locação' : title,
-    'Conheça as motos para locação, com fotos e informações de cada modelo. Consulte disponibilidade e condições com a equipe.',
+    'Honda CG 160 Start, CG 160 Fan e outras opções Honda para locação. Consulte disponibilidade e condições com a equipe.',
   )
 
   const onChange = (value: StyleFilterValue) => {
@@ -36,7 +36,7 @@ export function CatalogPage() {
           tone="dark"
           eyebrow="Motos"
           title={title}
-          description="Escolha uma moto para ver fotos e informações e consultar disponibilidade e condições com a equipe."
+          description="Nosso foco é a Honda CG 160, nas versões Start e Fan. Escolha uma moto para ver fotos e informações e consultar disponibilidade e condições com a equipe."
         />
       </PageHeader>
 
@@ -50,18 +50,18 @@ export function CatalogPage() {
             </p>
           </div>
 
-          {motorcycles.some((m) => m.demo) && (
+          {motorcycles.some((m) => m.demo || m.images.some((img) => img.illustrative)) && (
             <DemoNotice className="mt-6">
-              Catálogo demonstrativo: motos de exemplo e fotos ilustrativas, que não representam o estoque da empresa.
-              Sem preços ou condições reais.
+              Fotos ilustrativas, que não são das motos da empresa. As opções de 300 cc são provisórias. Ano, versão e
+              condições de cada moto são confirmados pela equipe.
             </DemoNotice>
           )}
 
           <div className="mt-8">
-            <MotorcycleGrid motorcycles={list} origin="catalog" />
+            <MotorcycleCarousel motorcycles={list} origin="catalog" label="Lista de motos" />
           </div>
 
-          <div className="mt-16 flex flex-col items-start gap-6 rounded-card bg-white p-6 ring-1 ring-graphite/[0.06] sm:flex-row sm:items-center sm:justify-between sm:p-10">
+          <div className="mt-12 flex flex-col items-start gap-6 rounded-card bg-white p-6 ring-1 ring-graphite/[0.06] sm:flex-row sm:items-center sm:justify-between sm:p-10">
             <div>
               <h2 className="text-2xl font-semibold">Não encontrou a moto que procura?</h2>
               <p className="mt-2 text-muted">A frota pode mudar. Fale com a equipe e consulte a disponibilidade.</p>

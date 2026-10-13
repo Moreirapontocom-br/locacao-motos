@@ -18,32 +18,38 @@ export const navigation: NavItem[] = [
 ]
 
 export const hero = {
-  eyebrow: 'Locação de motos',
-  title: 'Sua próxima moto começa aqui.',
+  eyebrow: 'Locação de motos Honda',
+  title: 'Honda CG 160 para a sua rotina.',
   subtitle:
-    'Alugue a moto certa para trabalhar e se deslocar no dia a dia. Escolha no catálogo e consulte as condições direto com a nossa equipe.',
+    'Alugue uma CG 160 Start ou CG 160 Fan para trabalhar e se deslocar no dia a dia. Consulte modalidades e condições direto com a nossa equipe.',
   primaryCta: { label: 'Conhecer as motos', to: '/motos' },
   secondaryCta: { label: 'Como funciona', to: '/#como-funciona' },
-  /** Fotos demonstrativas — substituir por fotos da frota real. */
+  /**
+   * Fotos ILUSTRATIVAS (Unsplash). A principal deve mostrar uma pessoa pilotando
+   * uma Honda CG 160 Start/Fan. Quando houver a foto oficial, salve em
+   * public/images/frota/ (horizontal, 4:3, até ~300 KB) e troque por:
+   *   main: fleetPhoto('cg-160-piloto.jpg', 'Motociclista pilotando uma Honda CG 160'),
+   */
   images: {
-    main: unsplash('photo-1558981403-c5f9899a28bc', 'Moto urbana moderna estacionada junto a parede de azulejos', {
+    main: unsplash('photo-1572452571879-3d67d5b2a39f', 'Motociclista pilotando moto urbana pela rua', {
       ratio: 4 / 3,
-      focus: { x: 0.5, y: 0.6, zoom: 1.05 },
+      focus: { x: 0.5, y: 0.55, zoom: 1.05 },
       widths: [640, 960, 1280, 1600],
     }),
-    secondary: unsplash('photo-1558980664-10e7170b5df9', 'Motociclista inclinando a moto em uma curva', {
+    secondary: unsplash('photo-1591637333184-19aa84b3e01f', 'Moto street estacionada', {
       ratio: 4 / 5,
-      focus: { x: 0.5, y: 0.55, zoom: 1.15 },
+      focus: { x: 0.5, y: 0.6, zoom: 1.15 },
       widths: [400, 640, 900],
     }),
   },
-  points: ['Motos para trabalho e dia a dia', 'Fotos e detalhes de cada moto', 'Atendimento direto com a equipe'],
+  points: ['Honda CG 160 Start e Fan', 'Fotos e detalhes de cada moto', 'Atendimento direto com a equipe'],
 }
 
 export const featured = {
-  eyebrow: 'Catálogo',
-  title: 'Encontre sua próxima moto',
-  description: 'Veja fotos e informações de cada moto. Disponibilidade e condições são confirmadas pela equipe.',
+  eyebrow: 'Motos Honda',
+  title: 'CG 160 Start e CG 160 Fan em destaque',
+  description:
+    'Os modelos principais da nossa locação, e mais duas opções Honda de 300 cc. Disponibilidade e condições são confirmadas pela equipe.',
 }
 
 export const howItWorks = {

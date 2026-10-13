@@ -1,7 +1,7 @@
 import { ArrowRight, CircleCheck } from 'lucide-react'
 import type { ReactNode, Ref } from 'react'
 import { Link } from 'react-router-dom'
-import { motorcycleDisplayName, styleLabels } from '../../lib/motorcycles'
+import { formatDisplacement, motorcycleDisplayName, styleLabels } from '../../lib/motorcycles'
 import type { Motorcycle } from '../../types'
 import { InterestFormDisclosure } from '../contact/InterestForm'
 import { ContactButton } from '../ui/ContactButton'
@@ -21,7 +21,7 @@ const pending = <span className="font-medium text-muted-dark italic">Sob consult
 /** Destaques rápidos (cilindrada, ano, transmissão): só os que foram informados. */
 function highlights(moto: Motorcycle) {
   return [
-    moto.displacement && { label: 'Cilindrada', value: `${moto.displacement} cc` },
+    moto.displacement && { label: 'Cilindrada', value: formatDisplacement(moto.displacement) },
     moto.year && { label: 'Ano', value: String(moto.year) },
     moto.transmission && { label: 'Transmissão', value: moto.transmission },
   ].filter((h): h is { label: string; value: string } => Boolean(h))

@@ -6,6 +6,7 @@ import { fleetPhoto } from './images'
 import {
   commercialHint,
   filterMotorcycles,
+  formatDisplacement,
   motorcycleInterestMessage,
   parseStyleFilter,
   relatedMotorcycles,
@@ -22,21 +23,21 @@ describe('catálogo de motos', () => {
 
   it('filtra por estilo', () => {
     expect(filterMotorcycles(motorcycles, 'todas')).toHaveLength(motorcycles.length)
-    expect(filterMotorcycles(motorcycles, 'esportiva').every((m) => m.style === 'esportiva')).toBe(true)
+    expect(filterMotorcycles(motorcycles, 'street').every((m) => m.style === 'street')).toBe(true)
   })
 
   it('só oferece filtros para estilos existentes e esconde o filtro com um único estilo', () => {
     const options = styleFilterOptions(motorcycles)
     const styles = new Set(motorcycles.map((m) => m.style))
     expect(options.slice(1).map((o) => o.value).sort()).toEqual([...styles].sort())
-    expect(styleFilterOptions(motorcycles.filter((m) => m.style === 'esportiva'))).toEqual([])
+    expect(styleFilterOptions(motorcycles.filter((m) => m.style === 'street'))).toEqual([])
   })
 
   it('sugere outras motos sem repetir a atual, priorizando o mesmo estilo', () => {
-    const sport = motorcycles.find((m) => m.style === 'esportiva')!
-    const related = relatedMotorcycles(motorcycles, sport)
-    expect(related.some((m) => m.slug === sport.slug)).toBe(false)
-    expect(related[0].style).toBe('esportiva')
+    const street = motorcycles.find((m) => m.style === 'street')!
+    const related = relatedMotorcycles(motorcycles, street)
+    expect(related.some((m) => m.slug === street.slug)).toBe(false)
+    expect(related[0].style).toBe('street')
   })
 
   it('recomendações: no máximo três, sem indisponíveis nem modelos duplicados', () => {
@@ -60,7 +61,7 @@ describe('catálogo de motos', () => {
   })
 
   it('ficha técnica só inclui fabricante e transmissão quando informados', () => {
-    const demo = motorcycles[0]
+    const demo: Motorcycle = { ...motorcycles[0], brand: undefined, transmission: undefined }
     const labels = technicalSheet(demo).map((s) => s.label)
     expect(labels).not.toContain('Fabricante')
     expect(labels).not.toContain('Transmissão')
@@ -70,6 +71,17 @@ describe('catálogo de motos', () => {
         { label: 'Transmissão', value: 'Manual' },
       ]),
     )
+  })
+
+  it('frota da Fase 11: 4 motos Honda, com as CG 160 Start e Fan primeiro', () => {
+    expect(motorcycles).toHaveLength(4)
+    expect(motorcycles.every((m) => m.brand === 'Honda')).toBe(true)
+    expect(motorcycles.slice(0, 2).map((m) => m.name)).toEqual(['Honda CG 160 Start', 'Honda CG 160 Fan'])
+  })
+
+  it('cilindrada no formato brasileiro', () => {
+    expect(formatDisplacement(162.7)).toBe('162,7 cc')
+    expect(formatDisplacement(300)).toBe('300 cc')
   })
 
   it('não possui slugs duplicados', () => {

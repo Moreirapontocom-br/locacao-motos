@@ -1,7 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { trackEvent } from '../../lib/analytics'
-import { commercialHint, motorcycleDisplayName, styleLabels } from '../../lib/motorcycles'
+import { commercialHint, formatDisplacement, motorcycleDisplayName, styleLabels } from '../../lib/motorcycles'
 import type { ContactOrigin } from '../../lib/whatsapp'
 import type { Motorcycle } from '../../types'
 import { ContactIconButton } from '../ui/ContactButton'
@@ -13,7 +13,7 @@ export function MotorcycleCard({ moto, origin }: { moto: Motorcycle; origin: Con
   const name = motorcycleDisplayName(moto)
   const facts = [
     { label: 'Estilo', value: styleLabels[moto.style] },
-    { label: 'Cilindrada', value: moto.displacement ? `${moto.displacement} cc` : '—' },
+    { label: 'Cilindrada', value: moto.displacement ? formatDisplacement(moto.displacement) : '—' },
     moto.year ? { label: 'Ano', value: String(moto.year) } : (moto.specs[0] ?? { label: 'Ano', value: '—' }),
   ]
 
