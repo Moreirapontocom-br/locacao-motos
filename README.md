@@ -74,5 +74,7 @@ Links antigos (`/veiculos` e `/veiculos/:slug`) redirecionam para `/motos`.
 
 ## Publicação
 
-É uma SPA com rotas no navegador: configure o servidor para redirecionar todas as rotas para `index.html`
-(ex.: Netlify `_redirects` com `/* /index.html 200`, ou `rewrites` na Vercel).
+É uma SPA com rotas no navegador: configure o servidor para redirecionar todas as rotas para `index.html`.
+Hospedagem escolhida: **Cloudflare** (plano gratuito), já configurada em `wrangler.jsonc` e `public/_headers`
+(fallback, cache e cabeçalhos de segurança). Alternativas para Vercel e Netlify em `docs/hospedagem/`.
+Passo a passo em [`PUBLICACAO.md`](PUBLICACAO.md), seção 8.

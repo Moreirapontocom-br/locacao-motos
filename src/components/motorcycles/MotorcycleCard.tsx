@@ -23,7 +23,9 @@ export function MotorcycleCard({ moto, origin }: { moto: Motorcycle; origin: Con
         <div className="relative overflow-hidden rounded-[1.35rem]">
           {/* No hover a foto avança levemente para a direita, sugerindo movimento. */}
           <SmartImage
-            image={moto.images[0]}
+            // Moto ainda sem fotos: espaço reservado "Fotos em breve" (como na galeria).
+            image={moto.images[0] ?? { src: '', alt: `${name}: fotos em breve` }}
+            placeholderLabel={moto.images.length === 0 ? 'Fotos em breve' : undefined}
             sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
             className="aspect-[4/3]"
             imgClassName="transition-transform duration-[900ms] ease-out-soft group-hover:translate-x-1.5 group-hover:scale-[1.05] motion-reduce:group-hover:transform-none"

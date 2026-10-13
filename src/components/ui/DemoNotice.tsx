@@ -49,8 +49,20 @@ export function DemoNotice({
   )
 }
 
-/** Exibe o valor ou um marcador "A informar" quando o dado oficial ainda não existe. */
-export function Pending({ value, fallback = 'A informar' }: { value?: string; fallback?: string }) {
+/**
+ * Exibe o valor ou um marcador "A informar" quando o dado oficial ainda não existe.
+ * O marcador herda a cor do texto ao redor e fica levemente esmaecido; a opacidade
+ * depende do fundo para manter o contraste AA (4,5:1): `light` = fundo claro.
+ */
+export function Pending({
+  value,
+  fallback = 'A informar',
+  tone = 'dark',
+}: {
+  value?: string
+  fallback?: string
+  tone?: 'light' | 'dark'
+}) {
   if (value) return <>{value}</>
-  return <span className="italic opacity-70">{fallback}</span>
+  return <span className={`italic ${tone === 'light' ? 'opacity-95' : 'opacity-75'}`}>{fallback}</span>
 }

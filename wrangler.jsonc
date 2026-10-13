@@ -1,0 +1,14 @@
+// Hospedagem recomendada: Cloudflare (Workers com arquivos estáticos, plano gratuito).
+// Este arquivo só tem efeito quando o repositório é conectado a uma conta Cloudflare.
+// Passo a passo em PUBLICACAO.md, seção 8.
+{
+  "name": "locacao-motos",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    // Pasta gerada por `npm run build`.
+    "directory": "./dist",
+    // Fallback de SPA: /motos, /motos/<slug> e rotas inexistentes devolvem o index.html (status 200);
+    // a própria aplicação mostra "Página não encontrada" quando a rota não existe.
+    "not_found_handling": "single-page-application"
+  }
+}

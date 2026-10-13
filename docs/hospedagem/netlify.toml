@@ -1,0 +1,40 @@
+# EXEMPLO de configuração para a Netlify. Não é usado enquanto estiver em docs/.
+# Para usar: copie este arquivo para a raiz do projeto (ao lado do package.json).
+# Detalhes e ajustes da política de conteúdo (CSP): PUBLICACAO.md, seção "Hospedagem".
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Fallback de SPA: /motos, /motos/<slug> e qualquer outra rota devolvem o index.html.
+# Arquivos que existem (assets, robots.txt, sitemap.xml, imagens) continuam sendo servidos normalmente.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # HSTS: só depois de confirmar que o domínio oficial funciona em HTTPS.
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    # Quando não houver mais fotos do Unsplash, remova https://images.unsplash.com de img-src.
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+
+# Arquivos com hash no nome: cache longo. O index.html é sempre revalidado.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
