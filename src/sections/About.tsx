@@ -128,21 +128,21 @@ export function About() {
                   {address}
                 </a>
               ) : (
-                <Pending value={address} fallback="Endereço a informar" />
+                <Pending tone="light" value={address} fallback="Endereço a informar" />
               )}
             </InfoRow>
             <InfoRow icon={Clock} label="Atendimento">
               {contact.openingHours.length > 0 ? (
                 contact.openingHours.map((h) => <span key={h} className="block">{h}</span>)
               ) : (
-                <Pending fallback="Horário a informar" />
+                <Pending tone="light" fallback="Horário a informar" />
               )}
             </InfoRow>
             <InfoRow icon={Phone} label="Telefone">
-              <Pending value={contact.phoneDisplay || contact.phone} />
+              <Pending tone="light" value={contact.phoneDisplay || contact.phone} />
             </InfoRow>
             <InfoRow icon={Mail} label="E-mail">
-              <Pending value={contact.email} />
+              <Pending tone="light" value={contact.email} />
             </InfoRow>
           </div>
 

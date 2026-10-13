@@ -37,7 +37,7 @@ export function SmartImage({
         // alt vazio = imagem decorativa (ex.: miniatura com rótulo no botão): fica fora da leitura de tela.
         {...(image.alt ? { role: 'img', 'aria-label': image.alt } : { 'aria-hidden': true })}
         className={`flex flex-col items-center justify-center gap-2 overflow-hidden p-4 text-center ${
-          dark ? 'bg-graphite-700 text-muted-dark' : 'bg-steel/60 text-muted'
+          dark ? 'bg-graphite-700 text-muted-dark' : 'bg-steel/60 text-graphite/65'
         } ${className}`}
       >
         <Icon aria-hidden className="size-6" strokeWidth={1.5} />

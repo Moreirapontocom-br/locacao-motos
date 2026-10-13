@@ -14,6 +14,19 @@ automaticamente** a partir de `site.ts` e `motorcycles.ts` — não edite o `ind
 
 Ao rodar `npm run build`, o terminal lista os **dados oficiais pendentes**. Quando a lista sumir, a parte de dados está completa.
 
+### Roteiro rápido da personalização final
+
+1. `src/config/site.ts`: nome, descrição, logotipo, domínio, WhatsApp, telefone, e-mail, endereço, mapa, horário, redes e CNPJ (seções 1 a 3).
+2. `public/`: logotipo e favicon. `public/images/frota/`: fotos das motos (seções 2 e 5).
+3. `src/config/motorcycles.ts`: cadastre as motos reais e **apague os exemplos** com `demo: true` (seção 4).
+4. `src/config/commercial.ts`: só as modalidades que a empresa confirmar. Deixe `acquisition.confirmed: false` até haver confirmação por escrito (seção 6).
+5. `src/config/content.ts`: história, fotos institucionais e textos revisados pelo cliente.
+6. Cores e fontes, se houver identidade definitiva: tokens `@theme` em `src/index.css` e o link das fontes em `index.html`.
+7. `npm run build` sem dados pendentes e `showDemoNotices: false` (seção 7).
+8. Hospedagem e publicação (seção 8 e checklist no fim).
+
+Nunca preencha um campo com dado provisório "só para testar" e esqueça lá: campo vazio é tratado como "a informar"; dado inventado seria publicado como verdadeiro.
+
 ---
 
 ## 1. Nome da empresa
@@ -107,7 +120,7 @@ Detalhes em `public/images/frota/LEIAME.txt`. Resumo:
 - Coloque os arquivos em `public/images/frota/` (JPG ou WebP, proporção **4:3**, ex.: 1600×1200, até ~300 KB).
 - Use `fleetPhoto('arquivo.jpg', 'texto alternativo descritivo')`. A primeira foto é a capa.
 - Quantas fotos quiser: a galeria, as miniaturas e a visualização ampliada se adaptam.
-- Sem fotos, aparece "Fotos em breve"; foto que não carrega mostra um espaço reservado.
+- Sem fotos (`images: []`), o card e a página da moto mostram "Fotos em breve"; foto que não carrega mostra um espaço reservado.
 - Fotos do Unsplash (`unsplash(...)`) são **ilustrativas** e sempre aparecem com o selo "Imagem demonstrativa".
   Elas não são usadas como imagem de compartilhamento.
 
@@ -129,6 +142,65 @@ Preços e disponibilidade são por moto (`prices`, `availability` em `motorcycle
   Sem domínio, o `robots.txt` bloqueia os buscadores (adequado para homologação).
 - `showDemoNotices: false` desliga os avisos "a informar". Os selos "Moto de exemplo" e "Imagem demonstrativa"
   continuam aparecendo enquanto houver exemplos, para que nunca pareçam frota real.
+
+## 8. Hospedagem e segurança
+
+O site é estático: `npm run build` gera a pasta `dist/`, que pode ser servida por qualquer hospedagem de arquivos
+estáticos com HTTPS. Node.js 20.19+ ou 22.12+ é necessário só para o build (campo `engines` do `package.json`).
+
+**Fallback de SPA (obrigatório).** As rotas `/motos` e `/motos/<slug>` existem só no navegador. O servidor precisa
+devolver o `index.html` para qualquer caminho que não seja um arquivo real; sem isso, abrir um link de moto
+direto (ou recarregar a página) dá erro 404 do servidor. Arquivos reais (`/assets/...`, `robots.txt`,
+`sitemap.xml`, imagens) continuam sendo servidos normalmente.
+
+**Exemplos prontos** (nenhum provedor está vinculado ao projeto; os arquivos ficam em `docs/hospedagem/` e não
+fazem nada até serem copiados):
+
+| Provedor | Arquivo de exemplo | Como usar |
+| --- | --- | --- |
+| Vercel | `docs/hospedagem/vercel.json` | Copiar para a raiz como `vercel.json` |
+| Netlify | `docs/hospedagem/netlify.toml` | Copiar para a raiz como `netlify.toml` |
+
+Os dois exemplos já trazem: fallback de SPA, build (`npm run build` → `dist`), cache longo para `/assets/*`
+(arquivos com hash) e `no-cache` para o `index.html`, e os cabeçalhos abaixo. Em outro provedor (Cloudflare
+Pages, Apache, Nginx, hospedagem compartilhada), configure o equivalente.
+
+**HTTPS.** Ative o certificado do domínio oficial (gratuito na Vercel, Netlify e Cloudflare) e o redirecionamento
+de `http://` para `https://`. Só ative o HSTS depois de confirmar que o domínio (e os subdomínios, por causa do
+`includeSubDomains`) funcionam em HTTPS: o navegador passa a recusar `http://` por um ano.
+
+**Cabeçalhos de segurança** (já nos exemplos):
+
+| Cabeçalho | Valor | Para quê |
+| --- | --- | --- |
+| `Strict-Transport-Security` | `max-age=31536000; includeSubDomains` | Força HTTPS |
+| `X-Content-Type-Options` | `nosniff` | Impede o navegador de "adivinhar" tipos de arquivo |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` | Não envia o endereço completo da página a outros sites |
+| `X-Frame-Options` | `DENY` | Impede que o site seja exibido dentro de outro (clickjacking) |
+| `Permissions-Policy` | `camera=(), microphone=(), geolocation=(), payment=()` | Desliga recursos que o site não usa |
+| `Content-Security-Policy` | ver abaixo | Limita de onde o site carrega scripts, estilos, fontes e imagens |
+
+**Política de conteúdo (CSP)** usada nos exemplos, testada no navegador com todas as páginas e fluxos
+(galeria, formulário, aviso de contato, WhatsApp) sem nenhum bloqueio:
+
+```
+default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com;
+connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';
+upgrade-insecure-requests
+```
+
+- `'unsafe-inline'` em `style-src` é necessário para a animação de reorganização do catálogo (a biblioteca de
+  animação insere estilos temporários). Scripts continuam restritos ao próprio site.
+- Quando todas as fotos forem próprias, **remova `https://images.unsplash.com`** de `img-src` e o
+  `<link rel="preconnect" href="https://images.unsplash.com">` do `index.html`.
+- Se um dia for incluída uma ferramenta externa (analytics, mapa incorporado, chat), ela precisa ser
+  acrescentada à CSP; caso contrário, o navegador a bloqueia.
+- Os links do WhatsApp (`wa.me`), do mapa e das redes sociais são navegação comum e não dependem da CSP.
+
+**Privacidade.** As fontes vêm do Google Fonts, o que envia o IP do visitante ao Google. Se a empresa preferir
+evitar isso (LGPD), as fontes podem ser hospedadas no próprio site (mesmas fontes, sem mudança visual).
+O site não usa cookies nem ferramentas de rastreamento.
 
 ---
 
@@ -171,10 +243,12 @@ Preços e disponibilidade são por moto (`prices`, `availability` em `motorcycle
 - [ ] Teste em celular real (iPhone e Android) e em um navegador de desktop
 - [ ] Navegação por teclado (Tab, Enter, Esc na galeria ampliada)
 
-**Hospedagem**
-- [ ] Servidor configurado para SPA: todas as rotas devolvem `index.html`
-      (Netlify: `public/_redirects` com `/* /index.html 200`; Vercel: `rewrites`)
-- [ ] HTTPS ativo no domínio oficial
+**Hospedagem** (seção 8)
+- [ ] Exemplo de `docs/hospedagem/` copiado para a raiz (ou configuração equivalente no provedor escolhido)
+- [ ] Fallback de SPA: abrir `https://dominio/motos/<slug>` direto e recarregar a página funciona
+- [ ] HTTPS ativo no domínio oficial, com redirecionamento de `http://`
+- [ ] Cabeçalhos de segurança conferidos (ex.: securityheaders.com) e nenhum erro de CSP no console do navegador
+- [ ] `img-src` da CSP e `preconnect` sem o Unsplash, se não houver mais fotos de lá
 - [ ] `https://dominio/robots.txt` libera a indexação e `https://dominio/sitemap.xml` abre
 - [ ] Sitemap enviado ao Google Search Console
 - [ ] Prévia de compartilhamento conferida (WhatsApp/Facebook) em uma página de moto
