@@ -42,6 +42,7 @@ export function CatalogPage() {
 
       <section aria-label="Lista de motos" className="py-12 sm:py-16">
         <div className="container-page">
+          <h2 className="sr-only">Lista de motos</h2>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <StyleFilter value={filter} onChange={onChange} options={options} showCounts />
             <p className="shrink-0 text-sm text-muted" aria-live="polite">

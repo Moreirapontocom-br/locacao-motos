@@ -41,6 +41,7 @@ export function Footer() {
                     </a>
                   ) : (
                     <span
+                      role="img"
                       title={`${s.label}: perfil a informar`}
                       aria-label={`${s.label}: perfil a informar`}
                       className="grid size-10 place-items-center rounded-full border border-dashed border-white/15 text-white/35"
