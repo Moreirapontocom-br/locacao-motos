@@ -30,6 +30,11 @@ export function styleFilterOptions(list: Motorcycle[]): { value: StyleFilterValu
   ]
 }
 
+/** Cilindrada no formato brasileiro (ex.: 162,7 cc). */
+export function formatDisplacement(cc: number): string {
+  return `${cc.toLocaleString('pt-BR')} cc`
+}
+
 /** Converte um valor arbitrário (ex.: da URL) em um filtro válido. */
 export function parseStyleFilter(value: string | null | undefined): StyleFilterValue {
   return value && value in styleLabels ? (value as MotoStyle) : 'todas'
@@ -74,7 +79,7 @@ export function technicalSheet(moto: Motorcycle): LabeledValue[] {
   return [
     ...(moto.brand ? [{ label: 'Fabricante', value: moto.brand }] : []),
     { label: 'Estilo', value: styleLabels[moto.style] },
-    ...(moto.displacement ? [{ label: 'Cilindrada', value: `${moto.displacement} cc` }] : []),
+    ...(moto.displacement ? [{ label: 'Cilindrada', value: formatDisplacement(moto.displacement) }] : []),
     ...(moto.year ? [{ label: 'Ano', value: String(moto.year) }] : []),
     ...(moto.transmission ? [{ label: 'Transmissão', value: moto.transmission }] : []),
     ...moto.specs,

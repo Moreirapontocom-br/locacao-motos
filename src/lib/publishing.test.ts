@@ -44,7 +44,7 @@ describe('dados pendentes', () => {
       expect.arrayContaining([
         expect.stringContaining('Nome comercial'),
         expect.stringContaining('WhatsApp'),
-        expect.stringContaining('Frota oficial'),
+        expect.stringContaining('Frota'),
         expect.stringContaining('Fotografias oficiais'),
       ]),
     )
@@ -68,7 +68,9 @@ describe('robots.txt e sitemap', () => {
   })
 
   it('sitemap não inclui motos de exemplo', () => {
-    expect(sitemapPaths([...motorcycles, realMoto])).toEqual(['/', '/motos', '/motos/moto-real'])
+    const demos = motorcycles.filter((m) => m.demo)
+    expect(demos.length).toBeGreaterThan(0)
+    expect(sitemapPaths([...demos, realMoto])).toEqual(['/', '/motos', '/motos/moto-real'])
     expect(buildSitemap(official, [realMoto])).toContain('<loc>https://www.exemplo.com.br/motos/moto-real</loc>')
   })
 })

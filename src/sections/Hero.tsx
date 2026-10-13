@@ -154,7 +154,7 @@ export function Hero() {
           </motion.ul>
         </div>
 
-        {/* Composição: moto urbana em destaque e foto em movimento sobreposta. */}
+        {/* Composição: pessoa pilotando em destaque e foto da moto parada sobreposta. */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

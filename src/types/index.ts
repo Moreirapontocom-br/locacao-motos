@@ -46,7 +46,7 @@ export interface Motorcycle {
   style: MotoStyle
   /** Marca a moto como exemplo de demonstração (exibe selo; não é frota real). */
   demo?: boolean
-  /** Aparece em "Encontre sua próxima moto" na página inicial. */
+  /** Aparece no carrossel de destaques da página inicial. */
   featured?: boolean
   /** Resumo curto (cards e SEO). */
   summary: string
