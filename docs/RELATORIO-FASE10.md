@@ -192,3 +192,30 @@ O escopo continua exclusivamente de locação de motos (há um teste automatizad
 ## Pronto para a Fase 11?
 
 **Sim.** O projeto está pronto para iniciar a Fase 11 (personalização final e entrega ao cliente). Antes de começar, falta uma única ação, que depende da sua aprovação: **integrar os PRs #1, #2 e #3 na `main`**, para que a personalização parta da versão final consolidada. Depois disso, a Fase 11 é preencher os arquivos de configuração com os dados reais da seção 6, sem mudanças de código.
+
+---
+
+## Adendo: hospedagem escolhida (13/10/2026)
+
+A hospedagem recomendada é a **Cloudflare** (Workers com arquivos estáticos, plano gratuito). Ela já está configurada no repositório:
+
+- `wrangler.jsonc`: publica `dist/` com o fallback de SPA;
+- `public/_headers`: cabeçalhos de segurança, CSP e cache.
+
+| | Cloudflare | Netlify (grátis) | Vercel (Hobby) |
+| --- | --- | --- | --- |
+| Site comercial no plano gratuito | Sim | Sim | Não (exige o Pro, US$ 20/mês) |
+| Tráfego | Estáticos ilimitados | ~15 GB/mês | 100 GB/mês |
+| Ao passar do limite | Continua no ar | Site pausado | Recursos bloqueados |
+
+Validação local com o simulador oficial (`wrangler dev` 4.150):
+
+- `/`, `/motos`, `/motos/sport-400` e uma rota inexistente respondem 200 com o `index.html`;
+- `robots.txt` e `/assets/*` são servidos como arquivo, com cache de 1 ano nos assets;
+- `/_headers` não é exposto;
+- os 6 cabeçalhos aparecem em todas as respostas;
+- no Chromium, nenhuma violação de CSP em home, catálogo, filtro, página da moto, galeria, formulário, aviso de contato e 404.
+
+O `wrangler deploy --dry-run` lê a configuração sem erros.
+
+Nenhuma conta foi criada, nada foi publicado e nenhum domínio foi configurado. O passo a passo para quando a publicação for aprovada está no `PUBLICACAO.md`, seção 8.

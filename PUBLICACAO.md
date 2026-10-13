@@ -153,17 +153,55 @@ devolver o `index.html` para qualquer caminho que não seja um arquivo real; sem
 direto (ou recarregar a página) dá erro 404 do servidor. Arquivos reais (`/assets/...`, `robots.txt`,
 `sitemap.xml`, imagens) continuam sendo servidos normalmente.
 
-**Exemplos prontos** (nenhum provedor está vinculado ao projeto; os arquivos ficam em `docs/hospedagem/` e não
-fazem nada até serem copiados):
+### Hospedagem escolhida: Cloudflare (plano gratuito)
+
+| Critério | Cloudflare (Workers) | Netlify (grátis) | Vercel (Hobby) |
+| --- | --- | --- | --- |
+| Uso comercial no plano gratuito | Permitido | Permitido | **Proibido** (só uso pessoal; o comercial exige o Pro, US$ 20/mês) |
+| Tráfego do site | Arquivos estáticos ilimitados | ~15 GB/mês (300 créditos) | 100 GB/mês |
+| Se passar do limite | Arquivos estáticos continuam no ar | **O site é pausado** até o mês seguinte | Recursos bloqueados até o período seguinte |
+| Fallback de SPA, cabeçalhos e HTTPS | Sim | Sim | Sim |
+| Deploy automático pelo GitHub | Sim | Sim | Sim |
+
+A Cloudflare foi escolhida porque é a única das três que permite site comercial no plano gratuito **sem risco de
+o site sair do ar por excesso de visitas**. Também oferece HTTPS e CDN incluídos e, se a empresa quiser, gerencia o
+domínio (DNS). Valores conferidos em out/2026; os planos dos provedores mudam com frequência.
+
+**Já está configurado no repositório** (sem efeito até o repositório ser conectado a uma conta Cloudflare):
+
+| Arquivo | O que faz |
+| --- | --- |
+| `wrangler.jsonc` | Publica a pasta `dist/` e ativa o fallback de SPA (`not_found_handling: single-page-application`) |
+| `public/_headers` | Cabeçalhos de segurança, CSP e cache longo de `/assets/*` (copiado para `dist/` no build; não é servido como página) |
+
+Testado localmente com o simulador oficial (`wrangler dev`): `/motos/<slug>` e rotas inexistentes abrem a
+aplicação, `robots.txt` e `/assets/*` são servidos como arquivo, todos os cabeçalhos aparecem e o navegador não
+registra nenhum bloqueio de CSP.
+
+**Passo a passo (feito pelo responsável da conta, quando a publicação for aprovada):**
+
+1. Criar uma conta gratuita em <https://dash.cloudflare.com>, de preferência com o e-mail da empresa (a conta e o
+   domínio devem ficar no nome do cliente). Não é preciso cadastrar cartão.
+2. Em **Workers & Pages → Create → Import a repository**, autorizar o GitHub e escolher
+   `Moreirapontocom-br/locacao-motos`, branch `main`.
+3. Conferir os comandos: build `npm run build` e deploy `npx wrangler deploy` (padrões). Salvar e implantar.
+4. O site fica disponível em um endereço provisório `locacao-motos.<conta>.workers.dev`, bom para homologação.
+   Enquanto `siteConfig.url` estiver vazio, o `robots.txt` bloqueia os buscadores.
+5. Domínio oficial: em **Settings → Domains & Routes → Add → Custom domain**. O domínio precisa usar o DNS da
+   Cloudflare (a própria Cloudflare orienta a troca dos servidores DNS no registro.br ou no registrador).
+   Depois, preencher `url` em `src/config/site.ts` com o domínio e fazer um novo push.
+6. No painel do domínio, em **SSL/TLS → Edge Certificates**, ativar **Always Use HTTPS**.
+7. A cada push na `main`, a Cloudflare publica a nova versão automaticamente.
+
+**Alternativas** (caso a empresa prefira outro provedor; arquivos em `docs/hospedagem/`, sem efeito até serem copiados):
 
 | Provedor | Arquivo de exemplo | Como usar |
 | --- | --- | --- |
-| Vercel | `docs/hospedagem/vercel.json` | Copiar para a raiz como `vercel.json` |
+| Vercel (exige plano Pro para uso comercial) | `docs/hospedagem/vercel.json` | Copiar para a raiz como `vercel.json` |
 | Netlify | `docs/hospedagem/netlify.toml` | Copiar para a raiz como `netlify.toml` |
 
-Os dois exemplos já trazem: fallback de SPA, build (`npm run build` → `dist`), cache longo para `/assets/*`
-(arquivos com hash) e `no-cache` para o `index.html`, e os cabeçalhos abaixo. Em outro provedor (Cloudflare
-Pages, Apache, Nginx, hospedagem compartilhada), configure o equivalente.
+Os exemplos já trazem fallback de SPA, build (`npm run build` → `dist`), cache longo para `/assets/*` e os
+cabeçalhos abaixo. Em outro provedor (Apache, Nginx, hospedagem compartilhada), configure o equivalente.
 
 **HTTPS.** Ative o certificado do domínio oficial (gratuito na Vercel, Netlify e Cloudflare) e o redirecionamento
 de `http://` para `https://`. Só ative o HSTS depois de confirmar que o domínio (e os subdomínios, por causa do
@@ -192,6 +230,7 @@ upgrade-insecure-requests
 
 - `'unsafe-inline'` em `style-src` é necessário para a animação de reorganização do catálogo (a biblioteca de
   animação insere estilos temporários). Scripts continuam restritos ao próprio site.
+- A CSP fica em `public/_headers` (Cloudflare) e nos exemplos de `docs/hospedagem/`; mantenha-os iguais.
 - Quando todas as fotos forem próprias, **remova `https://images.unsplash.com`** de `img-src` e o
   `<link rel="preconnect" href="https://images.unsplash.com">` do `index.html`.
 - Se um dia for incluída uma ferramenta externa (analytics, mapa incorporado, chat), ela precisa ser
@@ -244,7 +283,7 @@ O site não usa cookies nem ferramentas de rastreamento.
 - [ ] Navegação por teclado (Tab, Enter, Esc na galeria ampliada)
 
 **Hospedagem** (seção 8)
-- [ ] Exemplo de `docs/hospedagem/` copiado para a raiz (ou configuração equivalente no provedor escolhido)
+- [ ] Repositório conectado à Cloudflare (seção 8), ou exemplo de `docs/hospedagem/` copiado para a raiz se for outro provedor
 - [ ] Fallback de SPA: abrir `https://dominio/motos/<slug>` direto e recarregar a página funciona
 - [ ] HTTPS ativo no domínio oficial, com redirecionamento de `http://`
 - [ ] Cabeçalhos de segurança conferidos (ex.: securityheaders.com) e nenhum erro de CSP no console do navegador
