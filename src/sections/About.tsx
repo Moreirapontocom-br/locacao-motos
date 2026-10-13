@@ -13,10 +13,10 @@ function InfoRow({ icon: Icon, label, children }: { icon: LucideIcon; label: str
   return (
     <div className="flex items-start gap-4 py-4">
       <Icon aria-hidden className="mt-0.5 size-4.5 shrink-0 text-accent-ink" />
-      <div className="grid min-w-0 flex-1 gap-0.5 text-sm sm:grid-cols-[10rem_1fr] sm:gap-4">
+      <dl className="grid min-w-0 flex-1 gap-0.5 text-sm sm:grid-cols-[10rem_1fr] sm:gap-4">
         <dt className="font-semibold text-graphite">{label}</dt>
         <dd className="break-words text-muted">{children}</dd>
-      </div>
+      </dl>
     </div>
   )
 }
@@ -121,7 +121,7 @@ export function About() {
             </dl>
           )}
 
-          <dl className="mt-8 divide-y divide-graphite/10 border-y border-graphite/10">
+          <div className="mt-8 divide-y divide-graphite/10 border-y border-graphite/10">
             <InfoRow icon={MapPin} label="Localização">
               {address && contact.mapsUrl ? (
                 <a href={contact.mapsUrl} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline">
@@ -144,7 +144,7 @@ export function About() {
             <InfoRow icon={Mail} label="E-mail">
               <Pending value={contact.email} />
             </InfoRow>
-          </dl>
+          </div>
 
           <DemoNotice className="mt-6">
             História, fotos e dados de contato da empresa ainda serão informados. A foto principal é ilustrativa.

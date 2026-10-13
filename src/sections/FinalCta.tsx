@@ -105,17 +105,17 @@ export function FinalCta() {
             )}
           </div>
 
-          <dl className="mt-12 grid gap-6 border-t border-white/10 pt-10 sm:grid-cols-2 lg:max-w-2xl">
+          <div className="mt-12 grid gap-6 border-t border-white/10 pt-10 sm:grid-cols-2 lg:max-w-2xl">
             {channels.map((c) => (
               <div key={c.label} className="flex gap-3 text-sm">
                 <c.icon aria-hidden className="mt-0.5 size-4.5 shrink-0 text-accent" />
-                <div>
+                <dl>
                   <dt className="font-semibold text-white">{c.label}</dt>
                   <dd className="mt-0.5 text-muted-dark">{c.value}</dd>
-                </div>
+                </dl>
               </div>
             ))}
-          </dl>
+          </div>
         </Reveal>
       </div>
     </section>

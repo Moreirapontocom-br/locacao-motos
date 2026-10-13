@@ -34,8 +34,8 @@ export function SmartImage({
     const Icon = image.src ? ImageOff : Camera
     return (
       <div
-        role="img"
-        aria-label={image.alt}
+        // alt vazio = imagem decorativa (ex.: miniatura com rótulo no botão): fica fora da leitura de tela.
+        {...(image.alt ? { role: 'img', 'aria-label': image.alt } : { 'aria-hidden': true })}
         className={`flex flex-col items-center justify-center gap-2 overflow-hidden p-4 text-center ${
           dark ? 'bg-graphite-700 text-muted-dark' : 'bg-steel/60 text-muted'
         } ${className}`}
