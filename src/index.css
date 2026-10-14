@@ -1,36 +1,123 @@
 @import 'tailwindcss';
 
 /*
- * IDENTIDADE VISUAL
- * Paleta provisória centralizada aqui. Ao receber a identidade oficial,
- * altere apenas estes tokens — todos os componentes usam essas cores.
+ * SISTEMA DE DESIGN (Fase 12)
+ * ------------------------------------------------------------------
+ * Todos os componentes usam estes tokens. Para aplicar a identidade
+ * oficial da empresa, altere apenas os valores abaixo.
+ *
+ * Os nomes das cores (graphite, ice, accent…) foram mantidos das fases
+ * anteriores para não alterar os componentes; os valores seguem a
+ * paleta da Fase 12. O laranja é provisório.
  */
 @theme {
-  --color-graphite: #15191d;
-  --color-graphite-800: #1d2227;
-  --color-graphite-700: #272d33;
-  --color-graphite-600: #353c43;
-  --color-ice: #f4f5f6;
-  --color-steel: #d3d8dc;
-  --color-muted: #5c656d; /* texto secundário em fundo claro (contraste AA) */
-  --color-muted-dark: #a3abb2; /* texto secundário em fundo escuro (contraste AA) */
-  --color-accent: #db6538; /* laranja provisório */
-  --color-accent-soft: #e8835b;
-  --color-accent-ink: #a8461f; /* laranja para textos pequenos em fundo claro (contraste AA) */
+  /* ---- Cores: superfícies ---- */
+  --color-graphite: #111418; /* background principal escuro */
+  --color-graphite-800: #1c2229; /* superfícies escuras secundárias */
+  --color-graphite-700: #262e37; /* superfície escura elevada / hover */
+  --color-graphite-600: #36404b; /* bordas e divisores fortes no escuro */
+  --color-ice: #f5f6f8; /* background claro */
+  --color-steel: #dde1e6; /* bordas e espaços reservados no claro */
 
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Sora', 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  /* ---- Cores: texto secundário (contraste AA verificado) ---- */
+  --color-gray: #88919b; /* cinza secundário da paleta */
+  --color-muted: #59626c; /* texto secundário sobre fundo claro (5,6:1 sobre #F5F6F8) */
+  --color-muted-dark: #88919b; /* texto secundário sobre fundo escuro (5,7:1 sobre #111418) */
 
+  /* ---- Cores: destaque e estados interativos ---- */
+  --color-accent: #f97316; /* laranja provisório */
+  --color-accent-soft: #fb8a3c; /* hover */
+  --color-accent-strong: #ea580c; /* pressionado */
+  --color-accent-ink: #c2410c; /* laranja para textos sobre fundo claro (5,2:1) */
+  --color-success: #15803d;
+  --color-success-dark: #4ade80;
+  --color-danger: #b91c1c;
+  --color-danger-dark: #f87171;
+
+  /* ---- Tipografia ---- */
+  --font-sans: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Sora', 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
+
+  /* Escala fluida de títulos (classes text-display, text-h1, text-h2, text-h3). */
+  --text-display: clamp(2.5rem, 1.55rem + 4.2vw, 4.75rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.25rem, 1.65rem + 2.6vw, 3.75rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.875rem, 1.45rem + 1.9vw, 3rem);
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.015em;
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.14em;
+
+  /* ---- Larguras máximas ---- */
+  --container-page: 80rem; /* conteúdo das páginas */
+  --container-text: 40rem; /* blocos de texto corrido */
+
+  /* ---- Raios ---- */
+  --radius-control: 0.625rem; /* botões, campos e filtros */
+  --radius-media: 1rem; /* fotos dentro de cards */
+  --radius-card: 1.25rem; /* cards e blocos */
+  --radius-panel: 1.75rem; /* painéis grandes (CTA final) */
+
+  /* ---- Sombras ---- */
+  --shadow-card: 0 1px 2px rgb(17 20 24 / 0.04), 0 8px 24px -12px rgb(17 20 24 / 0.12);
+  --shadow-card-hover: 0 2px 4px rgb(17 20 24 / 0.04), 0 28px 56px -24px rgb(17 20 24 / 0.32);
+  --shadow-float: 0 18px 40px -12px rgb(17 20 24 / 0.5);
+  --shadow-accent: 0 10px 28px -10px rgb(249 115 22 / 0.65);
+
+  /* ---- Movimento ---- */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --default-transition-duration: 200ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Raio padrão dos cards e blocos de imagem */
-  --radius-card: 1.75rem;
+  /* ---- Breakpoints (mobile-first; valores padrão documentados) ---- */
+  --breakpoint-sm: 40rem; /* 640px */
+  --breakpoint-md: 48rem; /* 768px */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 80rem; /* 1280px */
+  --breakpoint-2xl: 96rem; /* 1536px */
+}
+
+/* Tokens não utilitários (usados diretamente no CSS). */
+:root {
+  --header-h: 5rem;
+  --header-h-compact: 4rem;
+  --section-space: clamp(4.5rem, 3rem + 6vw, 8rem);
+  --gutter: clamp(1.25rem, 0.75rem + 2.4vw, 2.5rem);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 600ms;
+  --focus-ring: var(--color-accent);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 3px;
+}
+
+/*
+ * Fonte de reserva com métricas ajustadas à Inter: evita que o texto
+ * "pule" (CLS) quando a fonte da web termina de carregar.
+ */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Helvetica');
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+  size-adjust: 107.12%;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    font-feature-settings: 'cv11', 'ss01';
   }
 
   body {
@@ -42,15 +129,31 @@
   h2,
   h3,
   h4 {
-    @apply font-display tracking-tight text-balance;
+    @apply font-display font-bold text-balance;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   [id] {
-    scroll-margin-top: 5.5rem;
+    scroll-margin-top: calc(var(--header-h-compact) + 1.5rem);
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-accent;
+    outline: var(--focus-ring-width) solid var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  ::selection {
+    background: rgb(249 115 22 / 0.28);
+  }
+
+  /* Estados de validação nativos (prontos para campos obrigatórios futuros). */
+  :is(input, select, textarea):user-invalid,
+  :is(input, select, textarea)[aria-invalid='true'] {
+    box-shadow: 0 0 0 2px var(--color-danger);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -69,11 +172,53 @@
   }
 }
 
+/* Container padrão: largura máxima e margens laterais responsivas. */
 @utility container-page {
-  @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--container-page);
+  padding-inline: var(--gutter);
 }
 
 /* Espaçamento vertical padrão das seções (mesmo ritmo em todo o site). */
 @utility section-y {
-  @apply py-18 sm:py-24 lg:py-28;
+  padding-block: var(--section-space);
+}
+
+/* Faixa que vaza até a borda da tela compensando o recuo do container. */
+@utility bleed-x {
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  scroll-padding-inline: var(--gutter);
+}
+
+/* Rótulo curto acima dos títulos (nunca em textos longos). */
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Sobreposição para leitura de texto sobre fotos (discreta, só onde há texto). */
+@utility scrim-bottom {
+  background-image: linear-gradient(to top, rgb(17 20 24 / 0.92) 0%, rgb(17 20 24 / 0.45) 38%, rgb(17 20 24 / 0) 70%);
+}
+
+@utility scrim-left {
+  background-image: linear-gradient(to right, rgb(17 20 24 / 0.96) 0%, rgb(17 20 24 / 0.7) 40%, rgb(17 20 24 / 0) 75%);
+}
+
+/*
+ * Foto do banner no desktop: funde-se ao fundo pela esquerda e, de leve,
+ * no topo e na base — a foto mantém o formato original, sem recorte extra.
+ */
+@utility mask-hero {
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 32%), linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
+  mask-composite: intersect;
 }

@@ -32,7 +32,7 @@ export function FloatingContact() {
           <ContactIconButton
             context={{ origin: 'floating' }}
             label="Falar pelo WhatsApp"
-            className="size-14 bg-accent text-xl text-graphite shadow-[0_12px_32px_-8px_rgb(21_25_29/0.45)] hover:bg-accent-soft"
+            className="size-14 bg-accent text-xl text-graphite shadow-float hover:bg-accent-soft hover:shadow-accent active:bg-accent-strong"
           />
         </motion.div>
       )}

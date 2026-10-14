@@ -10,13 +10,13 @@ export function MotorcycleSpecs({ moto }: { moto: Motorcycle }) {
   return (
     <div className="space-y-12">
       <section aria-labelledby="ficha-titulo">
-        <h2 id="ficha-titulo" className="text-2xl font-semibold sm:text-3xl">
+        <h2 id="ficha-titulo" className="text-h3 sm:text-[1.875rem]">
           Ficha técnica
         </h2>
         <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {technicalSheet(moto).map((spec) => (
-            <div key={spec.label} className="rounded-2xl bg-white p-5 ring-1 ring-graphite/[0.06]">
-              <dt className="text-xs font-medium tracking-wide text-muted uppercase">{spec.label}</dt>
+            <div key={spec.label} className="rounded-control bg-white p-5 shadow-card ring-1 ring-graphite/[0.06]">
+              <dt className="text-xs font-medium text-muted">{spec.label}</dt>
               <dd className="mt-1.5 font-display text-lg font-semibold">{spec.value}</dd>
             </div>
           ))}
@@ -25,13 +25,13 @@ export function MotorcycleSpecs({ moto }: { moto: Motorcycle }) {
 
       {features.length > 0 && (
         <section aria-labelledby="caracteristicas-titulo">
-          <h2 id="caracteristicas-titulo" className="text-2xl font-semibold sm:text-3xl">
+          <h2 id="caracteristicas-titulo" className="text-h3 sm:text-[1.875rem]">
             Características principais
           </h2>
           <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {features.map((feature) => (
-              <li key={feature} className="flex items-start gap-3 rounded-2xl bg-white p-4 ring-1 ring-graphite/[0.06]">
-                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-accent/15 text-accent-ink">
+              <li key={feature} className="flex items-start gap-3 rounded-control bg-white p-4 shadow-card ring-1 ring-graphite/[0.06]">
+                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-accent/[0.14] text-accent-ink">
                   <Check aria-hidden className="size-4" strokeWidth={2.5} />
                 </span>
                 <span className="pt-0.5 text-[0.95rem] font-medium">{feature}</span>
@@ -43,7 +43,7 @@ export function MotorcycleSpecs({ moto }: { moto: Motorcycle }) {
 
       {(moto.description || moto.demo) && (
         <section aria-labelledby="sobre-moto-titulo">
-          <h2 id="sobre-moto-titulo" className="text-2xl font-semibold sm:text-3xl">
+          <h2 id="sobre-moto-titulo" className="text-h3 sm:text-[1.875rem]">
             Sobre esta moto
           </h2>
           {moto.description && <p className="mt-4 max-w-2xl leading-relaxed text-muted">{moto.description}</p>}

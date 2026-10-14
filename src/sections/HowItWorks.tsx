@@ -15,7 +15,7 @@ export function HowItWorks() {
       <div className="container-page">
         <Reveal className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading id="como-funciona-titulo" eyebrow={howItWorks.eyebrow} title={howItWorks.title} />
-          <p className="max-w-sm text-base leading-relaxed text-muted lg:pb-2 lg:text-right">{howItWorks.description}</p>
+          <p className="max-w-sm text-base leading-relaxed text-muted lg:pb-2">{howItWorks.description}</p>
         </Reveal>
 
         <ol className="relative mt-14 grid gap-12 sm:mt-16 lg:mt-20 lg:grid-cols-4 lg:gap-10">
@@ -35,17 +35,17 @@ export function HowItWorks() {
                 />
                 <p
                   aria-hidden
-                  className={`font-display text-[3.5rem] leading-none font-semibold tracking-tight text-transparent transition-[-webkit-text-stroke-color] duration-300 [-webkit-text-stroke-width:1.5px] sm:text-[4.5rem] lg:mt-8 lg:text-[5.5rem] ${
+                  className={`font-display text-[3.5rem] leading-none font-bold tracking-[-0.04em] text-transparent transition-[-webkit-text-stroke-color] duration-300 [-webkit-text-stroke-width:1.5px] sm:text-[4.5rem] lg:mt-8 lg:text-[5.5rem] ${
                     last
                       ? '[-webkit-text-stroke-color:var(--color-accent)]'
-                      : '[-webkit-text-stroke-color:rgb(21_25_29/0.25)] group-hover:[-webkit-text-stroke-color:var(--color-accent)]'
+                      : '[-webkit-text-stroke-color:color-mix(in_srgb,var(--color-graphite)_22%,transparent)] group-hover:[-webkit-text-stroke-color:var(--color-accent)]'
                   }`}
                 >
                   {String(i + 1).padStart(2, '0')}
                 </p>
                 <div className="mt-5 flex items-center gap-3">
                   <step.icon aria-hidden className="size-5 shrink-0 text-accent-ink" strokeWidth={1.8} />
-                  <h3 className="text-lg leading-snug font-semibold sm:text-xl">
+                  <h3 className="text-lg leading-snug font-bold sm:text-xl">
                     <span className="sr-only">Etapa {i + 1}: </span>
                     {step.title}
                   </h3>
@@ -56,7 +56,7 @@ export function HowItWorks() {
           })}
         </ol>
 
-        <Reveal className="mt-14 flex items-start gap-3 border-t border-graphite/10 pt-6 text-sm text-muted sm:items-center lg:mt-20">
+        <Reveal className="mt-14 flex items-start gap-3 rounded-control bg-ice px-5 py-4 text-sm text-muted sm:items-center lg:mt-20">
           <ShieldCheck aria-hidden className="mt-0.5 size-4 shrink-0 text-accent-ink sm:mt-0" />
           <p>{howItWorks.note}</p>
         </Reveal>

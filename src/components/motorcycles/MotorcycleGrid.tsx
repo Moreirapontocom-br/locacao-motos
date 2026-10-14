@@ -15,14 +15,14 @@ export function MotorcycleGrid({
 }) {
   if (motorcycles.length === 0) {
     return (
-      <p className="rounded-3xl border border-dashed border-graphite/20 px-6 py-16 text-center text-muted">
+      <p className="rounded-card border border-dashed border-graphite/20 bg-white/60 px-6 py-16 text-center text-muted">
         {emptyMessage ?? 'Nenhuma moto encontrada neste estilo no momento.'}
       </p>
     )
   }
 
   return (
-    <motion.ul layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <motion.ul layout className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
       <AnimatePresence mode="popLayout" initial={false}>
         {motorcycles.map((moto) => (
           <motion.li

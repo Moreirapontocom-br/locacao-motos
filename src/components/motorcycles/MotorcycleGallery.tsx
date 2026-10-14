@@ -71,8 +71,8 @@ function NavButton({ dir, onClick, dark = false }: { dir: -1 | 1; onClick: () =>
       type="button"
       onClick={onClick}
       aria-label={dir < 0 ? 'Foto anterior' : 'Próxima foto'}
-      className={`grid size-11 place-items-center rounded-full backdrop-blur transition-[background-color,transform] duration-200 active:scale-95 ${
-        dark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-white/90 text-graphite shadow-sm hover:bg-white'
+      className={`grid size-11 place-items-center rounded-full backdrop-blur-md transition-[background-color,transform] duration-200 active:scale-95 ${
+        dark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-white/90 text-graphite shadow-card hover:bg-white'
       }`}
     >
       <Icon aria-hidden className="size-5" />
@@ -113,14 +113,14 @@ function Thumbnails({
               onClick={() => onSelect(i)}
               aria-label={`Ver foto ${i + 1} de ${images.length}`}
               aria-current={active ? 'true' : undefined}
-              className={`relative block w-full overflow-hidden rounded-xl transition-opacity duration-300 ${
-                active ? 'opacity-100' : 'opacity-55 hover:opacity-100'
+              className={`relative block w-full overflow-hidden rounded-control transition-opacity duration-300 ${
+                active ? 'opacity-100' : 'opacity-60 hover:opacity-100'
               }`}
             >
               <SmartImage image={{ ...img, alt: '' }} sizes="160px" className="aspect-[4/3]" tone={dark ? 'dark' : 'light'} />
               <span
                 aria-hidden
-                className={`pointer-events-none absolute inset-0 rounded-xl ring-2 ring-inset transition-colors duration-300 ${
+                className={`pointer-events-none absolute inset-0 rounded-control ring-2 ring-inset transition-colors duration-300 ${
                   active ? 'ring-accent' : 'ring-transparent'
                 }`}
               />
@@ -178,7 +178,7 @@ function Lightbox({ open, onClose, images, title, nav }: LightboxProps) {
       aria-label={`Fotos ampliadas: ${title}`}
       onClose={onClose}
       // As setas do teclado chegam ao `onKeyDown` da galeria (o diálogo fica dentro dela).
-      className="m-0 h-dvh max-h-none w-screen max-w-none bg-graphite/[0.97] p-0 text-white backdrop:bg-graphite/80 backdrop:backdrop-blur-sm"
+      className="m-0 h-dvh max-h-none w-screen max-w-none bg-graphite/[0.98] p-0 text-white backdrop:bg-graphite/80 backdrop:backdrop-blur-sm"
     >
       {open && (
         <div className="flex h-full flex-col">
@@ -261,7 +261,7 @@ export function MotorcycleGallery({ images, title }: { images: ImageAsset[]; tit
 
   return (
     <section aria-label={`Galeria de fotos: ${title}`} aria-roledescription="galeria" onKeyDown={nav.onKeyDown}>
-      <div className="group/stage relative aspect-[4/3] overflow-hidden rounded-card bg-steel/50 sm:aspect-[3/2]">
+      <div className="group/stage relative aspect-[4/3] overflow-hidden rounded-card bg-steel/60 shadow-card sm:aspect-[3/2]">
         <Stage
           images={images}
           index={nav.index}
@@ -279,7 +279,7 @@ export function MotorcycleGallery({ images, title }: { images: ImageAsset[]; tit
             onClick={() => setZoomed(true)}
             aria-label="Ampliar foto"
             aria-haspopup="dialog"
-            className="pointer-events-auto grid size-10 place-items-center rounded-full bg-white/90 text-graphite shadow-sm backdrop-blur transition-[background-color,transform] duration-200 hover:bg-white active:scale-95"
+            className="pointer-events-auto grid size-11 place-items-center rounded-full bg-white/90 text-graphite shadow-card backdrop-blur-md transition-[background-color,transform] duration-200 hover:bg-white active:scale-95"
           >
             <Expand aria-hidden className="size-4.5" />
           </button>
@@ -292,7 +292,7 @@ export function MotorcycleGallery({ images, title }: { images: ImageAsset[]; tit
               <NavButton dir={1} onClick={() => nav.step(1)} />
             </div>
             <p
-              className="pointer-events-none absolute right-4 bottom-4 rounded-full bg-graphite/75 px-3 py-1 text-xs font-semibold text-white tabular-nums backdrop-blur"
+              className="pointer-events-none absolute right-4 bottom-4 rounded-full bg-graphite/80 px-3 py-1 text-xs font-semibold text-white tabular-nums ring-1 ring-white/10 backdrop-blur-md"
               aria-live="polite"
             >
               {nav.index + 1} / {total}
