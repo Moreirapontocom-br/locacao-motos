@@ -10,6 +10,10 @@ import { Logo } from './Logo'
 
 const year = new Date().getFullYear()
 
+const footerLink =
+  'inline-flex min-h-9 items-center rounded-control transition-colors duration-200 hover:text-white'
+
+
 export function Footer() {
   const { contact, social, legal } = siteConfig
   const address = formatAddress(contact.address)
@@ -20,11 +24,13 @@ export function Footer() {
   const socialToShow = social.filter((s) => s.url || siteConfig.showDemoNotices)
 
   return (
-    <footer className="bg-graphite text-muted-dark">
-      <div className="container-page grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr] lg:py-20">
+    <footer className="relative bg-graphite text-muted-dark">
+      {/* Linha de destaque: mesma assinatura das faixas de abertura das páginas. */}
+      <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-accent/70 via-white/10 to-transparent" />
+      <div className="container-page grid gap-12 py-16 sm:py-20 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1.3fr] lg:gap-16 lg:py-24">
         <div className="max-w-sm">
           <Logo />
-          <p className="mt-5 text-sm leading-relaxed">{siteConfig.tagline}.</p>
+          <p className="mt-6 text-[0.9375rem] leading-relaxed">{siteConfig.description}</p>
           {socialToShow.length > 0 && (
             <ul className="mt-6 flex gap-2" aria-label="Redes sociais">
               {socialToShow.map((s) => (
@@ -35,7 +41,7 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${s.label} (abre em nova aba)`}
-                      className="grid size-10 place-items-center rounded-full border border-white/15 text-white transition-colors hover:border-accent hover:text-accent"
+                      className="grid size-11 place-items-center rounded-control bg-white/[0.04] text-white ring-1 ring-white/10 transition-colors hover:bg-accent hover:text-graphite hover:ring-accent"
                     >
                       <SocialIcon network={s.network} />
                     </a>
@@ -44,7 +50,7 @@ export function Footer() {
                       role="img"
                       title={`${s.label}: perfil a informar`}
                       aria-label={`${s.label}: perfil a informar`}
-                      className="grid size-10 place-items-center rounded-full border border-dashed border-white/15 text-white/35"
+                      className="grid size-11 place-items-center rounded-control border border-dashed border-white/15 text-white/35"
                     >
                       <SocialIcon network={s.network} />
                     </span>
@@ -56,16 +62,16 @@ export function Footer() {
         </div>
 
         <nav aria-label="Rodapé">
-          <h2 className="text-sm font-semibold text-white">Navegação</h2>
-          <ul className="mt-5 space-y-3 text-sm">
+          <h2 className="eyebrow text-white">Navegação</h2>
+          <ul className="mt-6 space-y-1 text-[0.9375rem]">
             <li>
-              <Link to="/" className="transition-colors hover:text-white">
+              <Link to="/" className={footerLink}>
                 Início
               </Link>
             </li>
             {navigation.map((item) => (
               <li key={item.to}>
-                <Link to={item.to} className="transition-colors hover:text-white">
+                <Link to={item.to} className={footerLink}>
                   {item.label}
                 </Link>
               </li>
@@ -74,8 +80,8 @@ export function Footer() {
         </nav>
 
         <div>
-          <h2 className="text-sm font-semibold text-white">Contato</h2>
-          <ul className="mt-5 space-y-4 text-sm">
+          <h2 className="eyebrow text-white">Contato</h2>
+          <ul className="mt-6 space-y-5 text-[0.9375rem]">
             <li className="flex gap-3">
               <Phone aria-hidden className="mt-0.5 size-4 shrink-0 text-accent" />
               <span>
@@ -123,7 +129,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-page flex flex-col gap-3 py-6 text-xs sm:flex-row sm:items-center sm:justify-between">
+        <div className="container-page flex flex-col gap-3 py-6 text-xs leading-relaxed sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} <Pending value={legal.companyName} fallback={siteConfig.name} />. Todos os direitos reservados.
             {' · '}CNPJ: <Pending value={legal.cnpj} />

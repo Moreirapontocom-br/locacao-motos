@@ -37,17 +37,17 @@ export function SmartImage({
         // alt vazio = imagem decorativa (ex.: miniatura com rótulo no botão): fica fora da leitura de tela.
         {...(image.alt ? { role: 'img', 'aria-label': image.alt } : { 'aria-hidden': true })}
         className={`flex flex-col items-center justify-center gap-2 overflow-hidden p-4 text-center ${
-          dark ? 'bg-graphite-700 text-muted-dark' : 'bg-steel/60 text-graphite/65'
+          dark ? 'bg-graphite-800 text-muted-dark' : 'bg-gradient-to-br from-steel/70 to-ice text-muted'
         } ${className}`}
       >
-        <Icon aria-hidden className="size-6" strokeWidth={1.5} />
-        <span className="text-xs font-medium">{placeholderLabel ?? image.alt}</span>
+        <Icon aria-hidden className="size-6 opacity-80" strokeWidth={1.5} />
+        <span className="text-xs font-medium tracking-[0.01em]">{placeholderLabel ?? image.alt}</span>
       </div>
     )
   }
 
   return (
-    <div className={`relative overflow-hidden ${dark ? 'bg-graphite-700' : 'bg-steel/50'} ${className}`}>
+    <div className={`relative overflow-hidden ${dark ? 'bg-graphite-800' : 'bg-steel/60'} ${className}`}>
       <img
         src={image.src}
         srcSet={image.srcSet}

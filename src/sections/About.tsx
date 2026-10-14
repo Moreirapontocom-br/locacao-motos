@@ -48,7 +48,7 @@ function PhotoSlot({ photo, className, sizes }: { photo: ImageAsset; className: 
     >
       <div
         aria-hidden
-        className="absolute inset-0 opacity-[0.06] [background-image:repeating-linear-gradient(115deg,#fff_0,#fff_1px,transparent_1px,transparent_22px)]"
+        className="absolute inset-0 opacity-[0.06] [background-image:repeating-linear-gradient(115deg,var(--color-white)_0,var(--color-white)_1px,transparent_1px,transparent_22px)]"
       />
       <span
         aria-hidden
@@ -56,7 +56,7 @@ function PhotoSlot({ photo, className, sizes }: { photo: ImageAsset; className: 
       >
         <Camera className="size-4" strokeWidth={1.75} />
       </span>
-      <p className="relative text-[0.6rem] font-semibold tracking-[0.16em] text-muted-dark uppercase sm:text-[0.68rem]">
+      <p className="relative text-[0.625rem] font-semibold tracking-[0.12em] text-muted-dark uppercase sm:text-[0.6875rem]">
         Foto oficial
       </p>
       <p className="relative mt-0.5 font-display text-xs leading-snug font-medium text-white sm:text-base">{photo.alt}</p>
@@ -78,19 +78,19 @@ export function About() {
           <PhotoSlot photo={main} className="aspect-[4/5] rounded-card" sizes="(min-width: 1024px) 460px, 85vw" />
           {others[0] && (
             <div className="absolute top-[10%] right-0 w-[34%]">
-              <PhotoSlot photo={others[0]} className="aspect-[4/5] rounded-2xl ring-[6px] ring-ice" sizes="180px" />
+              <PhotoSlot photo={others[0]} className="aspect-[4/5] rounded-2xl ring-[6px] ring-ice shadow-card-hover" sizes="180px" />
             </div>
           )}
           {others[1] && (
             <div className="absolute right-[4%] bottom-0 w-[40%]">
-              <PhotoSlot photo={others[1]} className="aspect-square rounded-2xl ring-[6px] ring-ice" sizes="220px" />
+              <PhotoSlot photo={others[1]} className="aspect-square rounded-2xl ring-[6px] ring-ice shadow-card-hover" sizes="220px" />
             </div>
           )}
         </Reveal>
 
         <Reveal delay={0.08}>
           <SectionHeading id="sobre-titulo" eyebrow={about.eyebrow} title={about.title} />
-          <p className="mt-7 border-l-2 border-accent pl-5 font-display text-xl leading-snug font-medium text-graphite sm:text-2xl">
+          <p className="mt-7 border-l-2 border-accent pl-5 font-display text-xl leading-snug font-semibold tracking-[-0.015em] text-graphite sm:text-2xl">
             {lead}
           </p>
           {rest.map((p) => (
@@ -103,7 +103,7 @@ export function About() {
             {about.values.map((value) => (
               <li
                 key={value}
-                className="rounded-full border border-graphite/12 bg-white px-3.5 py-1.5 text-sm font-medium text-graphite/80"
+                className="rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-graphite/85 shadow-sm ring-1 ring-graphite/[0.08]"
               >
                 {value}
               </li>
@@ -115,7 +115,7 @@ export function About() {
               {about.facts.map((f) => (
                 <div key={f.label}>
                   <dt className="text-sm text-muted">{f.label}</dt>
-                  <dd className="mt-1 font-display text-xl font-semibold">{f.value}</dd>
+                  <dd className="mt-1 font-display text-xl font-bold">{f.value}</dd>
                 </div>
               ))}
             </dl>

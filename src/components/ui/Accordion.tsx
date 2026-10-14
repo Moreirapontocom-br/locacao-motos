@@ -9,7 +9,7 @@ export function Accordion({ items, defaultOpen = 0 }: { items: FaqItem[]; defaul
   const baseId = useId()
 
   return (
-    <div className="divide-y divide-graphite/10 border-y border-graphite/10">
+    <div className="divide-y divide-graphite/[0.09] border-y border-graphite/[0.09]">
       {items.map((item, i) => {
         const isOpen = open === i
         const buttonId = `${baseId}-btn-${i}`
@@ -23,13 +23,15 @@ export function Accordion({ items, defaultOpen = 0 }: { items: FaqItem[]; defaul
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="flex w-full items-center justify-between gap-6 py-6 text-left font-display text-lg font-medium transition-colors hover:text-accent-ink sm:text-xl"
+                className="group/acc flex w-full items-center justify-between gap-6 rounded-control py-6 text-left font-display text-lg font-semibold tracking-[-0.015em] transition-colors hover:text-accent-ink sm:text-xl"
               >
                 {item.question}
                 <span
                   aria-hidden
-                  className={`grid size-9 shrink-0 place-items-center rounded-full transition-[background-color,color,transform] duration-300 ${
-                    isOpen ? 'rotate-45 bg-graphite text-white' : 'bg-ice text-graphite'
+                  className={`grid size-10 shrink-0 place-items-center rounded-full ring-1 transition-[background-color,color,transform,box-shadow] duration-300 ${
+                    isOpen
+                      ? 'rotate-45 bg-accent text-graphite ring-accent'
+                      : 'bg-transparent text-graphite ring-graphite/15 group-hover/acc:ring-graphite/40'
                   }`}
                 >
                   <Plus className="size-4.5" />
@@ -48,7 +50,7 @@ export function Accordion({ items, defaultOpen = 0 }: { items: FaqItem[]; defaul
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="max-w-2xl pr-12 pb-6 leading-relaxed text-muted">{item.answer}</p>
+                  <p className="max-w-2xl pr-4 pb-7 leading-relaxed text-muted sm:pr-14">{item.answer}</p>
                 </motion.div>
               )}
             </AnimatePresence>

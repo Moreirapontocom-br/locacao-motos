@@ -1,5 +1,4 @@
 import { ArrowRight, Check } from 'lucide-react'
-import { SpeedLines } from '../components/ui/SpeedLines'
 import { Button } from '../components/ui/Button'
 import { ContactButton } from '../components/ui/ContactButton'
 import { DemoBadge } from '../components/ui/DemoNotice'
@@ -16,8 +15,6 @@ export function Acquisition() {
 
   return (
     <section id="aquisicao" aria-labelledby="aquisicao-titulo" className="section-y relative overflow-hidden bg-graphite">
-      {/* Linhas de movimento em grande escala, discretas, como assinatura visual da seção. */}
-      <SpeedLines className="absolute right-[-4rem] bottom-10 hidden w-[30rem] opacity-40 lg:block" />
 
       <div className="container-page relative grid items-center gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
         <Reveal className="relative">
@@ -29,7 +26,7 @@ export function Acquisition() {
               className="aspect-[4/3] sm:aspect-[4/5]"
               imgClassName="transition-transform duration-[1200ms] ease-out-soft group-hover:scale-[1.03]"
             />
-            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-graphite/90 via-graphite/10 to-transparent" />
+            <div aria-hidden className="scrim-bottom absolute inset-0" />
             <DemoBadge label="Imagem ilustrativa" className="absolute top-4 left-4" />
 
             {/* Trajeto desenhado sobre a foto. */}
@@ -52,17 +49,17 @@ export function Acquisition() {
         </Reveal>
 
         <Reveal delay={0.08}>
-          <p className="mb-4 inline-flex items-center gap-2 text-xs font-bold tracking-[0.18em] text-accent uppercase">
-            <span aria-hidden className="h-px w-6 bg-current" />
+          <p className="eyebrow mb-5 text-accent">
+            <span aria-hidden className="h-0.5 w-7 rounded-full bg-current" />
             {acquisition.eyebrow}
           </p>
-          <h2 id="aquisicao-titulo" className="text-3xl leading-[1.08] font-semibold text-white sm:text-4xl lg:text-[3.1rem]">
+          <h2 id="aquisicao-titulo" className="text-h2 text-white">
             {acquisition.title}
           </h2>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-dark sm:text-lg">{acquisition.description}</p>
+          <p className="mt-6 max-w-xl text-lead text-muted-dark">{acquisition.description}</p>
 
-          <div className="mt-8 rounded-2xl border border-white/10 p-5 sm:p-6">
-            <p className="text-xs font-bold tracking-[0.16em] text-white/60 uppercase">Importante saber</p>
+          <div className="mt-8 rounded-card bg-graphite-800 p-5 ring-1 ring-white/[0.06] sm:p-6">
+            <p className="eyebrow text-white/70">Importante saber</p>
             <ul className="mt-4 space-y-3">
               {acquisition.notes.map((note) => (
                 <li key={note} className="flex gap-3 text-[0.95rem] leading-snug text-white/85">

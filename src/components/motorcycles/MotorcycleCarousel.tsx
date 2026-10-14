@@ -88,7 +88,7 @@ export function MotorcycleCarousel({
 
   if (motorcycles.length === 0) {
     return (
-      <p className="rounded-3xl border border-dashed border-graphite/20 px-6 py-16 text-center text-muted">
+      <p className="rounded-card border border-dashed border-graphite/20 bg-white/60 px-6 py-16 text-center text-muted">
         {emptyMessage ?? 'Nenhuma moto encontrada neste estilo no momento.'}
       </p>
     )
@@ -104,7 +104,7 @@ export function MotorcycleCarousel({
       <ul
         id={trackId}
         ref={trackRef}
-        className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto overscroll-x-contain px-5 pt-2 pb-10 [scrollbar-width:none] sm:-mx-8 sm:scroll-px-8 sm:gap-6 sm:px-8 lg:-mx-10 lg:scroll-px-10 lg:px-10 [&::-webkit-scrollbar]:hidden"
+        className="bleed-x flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pt-2 pb-10 [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden"
       >
         {motorcycles.map((moto, i) => (
           <motion.li
@@ -112,7 +112,7 @@ export function MotorcycleCarousel({
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.45, delay: Math.min(i, 3) * 0.06, ease: [0.22, 1, 0.36, 1] }}
-            className="w-[84%] shrink-0 snap-start sm:w-[46%] lg:w-[31%]"
+            className="w-[84%] shrink-0 snap-start sm:w-[46%] xl:w-[31%]"
           >
             <MotorcycleCard moto={moto} origin={origin} />
           </motion.li>
@@ -134,8 +134,8 @@ export function MotorcycleCarousel({
               >
                 <span
                   aria-hidden
-                  className={`block h-1.5 rounded-full transition-[width,background-color] duration-300 ease-out-soft ${
-                    i === current ? 'w-8 bg-accent' : 'w-1.5 bg-graphite/20 group-hover/dot:bg-graphite/40'
+                  className={`block h-1 rounded-full transition-[width,background-color] duration-300 ease-out-soft ${
+                    i === current ? 'w-8 bg-accent' : 'w-1.5 bg-graphite/25 group-hover/dot:bg-graphite/50'
                   }`}
                 />
               </button>
@@ -170,7 +170,7 @@ function CarouselArrow({
       aria-controls={controls}
       disabled={disabled}
       onClick={onClick}
-      className="grid size-12 place-items-center rounded-full border border-graphite/15 text-graphite transition-colors duration-300 hover:border-graphite hover:bg-graphite hover:text-white disabled:pointer-events-none disabled:opacity-35"
+      className="grid size-12 place-items-center rounded-control border border-graphite/15 bg-white text-graphite shadow-sm transition-colors duration-300 hover:border-graphite hover:bg-graphite hover:text-white disabled:pointer-events-none disabled:opacity-35"
     >
       <Icon aria-hidden className="size-5" />
     </button>

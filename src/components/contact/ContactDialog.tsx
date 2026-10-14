@@ -43,26 +43,26 @@ export function ContactDialogProvider({ children }: { children: ReactNode }) {
         aria-labelledby="contato-dialogo-titulo"
         onClose={() => setRequest(null)}
         onClick={(e) => e.target === e.currentTarget && close()}
-        className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-3xl bg-white p-0 text-graphite shadow-2xl backdrop:bg-graphite/70 backdrop:backdrop-blur-sm"
+        className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-card bg-white p-0 text-graphite shadow-float backdrop:bg-graphite/75 backdrop:backdrop-blur-sm"
       >
         {request && (
           <div className="p-6 sm:p-8">
             <div className="flex items-start justify-between gap-4">
-              <span className="grid size-12 place-items-center rounded-2xl bg-ice text-accent-ink">
+              <span className="grid size-12 place-items-center rounded-control bg-accent/[0.12] text-accent-ink">
                 <MessageCircle aria-hidden className="size-5.5" />
               </span>
               <button
                 type="button"
                 onClick={close}
                 aria-label="Fechar"
-                className="grid size-11 place-items-center rounded-full text-graphite/60 transition-colors hover:bg-ice hover:text-graphite"
+                className="grid size-11 place-items-center rounded-control text-graphite/60 transition-colors hover:bg-ice hover:text-graphite"
               >
                 <X className="size-5" />
               </button>
             </div>
 
-            <p className="mt-5 text-xs font-bold tracking-[0.16em] text-accent-ink uppercase">Versão demonstrativa</p>
-            <h2 id="contato-dialogo-titulo" className="mt-2 text-2xl font-semibold">
+            <p className="eyebrow mt-6 text-accent-ink">Versão demonstrativa</p>
+            <h2 id="contato-dialogo-titulo" className="mt-3 text-h3">
               Canal de atendimento em configuração
             </h2>
             <p className="mt-3 leading-relaxed text-muted">
@@ -70,8 +70,8 @@ export function ContactDialogProvider({ children }: { children: ReactNode }) {
               conversa já com a mensagem abaixo{request.subject ? ` sobre ${request.subject}` : ''}.
             </p>
 
-            <figure className="mt-6 rounded-2xl bg-ice p-4">
-              <figcaption className="text-xs font-semibold tracking-wide text-muted uppercase">Mensagem preparada</figcaption>
+            <figure className="mt-6 rounded-control border-l-2 border-accent bg-ice p-4">
+              <figcaption className="text-xs font-semibold text-muted">Mensagem preparada</figcaption>
               <blockquote className="mt-2 text-[0.95rem] leading-relaxed whitespace-pre-line">“{request.message}”</blockquote>
             </figure>
 
@@ -82,14 +82,16 @@ export function ContactDialogProvider({ children }: { children: ReactNode }) {
                   close()
                   document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="inline-flex h-12 items-center justify-center rounded-full px-5 text-sm font-semibold text-graphite transition-colors hover:bg-ice"
+                className="inline-flex min-h-12 items-center justify-center rounded-control px-5 text-sm font-semibold text-graphite transition-colors hover:bg-ice"
               >
                 Ver canais de contato
               </Link>
               <button
                 type="button"
                 onClick={copy}
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-graphite px-6 text-sm font-semibold text-white transition-colors hover:bg-graphite-700"
+                className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-control px-6 text-sm font-semibold transition-colors ${
+                  copied ? 'bg-success text-white' : 'bg-graphite text-white hover:bg-graphite-700'
+                }`}
               >
                 {copied ? <Check aria-hidden className="size-4" /> : <Copy aria-hidden className="size-4" />}
                 {copied ? 'Mensagem copiada' : 'Copiar mensagem'}

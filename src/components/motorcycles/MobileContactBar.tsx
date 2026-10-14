@@ -44,7 +44,7 @@ export function MobileContactBar({ moto, ctaRef }: { moto: Motorcycle; ctaRef: R
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-x-0 bottom-0 z-40 border-t border-graphite/10 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
+          className="fixed inset-x-0 bottom-0 z-40 border-t border-graphite/10 bg-white/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-12px_32px_-20px_rgb(17_20_24/0.35)] backdrop-blur-xl lg:hidden"
         >
           <div className="container-page flex items-center gap-3 py-3">
             {/* Em telas muito estreitas, só o botão (largura total); o nome volta quando há espaço. */}

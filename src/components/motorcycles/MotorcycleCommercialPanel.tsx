@@ -46,23 +46,23 @@ export function MotorcycleCommercialPanel({ moto, ctaRef }: PanelProps) {
       <div className="flex flex-wrap items-center gap-2">
         <Link
           to={`/motos?estilo=${moto.style}`}
-          className="inline-flex h-8 items-center rounded-full bg-white px-3 text-xs font-semibold ring-1 ring-graphite/10 transition-colors hover:ring-graphite/30"
+          className="inline-flex h-8 items-center rounded-full bg-white px-3 text-xs font-semibold shadow-sm ring-1 ring-graphite/10 transition-colors hover:ring-graphite/35"
         >
           {styleLabels[moto.style]}
         </Link>
         {moto.demo && <DemoBadge label="Moto de exemplo" always />}
       </div>
 
-      <p className="mt-5 text-xs font-semibold tracking-[0.14em] text-accent-ink uppercase">{eyebrow}</p>
-      <h1 className="mt-2 text-4xl leading-[1.05] font-semibold sm:text-5xl">{motorcycleDisplayName(moto)}</h1>
-      <p className="mt-4 leading-relaxed text-muted">{moto.summary}</p>
+      <p className="eyebrow mt-6 text-accent-ink">{eyebrow}</p>
+      <h1 className="mt-3 text-h1">{motorcycleDisplayName(moto)}</h1>
+      <p className="mt-4 text-[1.0625rem] leading-relaxed text-muted">{moto.summary}</p>
 
       {facts.length > 0 && (
-        <dl className="mt-6 flex border-y border-graphite/[0.08]">
+        <dl className="mt-7 flex border-y border-graphite/[0.1]">
           {facts.map((f, i) => (
-            <div key={f.label} className={`min-w-0 flex-1 py-3.5 ${i > 0 ? 'border-l border-graphite/[0.08] pl-4' : ''}`}>
-              <dt className="text-[0.7rem] font-medium tracking-wide text-muted uppercase">{f.label}</dt>
-              <dd className="mt-0.5 truncate font-display text-lg font-semibold">{f.value}</dd>
+            <div key={f.label} className={`min-w-0 flex-1 py-4 ${i > 0 ? 'border-l border-graphite/[0.1] pl-4' : ''}`}>
+              <dt className="text-xs font-medium text-muted">{f.label}</dt>
+              <dd className="mt-1 font-display text-lg leading-snug font-bold tracking-[-0.01em] break-words">{f.value}</dd>
             </div>
           ))}
         </dl>
@@ -70,11 +70,11 @@ export function MotorcycleCommercialPanel({ moto, ctaRef }: PanelProps) {
 
       <section
         aria-labelledby="condicoes-titulo"
-        className="relative mt-7 overflow-hidden rounded-card bg-graphite p-6 text-white sm:p-7"
+        className="relative isolate mt-8 overflow-hidden rounded-card bg-graphite p-6 text-white shadow-card-hover sm:p-8"
       >
         {/* Faixa laranja discreta: mesma linguagem visual das seções escuras da home. */}
-        <span aria-hidden className="absolute inset-y-0 left-0 w-1 bg-accent" />
-        <h2 id="condicoes-titulo" className="text-lg font-semibold">
+        <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent via-accent/60 to-transparent" />
+        <h2 id="condicoes-titulo" className="text-xl font-bold">
           Locação desta moto
         </h2>
         <dl className="mt-2 divide-y divide-white/10">
@@ -108,7 +108,7 @@ export function MotorcycleCommercialPanel({ moto, ctaRef }: PanelProps) {
         <InterestFormDisclosure origin="detail" moto={moto} tone="dark" className="mt-3" />
         <Link
           to="/motos"
-          className="group/link mt-4 flex items-center justify-center gap-1.5 text-sm font-semibold text-white/80 transition-colors hover:text-white"
+          className="group/link mt-3 flex min-h-11 items-center justify-center gap-1.5 rounded-control text-sm font-semibold text-white/80 transition-colors hover:text-white"
         >
           Ver outras motos
           <ArrowRight aria-hidden className="size-4 transition-transform duration-200 group-hover/link:translate-x-0.5" />

@@ -25,14 +25,14 @@ const styles = {
   dark: {
     label: 'text-white',
     hint: 'text-muted-dark',
-    field: 'bg-white/[0.06] text-white ring-white/15 hover:ring-white/30 [&_option]:text-graphite',
-    chip: 'text-white/80 ring-white/15 hover:ring-white/35 has-[:checked]:bg-white has-[:checked]:text-graphite has-[:checked]:ring-white',
+    field: 'bg-white/[0.05] text-white ring-white/15 hover:ring-white/35 focus-visible:bg-white/[0.08] [&_option]:text-graphite',
+    chip: 'text-white/85 ring-white/15 hover:ring-white/40 has-[:checked]:bg-accent has-[:checked]:text-graphite has-[:checked]:ring-accent has-[:focus-visible]:ring-offset-graphite',
   },
   light: {
     label: 'text-graphite',
     hint: 'text-muted',
-    field: 'bg-white text-graphite ring-graphite/15 hover:ring-graphite/35',
-    chip: 'text-graphite/80 ring-graphite/15 hover:ring-graphite/35 has-[:checked]:bg-graphite has-[:checked]:text-white has-[:checked]:ring-graphite',
+    field: 'bg-white text-graphite ring-graphite/15 hover:ring-graphite/40',
+    chip: 'text-graphite/80 ring-graphite/15 hover:ring-graphite/40 has-[:checked]:bg-graphite has-[:checked]:text-white has-[:checked]:ring-graphite has-[:focus-visible]:ring-offset-white',
   },
 } satisfies Record<Tone, Record<string, string>>
 
@@ -77,7 +77,7 @@ export function InterestForm({ origin, moto, tone = 'dark' }: InterestFormProps)
     }
   }
 
-  const fieldClass = `h-12 w-full appearance-none rounded-xl pr-10 pl-4 text-sm font-medium ring-1 transition-shadow outline-none focus-visible:ring-2 focus-visible:ring-accent ${s.field}`
+  const fieldClass = `h-12 w-full appearance-none rounded-control pr-10 pl-4 text-[0.9375rem] font-medium ring-1 transition-[box-shadow,background-color] outline-none focus-visible:ring-2 focus-visible:ring-accent ${s.field}`
 
   return (
     <form onSubmit={onSubmit} aria-describedby={`${id}-nota`} className="grid gap-5">
@@ -138,7 +138,7 @@ export function InterestForm({ origin, moto, tone = 'dark' }: InterestFormProps)
           {commercialConfig.purposes.map((p) => (
             <label
               key={p.value}
-              className={`inline-flex h-11 cursor-pointer items-center rounded-full px-4 text-sm font-medium ring-1 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent ${s.chip}`}
+              className={`inline-flex h-11 cursor-pointer items-center rounded-control px-4 text-sm font-medium ring-1 transition-colors has-[:checked]:font-semibold has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent has-[:focus-visible]:ring-offset-2 ${s.chip}`}
             >
               <input
                 type="radio"
@@ -157,7 +157,7 @@ export function InterestForm({ origin, moto, tone = 'dark' }: InterestFormProps)
       <button
         type="submit"
         aria-haspopup={action.kind === 'section' ? 'dialog' : undefined}
-        className="group/btn inline-flex h-14 w-full items-center justify-center gap-2 rounded-full bg-accent px-7 text-base font-semibold text-graphite transition-[background-color,transform] duration-200 hover:bg-accent-soft active:scale-[0.98]"
+        className="group/btn inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-control bg-accent px-7 py-3 text-base font-semibold text-graphite transition-[background-color,box-shadow,transform] duration-200 hover:bg-accent-soft hover:shadow-accent active:translate-y-px active:bg-accent-strong"
       >
         <MessageCircle aria-hidden className="size-5" />
         {contactLabel(action.kind, 'Continuar pelo WhatsApp')}
@@ -196,7 +196,7 @@ export function InterestFormDisclosure({ origin, moto, tone = 'dark', className 
         aria-expanded={open}
         aria-controls={panelId}
         onClick={toggle}
-        className={`group/toggle flex min-h-11 w-full items-center justify-center gap-2 rounded-full text-sm font-semibold transition-colors ${
+        className={`group/toggle flex min-h-11 w-full items-center justify-center gap-2 rounded-control text-sm font-semibold transition-colors ${
           tone === 'dark' ? 'text-white/80 hover:text-white' : 'text-graphite/80 hover:text-graphite'
         }`}
       >

@@ -5,21 +5,25 @@ type Variant = 'primary' | 'dark' | 'light' | 'outline' | 'outline-light' | 'gho
 type Size = 'sm' | 'md' | 'lg'
 
 const base =
-  'group/btn inline-flex items-center justify-center gap-2 rounded-full text-center leading-tight font-semibold sm:whitespace-nowrap transition-[background-color,color,border-color,transform] duration-200 ease-out-soft active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50'
+  'group/btn relative inline-flex items-center justify-center gap-2 rounded-control text-center leading-tight font-semibold tracking-[-0.005em] sm:whitespace-nowrap transition-[background-color,color,border-color,box-shadow,transform] duration-200 ease-out-soft active:translate-y-px disabled:pointer-events-none disabled:opacity-50 motion-reduce:active:translate-y-0'
 
+/**
+ * Hierarquia: `primary` (laranja) é a ação principal da tela; `dark`/`light`
+ * são ações fortes neutras; `outline*` e `ghost` são secundárias.
+ */
 const variants: Record<Variant, string> = {
-  primary: 'bg-accent text-graphite hover:bg-accent-soft',
+  primary: 'bg-accent text-graphite hover:bg-accent-soft hover:shadow-accent active:bg-accent-strong',
   dark: 'bg-graphite text-white hover:bg-graphite-700',
   light: 'bg-white text-graphite hover:bg-steel',
-  outline: 'border border-graphite/15 text-graphite hover:border-graphite/40 hover:bg-white',
-  'outline-light': 'border border-white/20 text-white hover:border-white/50 hover:bg-white/5',
-  ghost: 'text-graphite hover:bg-graphite/5',
+  outline: 'border border-graphite/20 bg-transparent text-graphite hover:border-graphite hover:bg-graphite hover:text-white',
+  'outline-light': 'border border-white/25 bg-white/[0.02] text-white hover:border-white hover:bg-white hover:text-graphite',
+  ghost: 'text-graphite hover:bg-graphite/[0.06]',
 }
 
 const sizes: Record<Size, string> = {
-  sm: 'h-10 px-4 text-sm',
-  md: 'h-12 px-6 text-[0.95rem]',
-  lg: 'h-14 px-7 text-base',
+  sm: 'min-h-10 px-4 py-2 text-sm',
+  md: 'min-h-12 px-6 py-2.5 text-[0.95rem]',
+  lg: 'min-h-14 px-7 py-3 text-base',
 }
 
 interface CommonProps {
