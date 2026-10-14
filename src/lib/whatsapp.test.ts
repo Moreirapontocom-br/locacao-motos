@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { rentalModes } from '../config/modalities'
 import { commercialConfig, contactMessages } from '../config/commercial'
 import { motorcycles } from '../config/motorcycles'
 import { siteConfig } from '../config/site'
@@ -20,9 +21,21 @@ describe('mensagens por contexto', () => {
     expect(buildContactMessage({ origin: 'header' })).toBe(contactMessages.general)
     expect(buildContactMessage({ origin: 'catalog', moto })).toContain(`moto ${moto.name} no catálogo`)
     expect(buildContactMessage({ origin: 'detail', moto })).toContain(`interesse na locação da moto ${moto.name}.`)
-    expect(buildContactMessage({ origin: 'modality', modality: 'Locação mensal' })).toContain('"Locação mensal"')
+    expect(buildContactMessage({ origin: 'modality', modality: 'Locação com aquisição' })).toBe(
+      'Olá! Tenho interesse na modalidade de locação com aquisição. Gostaria de conhecer as condições.',
+    )
+    expect(buildContactMessage({ origin: 'modality', modality: 'Locação tradicional' })).toBe(
+      'Olá! Tenho interesse na modalidade de locação tradicional. Gostaria de conhecer as condições.',
+    )
     expect(buildContactMessage({ origin: 'modality' })).toBe(contactMessages.modality())
     expect(buildContactMessage({ origin: 'faq' })).toBe(contactMessages.faq)
+  })
+
+  it('contato final da home leva a modalidade escolhida e, sem escolha, não inventa preferência', () => {
+    expect(buildContactMessage({ origin: 'home-contact' })).toBe(contactMessages.general)
+    expect(buildContactMessage({ origin: 'home-contact', modality: 'Locação tradicional' })).toContain(
+      'modalidade de locação tradicional',
+    )
   })
 
   it('sem moto, os contextos de moto caem na mensagem geral (nunca "undefined")', () => {
@@ -49,7 +62,7 @@ describe('mensagens por contexto', () => {
   it('formulário sem escolhas não inventa nada', () => {
     const message = buildContactMessage({ origin: 'form' })
     expect(message).toContain('• Moto: ainda não escolhi')
-    expect(message).toContain('• Modalidade: quero conhecer as opções')
+    expect(message).toContain('• Modalidade: ainda não decidi')
     expect(message).not.toContain('Uso:')
   })
 })
@@ -92,15 +105,26 @@ describe('link e abertura do WhatsApp', () => {
 })
 
 describe('modalidades', () => {
-  it('aquisição só aparece quando confirmada', () => {
-    expect(commercialConfig.acquisition.confirmed).toBe(false)
-    expect(modalityOptions()).not.toContain(commercialConfig.acquisition.label)
-    const confirmed = { ...commercialConfig, acquisition: { ...commercialConfig.acquisition, confirmed: true } }
-    expect(modalityOptions(undefined, confirmed)).toContain(commercialConfig.acquisition.label)
+  it('as duas modalidades confirmadas são oferecidas; aquisição some se deixar de estar confirmada', () => {
+    expect(modalityOptions()).toEqual(['Locação com aquisição', 'Locação tradicional'])
+    const unconfirmed = {
+      ...commercialConfig,
+      modalities: ['Locação tradicional'],
+      acquisition: { ...commercialConfig.acquisition, confirmed: false },
+    }
+    expect(modalityOptions(undefined, unconfirmed)).toEqual(['Locação tradicional'])
+  })
+
+  it('nenhuma modalidade traz preço, prazo ou dado contratual sem confirmação', () => {
+    for (const mode of rentalModes) expect(mode.confirmed).toBeUndefined()
   })
 
   it('usa as modalidades da moto quando cadastradas; senão, as confirmadas', () => {
-    const config = { ...commercialConfig, modalities: ['Locação mensal'] }
+    const config = {
+      ...commercialConfig,
+      modalities: ['Locação mensal'],
+      acquisition: { ...commercialConfig.acquisition, confirmed: false },
+    }
     expect(modalityOptions(undefined, config)).toEqual(['Locação mensal'])
     expect(modalityOptions({ ...moto, modalities: ['Locação semanal'] }, config)).toEqual(['Locação semanal'])
   })

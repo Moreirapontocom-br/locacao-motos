@@ -1,6 +1,5 @@
-import { ArrowDown, ArrowUpRight, Bike, Check, Route } from 'lucide-react'
+import { ArrowDown, ArrowRight, Check } from 'lucide-react'
 import { motion } from 'motion/react'
-import { Link } from 'react-router-dom'
 import { Button } from '../components/ui/Button'
 import { DemoBadge } from '../components/ui/DemoNotice'
 import { SmartImage } from '../components/ui/SmartImage'
@@ -14,40 +13,6 @@ const fadeUp = (delay = 0) => ({
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.6, delay, ease },
 })
-
-/** Rótulo clicável sobre as fotos (catálogo ou "como funciona"). */
-function PhotoLabel({
-  to,
-  icon: Icon,
-  index,
-  label,
-  className = '',
-}: {
-  to: string
-  icon: typeof Bike
-  index: string
-  label: string
-  className?: string
-}) {
-  return (
-    <Link
-      to={to}
-      className={`group/label absolute inline-flex h-11 items-center gap-2 rounded-control bg-graphite/80 pr-1.5 pl-4 text-sm font-semibold text-white ring-1 ring-white/10 backdrop-blur-md transition-colors duration-300 hover:bg-graphite ${className}`}
-    >
-      <span aria-hidden className="font-display text-xs text-white/50 tabular-nums">
-        {index}
-      </span>
-      <Icon aria-hidden className="size-4 text-accent" />
-      {label}
-      <span
-        aria-hidden
-        className="ml-1 grid size-8 place-items-center rounded-[0.5rem] bg-white/10 transition-[background-color,color] duration-300 group-hover/label:bg-accent group-hover/label:text-graphite"
-      >
-        <ArrowUpRight className="size-3.5 transition-transform duration-300 group-hover/label:rotate-45" />
-      </span>
-    </Link>
-  )
-}
 
 /**
  * Banner principal com linguagem cinematográfica: fundo grafite, foto ampla
@@ -67,7 +32,7 @@ export function Hero() {
             {hero.eyebrow}
           </motion.p>
 
-          <motion.h1 id="hero-titulo" {...fadeUp(0.05)} className="text-display text-white">
+          <motion.h1 id="hero-titulo" {...fadeUp(0.05)} className="text-display text-white uppercase">
             {hero.title}
           </motion.h1>
 
@@ -76,13 +41,13 @@ export function Hero() {
           </motion.p>
 
           <motion.div {...fadeUp(0.15)} className="mt-9 grid gap-3 sm:flex">
-            <Button to={hero.primaryCta.to} size="lg" className="sm:min-w-52">
-              <Bike aria-hidden className="size-5" />
+            <Button to={hero.primaryCta.to} size="lg" className="sm:min-w-56">
               {hero.primaryCta.label}
+              <ArrowDown aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-y-0.5" />
             </Button>
             <Button to={hero.secondaryCta.to} size="lg" variant="outline-light" className="sm:min-w-44">
               {hero.secondaryCta.label}
-              <ArrowDown aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-y-0.5" />
+              <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
             </Button>
           </motion.div>
 
@@ -116,28 +81,10 @@ export function Hero() {
             className="aspect-[4/3]"
             imgClassName="transition-transform duration-[1400ms] ease-out-soft group-hover/main:scale-[1.025]"
           />
-          {/* Sobreposição discreta só na base, para a leitura dos rótulos. */}
+          {/* Sobreposição discreta na base da foto. */}
           <div aria-hidden className="scrim-bottom pointer-events-none absolute inset-x-0 bottom-0 h-1/2 opacity-80" />
         </div>
         <DemoBadge label="Fotos ilustrativas" className="absolute top-4 right-[var(--gutter)]" />
-        <PhotoLabel to="/motos" icon={Bike} index="01" label="Ver as motos" className="right-[var(--gutter)] bottom-5" />
-      </motion.div>
-
-      {/* Foto secundária (moto parada): detalhe emoldurado nas telas largas, sobre a área esmaecida. */}
-      <motion.div
-        {...fadeUp(0.3)}
-        className="group/secondary absolute bottom-10 left-[46%] z-10 hidden w-44 rounded-card bg-graphite p-1.5 shadow-float ring-1 ring-white/10 xl:block 2xl:w-52"
-      >
-        <div className="relative overflow-hidden rounded-[0.9rem]">
-          <SmartImage
-            image={hero.images.secondary}
-            tone="dark"
-            sizes="208px"
-            className="aspect-[4/5]"
-            imgClassName="transition-transform duration-[1200ms] ease-out-soft group-hover/secondary:scale-[1.04]"
-          />
-        </div>
-        <PhotoLabel to="/#como-funciona" icon={Route} index="02" label="Como funciona" className="-bottom-5 left-3 whitespace-nowrap" />
       </motion.div>
     </section>
   )

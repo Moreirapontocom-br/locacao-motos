@@ -20,10 +20,11 @@ const icons: Record<ContactKind, typeof MessageCircle> = {
 }
 
 /** Ação comum: registra o clique e, sem canal configurado, abre o aviso demonstrativo. */
-function useContact(context: ContactContext) {
+function useContact(context: ContactContext, onContact?: () => void) {
   const action = contactActionFor(context)
   const openDialog = useContactDialog()
   const onClick = () => {
+    onContact?.()
     trackContactClick(context, action)
     if (action.kind === 'section') {
       openDialog({ message: buildContactMessage(context), subject: contactSubject(context) })
@@ -36,6 +37,10 @@ interface ContactButtonProps {
   /** De onde vem o contato: define a mensagem enviada (ver src/lib/whatsapp.ts). */
   context: ContactContext
   label?: string
+  /** Complemento só para leitores de tela, para distinguir botões de mesmo rótulo. */
+  srSuffix?: string
+  /** Chamado ao clicar, antes de abrir o canal (ex.: guardar a modalidade escolhida). */
+  onContact?: () => void
   variant?: ComponentProps<typeof Button>['variant']
   size?: ComponentProps<typeof Button>['size']
   className?: string
@@ -49,18 +54,22 @@ interface ContactButtonProps {
 export function ContactButton({
   context,
   label = 'Falar pelo WhatsApp',
+  srSuffix,
+  onContact,
   variant = 'primary',
   size = 'md',
   className,
 }: ContactButtonProps) {
-  const { action, onClick, Icon } = useContact(context)
+  const { action, onClick, Icon } = useContact(context, onContact)
   const text = contactLabel(action.kind, label)
+  const suffix = srSuffix && <span className="sr-only"> ({srSuffix})</span>
 
   if (action.kind === 'section') {
     return (
       <Button variant={variant} size={size} className={className} aria-haspopup="dialog" onClick={onClick}>
         <Icon aria-hidden className="size-[1.1em]" />
         {text}
+        {suffix}
       </Button>
     )
   }
@@ -76,6 +85,7 @@ export function ContactButton({
     >
       <Icon aria-hidden className="size-[1.1em]" />
       {text}
+      {suffix}
       {action.external && <span className="sr-only">(abre em nova aba)</span>}
     </Button>
   )

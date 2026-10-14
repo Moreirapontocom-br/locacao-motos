@@ -77,6 +77,9 @@ export function buildContactMessage(context: ContactContext): string {
     case 'detail':
     case 'detail-sticky':
       return moto ? contactMessages.detail(moto) : contactMessages.general
+    case 'home-contact':
+      // Sem modalidade escolhida na página, não inventa preferência.
+      return context.modality ? contactMessages.modality(context.modality) : contactMessages.general
     case 'modality':
       return contactMessages.modality(context.modality)
     case 'faq':
@@ -88,7 +91,7 @@ export function buildContactMessage(context: ContactContext): string {
       const lines = [
         contactMessages.formIntro,
         `• Moto: ${moto ?? 'ainda não escolhi'}`,
-        `• Modalidade: ${context.modality || 'quero conhecer as opções'}`,
+        `• Modalidade: ${context.modality || 'ainda não decidi'}`,
         ...(purpose ? [`• Uso: ${purpose}`] : []),
       ]
       return lines.join('\n')
@@ -101,6 +104,7 @@ export function buildContactMessage(context: ContactContext): string {
 /** Assunto exibido no aviso demonstrativo (ex.: "a moto Urbana 160"). */
 export function contactSubject(context: ContactContext): string | undefined {
   if (context.moto) return `a moto ${motorcycleDisplayName(context.moto)}`
+  if (context.modality) return `a modalidade de ${context.modality.toLowerCase()}`
   if (context.origin === 'modality') return 'as modalidades de locação'
   return undefined
 }

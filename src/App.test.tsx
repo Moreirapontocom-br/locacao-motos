@@ -1,7 +1,7 @@
 import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { App } from './App'
 import { motorcycles } from './config/motorcycles'
 
@@ -16,12 +16,43 @@ function renderAt(path: string) {
 describe('homepage', () => {
   it('exibe o título de motos e os CTAs principais', () => {
     renderAt('/')
-    expect(screen.getByRole('heading', { level: 1, name: /honda cg 160 para a sua rotina/i })).toBeInTheDocument()
-    // Todos os CTAs "Conhecer as motos" (hero, seções e contato) levam ao catálogo.
-    for (const link of screen.getAllByRole('link', { name: /conhecer as motos/i })) {
+    expect(screen.getByRole('heading', { level: 1, name: /sua próxima moto começa aqui/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /conhecer modalidades/i })).toHaveAttribute('href', '/#modalidades')
+    expect(screen.getByRole('link', { name: /explorar motos/i })).toHaveAttribute('href', '/#motos')
+    for (const link of screen.getAllByRole('link', { name: /ver todas as motos/i })) {
       expect(link).toHaveAttribute('href', '/motos')
     }
-    expect(screen.getAllByRole('link', { name: /como funciona/i }).length).toBeGreaterThan(0)
+  })
+
+  it('as âncoras da navegação existem na home', () => {
+    const { container } = renderAt('/')
+    for (const id of ['modalidades', 'como-funciona', 'motos', 'faq', 'contato']) {
+      expect(container.querySelector(`#${id}`), id).not.toBeNull()
+    }
+  })
+
+  it('apresenta as duas modalidades sem preços', () => {
+    const { container } = renderAt('/')
+    const section = screen.getByRole('region', { name: /dois caminhos/i })
+    expect(within(section).getByRole('heading', { level: 3, name: /alugue com possibilidade de aquisição/i })).toBeInTheDocument()
+    expect(within(section).getByRole('heading', { level: 3, name: /alugue pelo período contratado/i })).toBeInTheDocument()
+    expect(container.textContent).not.toMatch(/R\$|399/)
+  })
+
+  it('"como funciona" alterna entre as modalidades pelas abas, inclusive pelo teclado', async () => {
+    const user = userEvent.setup()
+    renderAt('/')
+    const [withPurchase, traditional] = screen.getAllByRole('tab')
+    expect(withPurchase).toHaveAttribute('aria-selected', 'true')
+    expect(traditional).toHaveAttribute('aria-selected', 'false')
+    expect(await screen.findByText(/conheça as condições contratuais necessárias para a aquisição/i)).toBeInTheDocument()
+
+    withPurchase.focus()
+    await user.keyboard('{ArrowRight}')
+    expect(traditional).toHaveAttribute('aria-selected', 'true')
+    expect(traditional).toHaveFocus()
+    expect(await screen.findByText(/devolva conforme as condições contratuais/i)).toBeInTheDocument()
+    expect(screen.getByRole('tabpanel')).toHaveAccessibleName('Locação tradicional')
   })
 
   it('não menciona carros em nenhum texto visível', () => {
@@ -29,52 +60,30 @@ describe('homepage', () => {
     expect(container.textContent).not.toMatch(/\bcarros?\b|automóve|\bSUV\b|sedã/i)
   })
 
-  it('mostra as 4 motos em destaque em um carrossel, com as CG 160 primeiro', () => {
+  it('a vitrine usa o catálogo central, com as CG 160 primeiro', () => {
     renderAt('/')
-    const carousel = screen.getByRole('region', { name: 'Motos em destaque' })
-    const names = within(carousel).getAllByRole('heading', { level: 3 }).map((h) => h.textContent)
+    const showcase = screen.getByRole('list', { name: 'Motos em destaque' })
+    const names = within(showcase).getAllByRole('heading', { level: 3 }).map((h) => h.textContent)
     expect(names).toEqual(motorcycles.filter((m) => m.featured).map((m) => m.name))
     expect(names.slice(0, 2)).toEqual(['Honda CG 160 Start', 'Honda CG 160 Fan'])
-    // Sem filtro de estilo na home: o carrossel já é a versão compacta.
     expect(screen.queryByRole('group', { name: /filtrar motos/i })).not.toBeInTheDocument()
   })
 
-  it('setas do carrossel rolam para a moto seguinte e anterior', async () => {
-    const user = userEvent.setup()
-    const scrollTo = vi.fn()
-    const original = Element.prototype.scrollTo
-    Element.prototype.scrollTo = scrollTo as unknown as typeof Element.prototype.scrollTo
-    try {
-      renderAt('/')
-      const carousel = screen.getByRole('region', { name: 'Motos em destaque' })
-      const prev = within(carousel).getByRole('button', { name: 'Motos anteriores' })
-      const next = within(carousel).getByRole('button', { name: 'Próximas motos' })
-      expect(prev).toBeDisabled()
-      scrollTo.mockClear()
-      await user.click(next)
-      expect(scrollTo).toHaveBeenCalled()
-      expect(prev).toBeEnabled()
-      expect(within(carousel).getByRole('button', { name: 'Ir para a moto 2' })).toHaveAttribute('aria-current', 'true')
-      await user.click(prev)
-      expect(prev).toBeDisabled()
-    } finally {
-      Element.prototype.scrollTo = original
-    }
+  it('motos de exemplo continuam identificadas na vitrine', () => {
+    renderAt('/')
+    const showcase = screen.getByRole('list', { name: 'Motos em destaque' })
+    const demo = motorcycles.filter((m) => m.featured && m.demo).length
+    expect(within(showcase).getAllByText('Moto de exemplo')).toHaveLength(demo)
   })
 
-  it('não promete aquisição da moto', () => {
-    renderAt('/')
-    const section = screen.getByRole('region', { name: /consulte as condições/i })
-    expect(within(section).getByText(/não é automática nem está prometida/i)).toBeInTheDocument()
-  })
-
-  it('abre itens do FAQ', async () => {
+  it('o FAQ tem as 8 perguntas e abre itens', async () => {
     const user = userEvent.setup()
     renderAt('/')
-    const question = screen.getByRole('button', { name: /é possível ficar com a moto/i })
+    const question = screen.getByRole('button', { name: /como funciona a possibilidade de adquirir/i })
     expect(question).toHaveAttribute('aria-expanded', 'false')
     await user.click(question)
     expect(question).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByRole('region', { name: /como funciona a possibilidade/i })).toHaveTextContent(/não é automática nem incondicional/i)
   })
 })
 

@@ -9,6 +9,8 @@ interface SectionHeadingProps {
   as?: 'h1' | 'h2'
   id?: string
   className?: string
+  /** Título em maiúsculas (home comercial). */
+  uppercase?: boolean
 }
 
 /** Hierarquia padrão das seções: rótulo curto → título forte → descrição. */
@@ -21,6 +23,7 @@ export function SectionHeading({
   as: Heading = 'h2',
   id,
   className = '',
+  uppercase = false,
 }: SectionHeadingProps) {
   const dark = tone === 'dark'
   return (
@@ -31,7 +34,7 @@ export function SectionHeading({
           {eyebrow}
         </p>
       )}
-      <Heading id={id} className={`${Heading === 'h1' ? 'text-h1' : 'text-h2'} ${dark ? 'text-white' : 'text-graphite'}`}>
+      <Heading id={id} className={`${Heading === 'h1' ? 'text-h1' : 'text-h2'} ${dark ? 'text-white' : 'text-graphite'} ${uppercase ? 'uppercase' : ''}`}>
         {title}
       </Heading>
       {description && (
