@@ -13,6 +13,7 @@ export function Faq() {
             id="faq-titulo"
             eyebrow={faq.eyebrow}
             title={faq.title}
+            uppercase
             description="Não encontrou o que procurava? Nossa equipe explica tudo no atendimento."
           />
           <ContactButton variant="dark" className="mt-8" context={{ origin: 'faq' }} label="Tirar uma dúvida pelo WhatsApp" />

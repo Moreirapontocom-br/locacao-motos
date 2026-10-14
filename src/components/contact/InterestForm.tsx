@@ -18,6 +18,7 @@ import {
 } from '../../lib/whatsapp'
 import type { Motorcycle } from '../../types'
 import { useContactDialog } from './contactContext'
+import { useModalityChoice } from './modalityContext'
 
 type Tone = 'light' | 'dark'
 
@@ -53,7 +54,14 @@ export function InterestForm({ origin, moto, tone = 'dark' }: InterestFormProps)
   const s = styles[tone]
   const openDialog = useContactDialog()
   const [motoSlug, setMotoSlug] = useState(moto?.slug ?? '')
-  const [modality, setModality] = useState('')
+  // Modalidade escolhida antes na página (home): chega pré-selecionada, mas pode ser trocada.
+  const { modality: chosen } = useModalityChoice()
+  const [modality, setModality] = useState(chosen ?? '')
+  const [seenChoice, setSeenChoice] = useState(chosen)
+  if (chosen !== seenChoice) {
+    setSeenChoice(chosen)
+    setModality(chosen ?? '')
+  }
   const [purpose, setPurpose] = useState<PurposeValue | ''>('')
 
   // Indisponíveis ficam fora da lista, exceto a moto da página atual.
@@ -112,7 +120,7 @@ export function InterestForm({ origin, moto, tone = 'dark' }: InterestFormProps)
                 onChange={(e) => setModality(e.target.value)}
                 className={fieldClass}
               >
-                <option value="">Quero conhecer as opções</option>
+                <option value="">Ainda não decidi</option>
                 {modalities.map((m) => (
                   <option key={m} value={m}>
                     {m}

@@ -6,28 +6,26 @@
  * Nenhum texto aqui afirma valores, prazos, entrada, parcelas, benefícios
  * contratuais ou aquisição/transferência de propriedade.
  */
-import { FileText, MessageCircle, Search, SlidersHorizontal } from 'lucide-react'
 import { unsplash } from '../lib/images'
-import type { FaqItem, ImageAsset, NavItem, Step } from '../types'
+import type { FaqItem, ImageAsset, NavItem } from '../types'
 
 export const navigation: NavItem[] = [
   { label: 'Motos', to: '/motos' },
+  { label: 'Modalidades', to: '/#modalidades' },
   { label: 'Como funciona', to: '/#como-funciona' },
-  { label: 'Sobre nós', to: '/#sobre' },
   { label: 'Contato', to: '/#contato' },
 ]
 
 export const hero = {
-  eyebrow: 'Locação de motos Honda',
-  title: 'Honda CG 160 para a sua rotina.',
+  eyebrow: 'Locação de motos',
+  title: 'Sua próxima moto começa aqui.',
   subtitle:
-    'Alugue uma CG 160 Start ou CG 160 Fan para trabalhar e se deslocar no dia a dia. Consulte modalidades e condições direto com a nossa equipe.',
-  primaryCta: { label: 'Conhecer as motos', to: '/motos' },
-  secondaryCta: { label: 'Como funciona', to: '/#como-funciona' },
+    'Conheça nossas opções de locação de motos. Escolha entre alugar pelo período desejado ou contratar uma modalidade com possibilidade de aquisição.',
+  primaryCta: { label: 'Conhecer modalidades', to: '/#modalidades' },
+  secondaryCta: { label: 'Explorar motos', to: '/#motos' },
   /**
-   * Fotos ILUSTRATIVAS (Unsplash). A principal deve mostrar uma pessoa pilotando
-   * uma Honda CG 160 Start/Fan. Quando houver a foto oficial, salve em
-   * public/images/frota/ (horizontal, 4:3, até ~300 KB) e troque por:
+   * Foto ILUSTRATIVA (Unsplash), com selo na página. Quando houver a foto oficial
+   * (horizontal, 4:3, até ~300 KB), salve em public/images/frota/ e troque por:
    *   main: fleetPhoto('cg-160-piloto.jpg', 'Motociclista pilotando uma Honda CG 160'),
    */
   images: {
@@ -36,76 +34,40 @@ export const hero = {
       focus: { x: 0.5, y: 0.55, zoom: 1.05 },
       widths: [640, 960, 1280, 1600],
     }),
-    secondary: unsplash('photo-1591637333184-19aa84b3e01f', 'Moto street estacionada', {
-      ratio: 4 / 5,
-      focus: { x: 0.5, y: 0.6, zoom: 1.15 },
-      widths: [400, 640, 900],
-    }),
   },
-  points: ['Honda CG 160 Start e Fan', 'Fotos e detalhes de cada moto', 'Atendimento direto com a equipe'],
+  points: ['Duas modalidades de locação', 'Motos Honda, com fotos e detalhes', 'Condições informadas pela equipe'],
+}
+
+export const rentalModesSection = {
+  eyebrow: 'Modalidades',
+  title: 'Dois caminhos. A moto certa para você.',
+  description: 'Conheça nossas modalidades e escolha a opção que melhor combina com seus objetivos.',
+  note: 'Valores, prazos, requisitos e condições contratuais ainda não foram confirmados neste site. A equipe informa tudo no atendimento, antes de qualquer contratação.',
 }
 
 export const featured = {
-  eyebrow: 'Motos Honda',
-  title: 'CG 160 Start e CG 160 Fan em destaque',
+  eyebrow: 'Motos',
+  title: 'Encontre a moto ideal para sua rotina.',
   description:
-    'Os modelos principais da nossa locação, e mais duas opções Honda de 300 cc. Disponibilidade e condições são confirmadas pela equipe.',
+    'Modelos Honda do nosso catálogo. A disponibilidade de cada moto e as condições de locação são confirmadas pela equipe.',
 }
 
 export const howItWorks = {
   eyebrow: 'Como funciona',
-  title: 'Da escolha da moto à conversa com a equipe',
-  description: 'Simples e transparente: você conhece as condições antes de decidir qualquer coisa.',
-  steps: [
-    {
-      icon: Search,
-      title: 'Explore as motos',
-      description: 'Veja os modelos no catálogo e compare estilo, cilindrada e as informações de cada moto.',
-    },
-    {
-      icon: SlidersHorizontal,
-      title: 'Escolha a opção ideal',
-      description: 'Encontre a moto que combina com a sua rotina de trabalho e deslocamentos.',
-    },
-    {
-      icon: FileText,
-      title: 'Consulte as condições',
-      description: 'Pergunte sobre modalidades, valores, prazos e requisitos para a moto escolhida.',
-    },
-    {
-      icon: MessageCircle,
-      title: 'Fale com nossa equipe',
-      description: 'Tire suas dúvidas no atendimento e, se fizer sentido para você, siga com a locação.',
-    },
-  ] satisfies Step[],
-  note: 'A locação é combinada diretamente com a equipe — o site não faz reservas nem contratações automáticas.',
+  title: 'Entenda como funciona',
+  description: 'Escolha a modalidade para ver o caminho até a moto.',
+  note: 'Explicação geral, não é o contrato. As condições, os prazos e os documentos são informados pela equipe, e o site não faz reservas nem contratações.',
 }
 
-/**
- * Seção "Modalidades e aquisição".
- * As condições comerciais ainda NÃO foram confirmadas: o texto apenas convida
- * à consulta, sem prometer aquisição, transferência de propriedade, prazos ou valores.
- */
-export const acquisition = {
-  eyebrow: 'Modalidades e condições',
-  title: 'Quer saber se pode ficar com a moto? Consulte as condições.',
-  description:
-    'Modalidades de locação e uma eventual possibilidade de aquisição dependem das condições comerciais da empresa. Elas não são garantidas pelo site: a equipe informa o que está disponível para cada moto no atendimento.',
-  path: [
-    { label: 'Escolha a moto', description: 'No catálogo do site.' },
-    { label: 'Consulte', description: 'Modalidades e requisitos.' },
-    { label: 'Receba as condições', description: 'Direto da equipe.' },
-  ],
-  notes: [
-    'Nenhuma condição é garantida antes da consulta.',
-    'A aquisição da moto não é automática nem está prometida.',
-    'Valores, prazos e requisitos são informados pela equipe.',
-  ],
-  /** Imagem ilustrativa: motociclista na estrada (liberdade de ir). */
+/** Seção editorial: peça de campanha, sem promessas de custo, renda ou aprovação. */
+export const editorial = {
+  title: 'Mais liberdade para seguir seu caminho.',
+  text: 'Uma moto pode fazer diferença na mobilidade do dia a dia. Conheça nossas opções e encontre uma modalidade de locação adequada aos seus objetivos.',
+  /** Imagem ilustrativa: motociclista na estrada ao pôr do sol. */
   image: unsplash('photo-1558981806-ec527fa84c39', 'Motociclista em estrada ao pôr do sol', {
-    ratio: 4 / 5,
-    focus: { x: 0.5, y: 0.6, zoom: 1.1 },
-    widths: [480, 800, 1100],
+    ratio: 4 / 3,
+    focus: { x: 0.5, y: 0.6, zoom: 1.05 },
+    widths: [640, 960, 1280, 1600],
   }),
 }
 
@@ -147,38 +109,50 @@ export const faq = {
   title: 'Perguntas frequentes',
   items: [
     {
-      question: 'Como funciona a locação de motos?',
+      question: 'Qual a diferença entre locação tradicional e locação com aquisição?',
       answer:
-        'Você escolhe a moto, consulta as condições com a nossa equipe e, se fizer sentido, segue com a locação. Modalidades, valores, prazos e requisitos são informados no atendimento, antes de qualquer contratação.',
+        'Na locação tradicional, você usa a moto durante o período contratado, sem previsão de transferência da propriedade nessa modalidade. Na locação com aquisição, o contrato contempla a possibilidade de adquirir a moto, desde que as condições contratuais sejam cumpridas. As condições de cada modalidade são informadas pela equipe.',
     },
     {
-      question: 'Como consultar as motos disponíveis?',
+      question: 'Como funciona a possibilidade de adquirir a moto?',
       answer:
-        'O catálogo do site mostra os modelos com fotos e informações. A disponibilidade de cada moto é confirmada pela equipe no atendimento, já que a frota pode mudar.',
+        'A aquisição depende do cumprimento das condições estabelecidas em contrato. A transferência da propriedade não é automática nem incondicional. As regras ainda não estão publicadas neste site: a equipe explica no atendimento, antes da contratação.',
     },
     {
-      question: 'É possível ficar com a moto?',
+      question: 'Qual é o valor da locação?',
       answer:
-        'Essa possibilidade depende das condições comerciais da empresa e precisa ser consultada diretamente com a equipe. O site não garante nem promete a aquisição da moto.',
+        'Os valores e as condições dependem da modalidade e da oferta disponível. Entre em contato com nossa equipe para receber as informações atualizadas.',
     },
     {
       question: 'Quais documentos são necessários?',
-      answer:
-        'Os documentos e requisitos para a locação são informados pela equipe no atendimento.',
+      answer: 'Os documentos e requisitos ainda não foram divulgados neste site. A equipe informa no atendimento.',
     },
     {
-      question: 'Como entrar em contato?',
+      question: 'Existe caução?',
+      answer: 'Essa informação ainda não foi confirmada neste site. Consulte nossa equipe para saber das condições.',
+    },
+    {
+      question: 'Quais motos estão disponíveis?',
       answer:
-        'Use o botão de contato em qualquer página ou os canais listados na seção de contato. Na página de uma moto, o botão já envia a mensagem com o nome do modelo.',
+        'O catálogo mostra os modelos que apresentamos no site; alguns são identificados como exemplo. A disponibilidade de cada moto, e em qual modalidade, é confirmada pela equipe no atendimento.',
+    },
+    {
+      question: 'Como consultar as condições contratuais?',
+      answer:
+        'Fale com nossa equipe antes de decidir. As condições contratuais são apresentadas no atendimento, e o site não faz contratações ou reservas.',
+    },
+    {
+      question: 'Como solicitar atendimento?',
+      answer:
+        'Use o botão de contato em qualquer página ou o formulário de interesse. Na página de uma moto, o botão já envia a mensagem com o nome do modelo.',
     },
   ] satisfies FaqItem[],
 }
 
 export const finalCta = {
   eyebrow: 'Contato',
-  title: 'Encontre a moto certa para a sua rotina',
+  title: 'Pronto para escolher sua próxima moto?',
   /** Imagem de fundo (ilustrativa) do bloco de contato. */
   image: unsplash('photo-1558980664-769d59546b3d', 'Motociclista em movimento na estrada', { ratio: 4 / 3 }),
-  description:
-    'Conheça as motos e tire suas dúvidas sobre modalidades e condições diretamente com a nossa equipe.',
+  description: 'Fale com nossa equipe, conheça as modalidades e solicite informações sobre as condições disponíveis.',
 }

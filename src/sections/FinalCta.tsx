@@ -1,4 +1,4 @@
-import { ArrowRight, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
+import { ArrowRight, Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { ContactButton } from '../components/ui/ContactButton'
 import { DemoNotice, Pending } from '../components/ui/DemoNotice'
@@ -6,14 +6,16 @@ import { Reveal } from '../components/ui/Reveal'
 import { SmartImage } from '../components/ui/SmartImage'
 import { finalCta } from '../config/content'
 import { siteConfig } from '../config/site'
+import { useModalityChoice } from '../components/contact/modalityContext'
 import { InterestFormDisclosure } from '../components/contact/InterestForm'
 import { formatAddress, phoneHref } from '../lib/contact'
 import { contactActionFor, trackContactClick, type ContactContext } from '../lib/whatsapp'
 
-const context: ContactContext = { origin: 'home-contact' }
-
 export function FinalCta() {
   const { contact } = siteConfig
+  const { modality, setModality } = useModalityChoice()
+  // Com modalidade escolhida na página, a mensagem a leva junto; senão, não inventa preferência.
+  const context: ContactContext = { origin: 'home-contact', modality }
   const action = contactActionFor(context)
   const whatsapp = action.kind === 'whatsapp' ? action.href : null
   const address = formatAddress(contact.address)
@@ -60,6 +62,20 @@ export function FinalCta() {
       ),
     },
     { icon: MapPin, label: 'Endereço', value: <Pending value={address} /> },
+    {
+      icon: Clock,
+      label: 'Atendimento',
+      value:
+        contact.openingHours.length > 0 ? (
+          contact.openingHours.map((h) => (
+            <span key={h} className="block">
+              {h}
+            </span>
+          ))
+        ) : (
+          <Pending fallback="Horário a informar" />
+        ),
+    },
   ]
 
   return (
@@ -82,15 +98,30 @@ export function FinalCta() {
               <span aria-hidden className="h-0.5 w-7 rounded-full bg-current" />
               {finalCta.eyebrow}
             </p>
-            <h2 id="contato-titulo" className="text-h2 text-white">
+            <h2 id="contato-titulo" className="text-h2 text-white uppercase">
               {finalCta.title}
             </h2>
             <p className="mt-5 text-lead text-muted-dark">{finalCta.description}</p>
 
+            {modality && (
+              <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/85" role="status">
+                <span>
+                  Modalidade de interesse: <strong className="font-semibold text-white">{modality}</strong>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setModality(undefined)}
+                  className="rounded-control px-1 font-semibold text-accent underline underline-offset-4 hover:text-accent-soft"
+                >
+                  Remover
+                </button>
+              </p>
+            )}
+
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <ContactButton size="lg" context={context} label="Quero alugar uma moto" />
+              <ContactButton size="lg" context={context} label="Solicitar informações pelo WhatsApp" />
               <Button to="/motos" variant="outline-light" size="lg">
-                Conhecer as motos
+                Ver todas as motos
                 <ArrowRight aria-hidden className="size-4" />
               </Button>
             </div>

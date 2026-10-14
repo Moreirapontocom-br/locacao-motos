@@ -54,21 +54,26 @@ describe('formulário de interesse (página da moto)', () => {
     await user.click(screen.getByRole('button', { name: 'Continuar pelo WhatsApp' }))
     const message = preparedMessage()
     expect(message).toContain(`• Moto: ${moto.name}`)
-    expect(message).toContain('• Modalidade: quero conhecer as opções')
+    expect(message).toContain('• Modalidade: ainda não decidi')
     expect(message).toContain('• Uso: Trabalho')
     expect(getTrackedEvents()).toContainEqual(
       expect.objectContaining({ name: 'contact_click', origin: 'form/detail', slug: moto.slug, channel: 'unconfigured' }),
     )
   })
 
-  it('sem modalidades confirmadas, não oferece opções nem aquisição', async () => {
+  it('oferece as duas modalidades e "Ainda não decidi", sem associá-las a preços', async () => {
     const user = userEvent.setup()
     renderAt(`/motos/${moto.slug}`)
     await user.click(screen.getByRole('button', { name: /detalhar minha consulta/i }))
-    expect(screen.queryByLabelText('Modalidade de interesse')).not.toBeInTheDocument()
-    expect(screen.getByText(/modalidades disponíveis são apresentadas pela equipe/i)).toBeInTheDocument()
+    const select = screen.getByLabelText('Modalidade de interesse')
+    expect(within(select).getAllByRole('option').map((o) => o.textContent)).toEqual([
+      'Ainda não decidi',
+      'Locação com aquisição',
+      'Locação tradicional',
+    ])
+    expect(select).toHaveValue('')
     const form = screen.getByRole('button', { name: 'Continuar pelo WhatsApp' }).closest('form')!
-    expect(form).not.toHaveTextContent(/aquisição/i)
+    expect(form).not.toHaveTextContent(/R\$/)
   })
 
   it('não pede dados pessoais', async () => {
@@ -83,7 +88,7 @@ describe('formulário de interesse (home, sem moto selecionada)', () => {
   it('permite seguir sem escolher moto', async () => {
     const user = userEvent.setup()
     renderAt('/')
-    const contact = screen.getByRole('region', { name: /encontre a moto certa/i })
+    const contact = screen.getByRole('region', { name: /pronto para escolher sua próxima moto/i })
     await user.click(within(contact).getByRole('button', { name: /detalhar minha consulta/i }))
     expect(within(contact).getByLabelText('Moto desejada')).toHaveValue('')
     await user.click(within(contact).getByRole('button', { name: 'Continuar pelo WhatsApp' }))
@@ -93,7 +98,7 @@ describe('formulário de interesse (home, sem moto selecionada)', () => {
   it('motos de exemplo aparecem identificadas como exemplo', async () => {
     const user = userEvent.setup()
     renderAt('/')
-    const contact = screen.getByRole('region', { name: /encontre a moto certa/i })
+    const contact = screen.getByRole('region', { name: /pronto para escolher sua próxima moto/i })
     await user.click(within(contact).getByRole('button', { name: /detalhar minha consulta/i }))
     const demo = motorcycles.find((m) => m.demo)!
     expect(within(contact).getByRole('option', { name: `${demo.name} (exemplo)` })).toBeInTheDocument()
@@ -106,7 +111,7 @@ describe('CTAs contextuais', () => {
   it('home: interesse geral em alugar', async () => {
     const user = userEvent.setup()
     renderAt('/')
-    await user.click(screen.getByRole('button', { name: 'Quero alugar uma moto' }))
+    await user.click(screen.getByRole('button', { name: 'Solicitar informações pelo WhatsApp' }))
     expect(preparedMessage()).toContain(contactMessages.general)
   })
 
@@ -117,11 +122,41 @@ describe('CTAs contextuais', () => {
     expect(preparedMessage()).toContain(contactMessages.faq)
   })
 
-  it('modalidades: pedido de informações sobre modalidades', async () => {
+  it('modalidades: cada card envia a mensagem da sua modalidade', async () => {
     const user = userEvent.setup()
     renderAt('/')
-    await user.click(screen.getByRole('button', { name: 'Perguntar sobre modalidades' }))
-    expect(preparedMessage()).toContain(contactMessages.modality())
+    await user.click(screen.getByRole('button', { name: /quero conhecer essa modalidade.*locação com aquisição/i }))
+    expect(preparedMessage()).toContain(contactMessages.modality('Locação com aquisição'))
+    expect(preparedMessage()).toContain('modalidade de locação com aquisição')
+  })
+
+  it('a modalidade escolhida chega ao contato final e ao formulário', async () => {
+    const user = userEvent.setup()
+    renderAt('/')
+    const cards = screen.getByRole('region', { name: /dois caminhos/i })
+    await user.click(within(cards).getByRole('button', { name: /quero conhecer essa modalidade.*locação tradicional/i }))
+    await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: /fechar/i }))
+
+    const contact = screen.getByRole('region', { name: /pronto para escolher sua próxima moto/i })
+    expect(within(contact).getByRole('status')).toHaveTextContent('Locação tradicional')
+
+    await user.click(within(contact).getByRole('button', { name: 'Solicitar informações pelo WhatsApp' }))
+    expect(preparedMessage()).toContain('modalidade de locação tradicional')
+    await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: /fechar/i }))
+
+    await user.click(within(contact).getByRole('button', { name: /detalhar minha consulta/i }))
+    expect(within(contact).getByLabelText('Modalidade de interesse')).toHaveValue('Locação tradicional')
+    await user.click(within(contact).getByRole('button', { name: 'Continuar pelo WhatsApp' }))
+    expect(preparedMessage()).toContain('• Modalidade: Locação tradicional')
+  })
+
+  it('sem escolha de modalidade, o contato final não inventa preferência', async () => {
+    const user = userEvent.setup()
+    renderAt('/')
+    const contact = screen.getByRole('region', { name: /pronto para escolher sua próxima moto/i })
+    expect(within(contact).queryByRole('status')).not.toBeInTheDocument()
+    await user.click(within(contact).getByRole('button', { name: 'Solicitar informações pelo WhatsApp' }))
+    expect(preparedMessage()).not.toMatch(/modalidade/i)
   })
 
   it('catálogo: interesse no modelo clicado, com evento de origem', async () => {

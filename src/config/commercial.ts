@@ -8,21 +8,23 @@
  * Nada aqui deve prometer valores, prazos, entrada, parcelas ou aquisição.
  */
 
+import { rentalModes } from './modalities'
+
 export const commercialConfig = {
   /**
    * Modalidades CONFIRMADAS pela empresa (aparecem no formulário de interesse).
-   * Ex.: ['Locação semanal', 'Locação mensal']. Vazio = a equipe apresenta as opções.
+   * Vêm de src/config/modalities.ts (as duas modalidades foram confirmadas; as condições não).
    * Uma moto com `modalities` próprias usa as dela.
    */
-  modalities: [] as string[],
+  modalities: rentalModes.map((mode) => mode.name) as string[],
 
   /**
-   * Aquisição só aparece como opção quando a empresa CONFIRMAR a modalidade.
-   * Enquanto `confirmed` for false, o site não oferece nem promete aquisição.
+   * Modalidade com aquisição confirmada pela empresa (Fase 13). Isso confirma a
+   * existência da modalidade, não as condições: o site não promete transferência.
    */
   acquisition: {
-    confirmed: false,
-    label: 'Locação com possibilidade de aquisição',
+    confirmed: true,
+    label: rentalModes[0].name,
   },
 
   /** Objetivo de utilização (opcional no formulário). */
@@ -47,7 +49,7 @@ export const contactMessages = {
   /** Seção de modalidades. */
   modality: (modality?: string) =>
     modality
-      ? `Olá! Gostaria de informações sobre a modalidade "${modality}".`
+      ? `Olá! Tenho interesse na modalidade de ${modality.toLowerCase()}. Gostaria de conhecer as condições.`
       : 'Olá! Gostaria de conhecer as modalidades de locação de motos.',
   /** Seção de perguntas frequentes. */
   faq: 'Olá! Tenho uma dúvida sobre a locação de motos.',
