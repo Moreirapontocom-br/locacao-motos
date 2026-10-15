@@ -12,6 +12,7 @@
  */
 @theme {
   /* ---- Cores: superfícies ---- */
+  --color-graphite-900: #0b0d10; /* grafite mais profundo (base da hero e rodapé de seções) */
   --color-graphite: #111418; /* background principal escuro */
   --color-graphite-800: #1c2229; /* superfícies escuras secundárias */
   --color-graphite-700: #262e37; /* superfície escura elevada / hover */
@@ -51,6 +52,10 @@
   --text-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
   --text-h3--line-height: 1.2;
   --text-h3--letter-spacing: -0.015em;
+  /* Título de card (frota, seletor, modalidades). */
+  --text-title: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: -0.02em;
   --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
   --text-lead--line-height: 1.6;
   --text-eyebrow: 0.75rem;
@@ -66,15 +71,19 @@
   --radius-media: 1rem; /* fotos dentro de cards */
   --radius-card: 1.25rem; /* cards e blocos */
   --radius-panel: 1.75rem; /* painéis grandes (CTA final) */
+  --radius-pill: 999px; /* filtros, selos e indicadores */
 
   /* ---- Sombras ---- */
   --shadow-card: 0 1px 2px rgb(17 20 24 / 0.04), 0 8px 24px -12px rgb(17 20 24 / 0.12);
   --shadow-card-hover: 0 2px 4px rgb(17 20 24 / 0.04), 0 28px 56px -24px rgb(17 20 24 / 0.32);
   --shadow-float: 0 18px 40px -12px rgb(17 20 24 / 0.5);
   --shadow-accent: 0 10px 28px -10px rgb(249 115 22 / 0.65);
+  --shadow-lift: 0 2px 6px rgb(17 20 24 / 0.05), 0 36px 64px -28px rgb(17 20 24 / 0.38); /* hover dos cards */
+  --shadow-inset-line: inset 0 1px 0 rgb(255 255 255 / 0.06); /* filete de luz em superfícies escuras */
 
   /* ---- Movimento ---- */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --default-transition-duration: 200ms;
   --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -91,10 +100,13 @@
   --header-h: 5rem;
   --header-h-compact: 4rem;
   --section-space: clamp(4.5rem, 3rem + 6vw, 8rem);
+  /* Distância padrão entre o cabeçalho de uma seção e o seu conteúdo (Fase 14.2). */
+  --space-head: clamp(2.5rem, 1.9rem + 2.2vw, 4rem);
   --gutter: clamp(1.25rem, 0.75rem + 2.4vw, 2.5rem);
   --duration-fast: 150ms;
   --duration-base: 250ms;
   --duration-slow: 600ms;
+  --lift: -4px; /* elevação dos cards no hover */
   --focus-ring: var(--color-accent);
   --focus-ring-width: 2px;
   --focus-ring-offset: 3px;
@@ -192,6 +204,16 @@
   scroll-padding-inline: var(--gutter);
 }
 
+/* Espaço padrão entre o cabeçalho da seção e o conteúdo. */
+@utility mt-head {
+  margin-top: var(--space-head);
+}
+
+/* Filete superior discreto para separar seções escuras consecutivas ou blocos. */
+@utility hairline-top {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+}
+
 /* Rótulo curto acima dos títulos (nunca em textos longos). */
 @utility eyebrow {
   display: inline-flex;
@@ -211,6 +233,29 @@
 
 @utility scrim-left {
   background-image: linear-gradient(to right, rgb(17 20 24 / 0.96) 0%, rgb(17 20 24 / 0.7) 40%, rgb(17 20 24 / 0) 75%);
+}
+
+/*
+ * Degradês da hero (Fase 14.2): concentram a sombra só atrás do texto e deixam
+ * a moto (à direita no desktop, ao centro no celular) com luz natural.
+ */
+@utility scrim-hero-desktop {
+  background-image:
+    linear-gradient(90deg, rgb(11 13 16 / 0.94) 0%, rgb(11 13 16 / 0.78) 30%, rgb(11 13 16 / 0.25) 55%, rgb(11 13 16 / 0) 70%),
+    linear-gradient(0deg, rgb(11 13 16 / 0.55) 0%, rgb(11 13 16 / 0) 30%);
+}
+
+@utility scrim-hero-mobile {
+  background-image: linear-gradient(0deg, rgb(11 13 16 / 0.97) 0%, rgb(11 13 16 / 0.88) 34%, rgb(11 13 16 / 0.35) 58%, rgb(11 13 16 / 0.1) 75%, rgb(11 13 16 / 0.45) 100%);
+}
+
+/* Textura discreta dos espaços sem foto (listras diagonais finas). */
+@utility placeholder-texture {
+  background-image: repeating-linear-gradient(135deg, rgb(17 20 24 / 0.035) 0 1px, transparent 1px 12px);
+}
+
+@utility placeholder-texture-dark {
+  background-image: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 12px);
 }
 
 /*

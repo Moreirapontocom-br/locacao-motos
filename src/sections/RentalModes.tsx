@@ -21,7 +21,7 @@ function ModeColumn({ mode }: { mode: RentalMode }) {
     <article
       aria-labelledby={headingId}
       className={`relative flex h-full flex-col rounded-panel p-7 transition-colors duration-300 sm:p-10 ${
-        accent ? 'bg-graphite-800 ring-1 ring-accent/40' : 'bg-graphite-800/60 ring-1 ring-white/[0.08]'
+        accent ? 'bg-graphite-800 shadow-[var(--shadow-inset-line)] ring-1 ring-accent/35' : 'bg-graphite-800/50 shadow-[var(--shadow-inset-line)] ring-1 ring-white/[0.07]'
       }`}
     >
       {accent && <span aria-hidden className="absolute inset-x-10 top-0 h-0.5 rounded-full bg-accent" />}
@@ -30,7 +30,7 @@ function ModeColumn({ mode }: { mode: RentalMode }) {
         {mode.badge && <span className="text-xs font-semibold tracking-[0.08em] text-white/60 uppercase">{mode.badge}</span>}
       </div>
 
-      <h3 id={headingId} className="mt-6 text-h3 text-white uppercase sm:text-[1.875rem]">
+      <h3 id={headingId} className="mt-6 text-h3 text-white sm:text-[1.875rem]">
         {mode.headline}
       </h3>
       <p className="mt-4 text-base leading-relaxed text-muted-dark">{mode.description}</p>
@@ -87,11 +87,10 @@ export function RentalModes() {
             eyebrow={rentalModesSection.eyebrow}
             title={rentalModesSection.title}
             description={rentalModesSection.description}
-            uppercase
           />
         </Reveal>
 
-        <div className="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-2 lg:gap-8">
+        <div className="mt-head grid gap-6 lg:grid-cols-2 lg:gap-8">
           {rentalModes.map((mode, i) => (
             <Reveal key={mode.id} delay={i * 0.08} className="h-full">
               <ModeColumn mode={mode} />

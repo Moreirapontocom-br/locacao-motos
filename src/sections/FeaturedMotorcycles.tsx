@@ -32,7 +32,6 @@ export function FeaturedMotorcycles() {
             eyebrow={featured.eyebrow}
             title={featured.title}
             description={featured.description}
-            uppercase
           />
           <StyleFilter value={filter} onChange={setFilter} options={options} className="lg:shrink-0" />
         </Reveal>
@@ -43,7 +42,7 @@ export function FeaturedMotorcycles() {
           </DemoNotice>
         )}
 
-        <ul aria-label="Motos em destaque" className="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:mt-14 lg:gap-x-10 lg:gap-y-16">
+        <ul aria-label="Motos em destaque" className="mt-head grid gap-6 sm:grid-cols-2 lg:gap-8">
           <AnimatePresence mode="popLayout" initial={false}>
             {list.map((moto) => (
               <motion.li
@@ -61,7 +60,7 @@ export function FeaturedMotorcycles() {
         </ul>
         {list.length === 0 && <p className="mt-6 text-muted">Nenhuma moto neste estilo no momento.</p>}
 
-        <div className="mt-16 flex justify-center">
+        <div className="mt-14 flex justify-center">
           <Button to="/motos" variant="outline" size="lg">
             Ver todas as motos
             <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />

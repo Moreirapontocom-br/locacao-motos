@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
-type Variant = 'primary' | 'dark' | 'light' | 'outline' | 'outline-light' | 'ghost'
+type Variant = 'primary' | 'dark' | 'light' | 'outline' | 'outline-light' | 'ghost' | 'ghost-light'
 type Size = 'sm' | 'md' | 'lg'
 
 const base =
@@ -12,12 +12,15 @@ const base =
  * são ações fortes neutras; `outline*` e `ghost` são secundárias.
  */
 const variants: Record<Variant, string> = {
-  primary: 'bg-accent text-graphite hover:bg-accent-soft hover:shadow-accent active:bg-accent-strong',
+  primary: 'bg-accent text-graphite hover:-translate-y-px hover:bg-accent-soft hover:shadow-accent active:translate-y-0 active:bg-accent-strong motion-reduce:hover:translate-y-0',
   dark: 'bg-graphite text-white hover:bg-graphite-700',
   light: 'bg-white text-graphite hover:bg-steel',
   outline: 'border border-graphite/20 bg-transparent text-graphite hover:border-graphite hover:bg-graphite hover:text-white',
   'outline-light': 'border border-white/25 bg-white/[0.02] text-white hover:border-white hover:bg-white hover:text-graphite',
   ghost: 'text-graphite hover:bg-graphite/[0.06]',
+  /** Ação secundária discreta sobre fundo escuro (ex.: hero): texto com sublinhado que cresce no hover. */
+  'ghost-light':
+    'text-white/85 underline decoration-white/30 decoration-1 underline-offset-[6px] hover:text-white hover:decoration-accent',
 }
 
 const sizes: Record<Size, string> = {

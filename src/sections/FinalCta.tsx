@@ -81,7 +81,7 @@ export function FinalCta() {
   return (
     <section id="contato" aria-labelledby="contato-titulo" className="section-y">
       <div className="container-page">
-        <Reveal className="relative isolate overflow-hidden rounded-panel bg-graphite px-6 py-14 shadow-card-hover sm:px-12 sm:py-16 lg:px-16 lg:py-20">
+        <Reveal className="relative isolate overflow-hidden rounded-panel bg-graphite px-6 py-14 shadow-[var(--shadow-inset-line),var(--shadow-card-hover)] sm:px-12 sm:py-16 lg:px-16 lg:py-20">
           <div className="absolute inset-y-0 right-0 -z-10 hidden w-1/2 lg:block">
             <SmartImage
               image={finalCta.image}
@@ -98,7 +98,7 @@ export function FinalCta() {
               <span aria-hidden className="h-0.5 w-7 rounded-full bg-current" />
               {finalCta.eyebrow}
             </p>
-            <h2 id="contato-titulo" className="text-h2 text-white uppercase">
+            <h2 id="contato-titulo" className="text-h2 text-white">
               {finalCta.title}
             </h2>
             <p className="mt-5 text-lead text-muted-dark">{finalCta.description}</p>

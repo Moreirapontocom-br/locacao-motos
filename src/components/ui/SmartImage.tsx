@@ -32,16 +32,23 @@ export function SmartImage({
 
   if (!image.src || failed) {
     const Icon = image.src ? ImageOff : Camera
+    // Rótulo curto e honesto: "Fotos em breve" (sem foto cadastrada) ou "Imagem indisponível" (falha).
+    // A descrição completa continua no nome acessível (aria-label).
+    const label = placeholderLabel ?? (image.src ? 'Imagem indisponível' : image.alt)
     return (
       <div
         // alt vazio = imagem decorativa (ex.: miniatura com rótulo no botão): fica fora da leitura de tela.
         {...(image.alt ? { role: 'img', 'aria-label': image.alt } : { 'aria-hidden': true })}
-        className={`flex flex-col items-center justify-center gap-2 overflow-hidden p-4 text-center ${
-          dark ? 'bg-graphite-800 text-muted-dark' : 'bg-gradient-to-br from-steel/70 to-ice text-muted'
+        className={`flex flex-col items-center justify-center gap-3 overflow-hidden p-4 text-center ${
+          dark ? 'placeholder-texture-dark bg-graphite-800 text-muted-dark' : 'placeholder-texture bg-steel/50 text-muted'
         } ${className}`}
       >
-        <Icon aria-hidden className="size-6 opacity-80" strokeWidth={1.5} />
-        <span className="text-xs font-medium tracking-[0.01em]">{placeholderLabel ?? image.alt}</span>
+        <span
+          className={`grid size-11 place-items-center rounded-full ${dark ? 'bg-white/[0.05] ring-1 ring-white/10' : 'bg-white/80 ring-1 ring-graphite/[0.07]'}`}
+        >
+          <Icon aria-hidden className="size-5 opacity-80" strokeWidth={1.5} />
+        </span>
+        {label && <span className="text-xs font-semibold tracking-[0.02em]">{label}</span>}
       </div>
     )
   }
