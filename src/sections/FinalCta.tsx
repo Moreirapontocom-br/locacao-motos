@@ -81,71 +81,70 @@ export function FinalCta() {
   return (
     <section id="contato" aria-labelledby="contato-titulo" className="section-y">
       <div className="container-page">
-        <Reveal className="relative isolate overflow-hidden rounded-panel bg-graphite px-6 py-14 shadow-[var(--shadow-inset-line),var(--shadow-card-hover)] sm:px-12 sm:py-16 lg:px-16 lg:py-20">
-          <div className="absolute inset-y-0 right-0 -z-10 hidden w-1/2 lg:block">
-            <SmartImage
-              image={finalCta.image}
-              tone="dark"
-              sizes="50vw"
-              className="h-full"
-              imgClassName="opacity-75"
-            />
-            <div aria-hidden className="scrim-left absolute inset-0" />
+        <Reveal className="relative isolate overflow-hidden rounded-panel bg-graphite shadow-[var(--shadow-inset-line),var(--shadow-card-hover)]">
+          {/* Foto ilustrativa: faixa no topo (celular) ou metade direita (desktop), fundida ao grafite. */}
+          <div className="relative h-52 sm:h-64 lg:absolute lg:inset-y-0 lg:right-0 lg:-z-10 lg:h-auto lg:w-[58%]">
+            <SmartImage image={finalCta.image} tone="dark" sizes="(min-width: 1024px) 50vw, 100vw" className="h-full" imgClassName="opacity-80" />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-graphite to-transparent lg:hidden" />
+            <div aria-hidden className="scrim-left absolute inset-0 hidden lg:block" />
           </div>
 
-          <div className="max-w-xl">
-            <p className="eyebrow mb-5 text-accent">
-              <span aria-hidden className="h-0.5 w-7 rounded-full bg-current" />
-              {finalCta.eyebrow}
-            </p>
-            <h2 id="contato-titulo" className="text-h2 text-white">
-              {finalCta.title}
-            </h2>
-            <p className="mt-5 text-lead text-muted-dark">{finalCta.description}</p>
-
-            {modality && (
-              <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/85" role="status">
-                <span>
-                  Modalidade de interesse: <strong className="font-semibold text-white">{modality}</strong>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setModality(undefined)}
-                  className="rounded-control px-1 font-semibold text-accent underline underline-offset-4 hover:text-accent-soft"
-                >
-                  Remover
-                </button>
+          <div className="px-6 pb-10 sm:px-12 sm:pb-14 lg:px-16 lg:py-20">
+            <div className="max-w-xl">
+              <p className="eyebrow mb-5 text-accent">
+                <span aria-hidden className="h-0.5 w-7 rounded-full bg-current" />
+                {finalCta.eyebrow}
               </p>
-            )}
+              <h2 id="contato-titulo" className="text-h2 text-white">
+                {finalCta.title} <span className="text-accent">{finalCta.titleAccent}</span>
+              </h2>
+              <p className="mt-5 max-w-md text-lead text-muted-dark">{finalCta.description}</p>
 
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <ContactButton size="lg" context={context} label="Solicitar informações pelo WhatsApp" />
-              <Button to="/motos" variant="outline-light" size="lg">
-                Ver todas as motos
-                <ArrowRight aria-hidden className="size-4" />
-              </Button>
+              {modality && (
+                <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/85" role="status">
+                  <span>
+                    Modalidade de interesse: <strong className="font-semibold text-white">{modality}</strong>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setModality(undefined)}
+                    className="rounded-control px-1 font-semibold text-accent underline underline-offset-4 hover:text-accent-soft"
+                  >
+                    Remover
+                  </button>
+                </p>
+              )}
+
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <ContactButton size="lg" className="shadow-accent" context={context} label="Solicitar informações pelo WhatsApp" />
+                <Button to="/motos" variant="ghost-light" size="lg" className="sm:px-4">
+                  Ver todas as motos
+                  <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
+                </Button>
+              </div>
+
+              {/* Qualificação opcional, recolhida: o contato direto continua a um clique. */}
+              <InterestFormDisclosure origin="home-contact" tone="dark" className="mt-3 max-w-md sm:[&>button]:justify-start" />
+
+              {!whatsapp && (
+                <DemoNotice tone="dark" className="mt-6">
+                  Demonstração: o WhatsApp oficial ainda não foi configurado. O botão mostra a mensagem que será enviada assim que o número for informado.
+                </DemoNotice>
+              )}
             </div>
 
-            {/* Qualificação opcional, recolhida: o contato direto continua a um clique. */}
-            <InterestFormDisclosure origin="home-contact" tone="dark" className="mt-4 max-w-md sm:[&>button]:justify-start" />
-
-            {!whatsapp && (
-              <DemoNotice tone="dark" className="mt-6">
-                Demonstração: o WhatsApp oficial ainda não foi configurado. O botão mostra a mensagem que será enviada assim que o número for informado.
-              </DemoNotice>
-            )}
-          </div>
-
-          <div className="mt-12 grid gap-6 border-t border-white/10 pt-10 sm:grid-cols-2 lg:max-w-2xl">
-            {channels.map((c) => (
-              <div key={c.label} className="flex gap-3 text-sm">
-                <c.icon aria-hidden className="mt-0.5 size-4.5 shrink-0 text-accent" />
-                <dl>
-                  <dt className="font-semibold text-white">{c.label}</dt>
-                  <dd className="mt-0.5 text-muted-dark">{c.value}</dd>
-                </dl>
-              </div>
-            ))}
+            {/* Canais em uma linha discreta: o botão acima é a ação principal. */}
+            <div className="mt-12 grid gap-x-8 gap-y-5 border-t border-white/10 pt-8 sm:grid-cols-2 lg:max-w-3xl lg:grid-cols-3">
+              {channels.map((c) => (
+                <div key={c.label} className="flex gap-3 text-sm">
+                  <c.icon aria-hidden className="mt-0.5 size-4 shrink-0 text-accent" />
+                  <dl>
+                    <dt className="font-semibold text-white">{c.label}</dt>
+                    <dd className="mt-0.5 text-muted-dark">{c.value}</dd>
+                  </dl>
+                </div>
+              ))}
+            </div>
           </div>
         </Reveal>
       </div>

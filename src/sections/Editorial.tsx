@@ -19,10 +19,10 @@ export function Editorial() {
             <span aria-hidden className="h-0.5 w-7 rounded-full bg-current" />
             {editorial.eyebrow}
           </p>
-          <h2 id="editorial-titulo" className="text-h1 mt-6 text-white uppercase">
+          <h2 id="editorial-titulo" className="text-h2 mt-5 text-white">
             Mais <span className="text-accent">liberdade</span> para seguir seu caminho.
           </h2>
-          <p className="mt-7 max-w-md text-lead text-muted-dark">{editorial.text}</p>
+          <p className="mt-5 max-w-md text-lead text-muted-dark">{editorial.text}</p>
           <Button to="/#encontre" variant="outline-light" size="lg" className="mt-10">
             Encontrar minha moto
             <ArrowDown aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-y-0.5" />

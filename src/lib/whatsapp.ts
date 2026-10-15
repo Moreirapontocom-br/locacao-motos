@@ -63,8 +63,8 @@ export function modalityOptions(moto?: Motorcycle, config = commercialConfig): s
 
 /** Texto do botão conforme a ação real ("pelo WhatsApp" → "por telefone"/"por e-mail"). */
 export function contactLabel(kind: ContactAction['kind'], label: string) {
-  if (kind === 'phone') return label.replace(/pelo WhatsApp/i, 'por telefone')
-  if (kind === 'email') return label.replace(/pelo WhatsApp/i, 'por e-mail')
+  if (kind === 'phone') return label.replace(/(pelo|no) WhatsApp/i, 'por telefone')
+  if (kind === 'email') return label.replace(/(pelo|no) WhatsApp/i, 'por e-mail')
   return label
 }
 

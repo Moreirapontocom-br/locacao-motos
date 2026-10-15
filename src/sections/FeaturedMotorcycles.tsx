@@ -13,8 +13,9 @@ import { filterMotorcycles, styleFilterOptions } from '../lib/motorcycles'
 import type { StyleFilterValue } from '../types'
 
 /**
- * Frota em destaque (Fase 14): cards grandes em duas colunas, com filtro por
- * estilo derivado dos próprios dados (some quando há menos de dois estilos).
+ * Frota em destaque (Fase 15): fundo branco, cards com foto em evidência
+ * (quatro por linha no desktop), filtro por estilo derivado dos próprios dados
+ * (some quando há menos de dois estilos) e "Ver todas as motos" junto ao título.
  * Fonte única: src/config/motorcycles.ts.
  */
 export function FeaturedMotorcycles() {
@@ -24,7 +25,7 @@ export function FeaturedMotorcycles() {
   const list = filterMotorcycles(highlighted, filter)
 
   return (
-    <section id="motos" aria-labelledby="destaques-titulo" className="section-y">
+    <section id="motos" aria-labelledby="destaques-titulo" className="section-y bg-white">
       <div className="container-page">
         <Reveal className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
@@ -33,16 +34,22 @@ export function FeaturedMotorcycles() {
             title={featured.title}
             description={featured.description}
           />
-          <StyleFilter value={filter} onChange={setFilter} options={options} className="lg:shrink-0" />
+          <Button to="/motos" variant="outline" size="md" className="self-start rounded-pill lg:self-auto">
+            Ver todas as motos
+            <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
+          </Button>
         </Reveal>
 
-        {highlighted.some((m) => m.demo || m.images.some((img) => img.illustrative)) && (
-          <DemoNotice className="mt-8 max-w-3xl">
-            Fotos ilustrativas, que não são das motos da empresa. Os modelos marcados como exemplo são provisórios.
-          </DemoNotice>
-        )}
+        <div className="mt-head flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <StyleFilter value={filter} onChange={setFilter} options={options} className="sm:overflow-visible" />
+          {highlighted.some((m) => m.demo || m.images.some((img) => img.illustrative)) && (
+            <DemoNotice className="sm:max-w-md">
+              Fotos ilustrativas. Os modelos marcados como exemplo são provisórios.
+            </DemoNotice>
+          )}
+        </div>
 
-        <ul aria-label="Motos em destaque" className="mt-head grid gap-6 sm:grid-cols-2 lg:gap-8">
+        <ul aria-label="Motos em destaque" className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           <AnimatePresence mode="popLayout" initial={false}>
             {list.map((moto) => (
               <motion.li
@@ -59,13 +66,6 @@ export function FeaturedMotorcycles() {
           </AnimatePresence>
         </ul>
         {list.length === 0 && <p className="mt-6 text-muted">Nenhuma moto neste estilo no momento.</p>}
-
-        <div className="mt-14 flex justify-center">
-          <Button to="/motos" variant="outline" size="lg">
-            Ver todas as motos
-            <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
-          </Button>
-        </div>
       </div>
     </section>
   )

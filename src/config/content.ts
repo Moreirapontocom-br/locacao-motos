@@ -18,9 +18,10 @@ export const navigation: NavItem[] = [
 
 export const hero = {
   eyebrow: 'Locação de motos Honda',
-  title: 'Sua próxima moto começa aqui.',
-  subtitle:
-    'Motos para trabalhar e rodar todos os dias, em locação tradicional ou com possibilidade de aquisição.',
+  /** Título em duas partes: a segunda recebe a cor de destaque (Fase 15). */
+  title: 'Sua próxima moto',
+  titleAccent: 'começa aqui.',
+  subtitle: 'Locação tradicional ou com possibilidade de aquisição.',
   primaryCta: { label: 'Ver motos disponíveis', to: '/#motos' },
   secondaryCta: { label: 'Falar com a equipe' },
   /**
@@ -48,7 +49,7 @@ export const rentalModesSection = {
 export const featured = {
   eyebrow: 'Frota',
   title: 'Motos para a sua rotina.',
-  description: 'Modelos Honda do nosso catálogo. Disponibilidade e condições de cada moto são confirmadas pela equipe.',
+  description: 'Disponibilidade e condições de cada moto são confirmadas pela equipe.',
 }
 
 /**
@@ -80,9 +81,9 @@ export const finder = {
 }
 
 export const howItWorks = {
-  eyebrow: 'Processo',
-  title: 'Como funciona a locação',
-  description: 'Escolha a modalidade para ver o caminho até a moto.',
+  eyebrow: 'Como funciona',
+  title: 'Em poucos passos, você chega à sua moto.',
+  description: 'Escolha a modalidade para ver o caminho.',
   note: 'Explicação geral, não é o contrato. As condições, os prazos e os documentos são informados pela equipe, e o site não faz reservas nem contratações.',
 }
 
@@ -179,7 +180,9 @@ export const faq = {
 
 export const finalCta = {
   eyebrow: 'Contato',
-  title: 'Pronto para escolher sua próxima moto?',
+  /** Título em duas partes: a segunda recebe a cor de destaque (Fase 15). */
+  title: 'Pronto para escolher',
+  titleAccent: 'sua próxima moto?',
   /** Imagem de fundo (ilustrativa) do bloco de contato. */
   image: unsplash('photo-1558980664-769d59546b3d', 'Motociclista em movimento na estrada', { ratio: 4 / 3 }),
   description: 'Fale com nossa equipe, conheça as modalidades e solicite informações sobre as condições disponíveis.',
