@@ -31,7 +31,8 @@ export const hero = {
    *   main: fleetPhoto('cg-160-piloto.jpg', 'Motociclista pilotando uma Honda CG 160'),
    */
   images: {
-    main: unsplash('photo-1572452571879-3d67d5b2a39f', 'Motociclista pilotando moto urbana pela rua', {
+    // Fase 15: escolhida por pedido do Rafa até chegar a foto oficial da CG 160 (Unsplash, Ghumakkad harshal).
+    main: unsplash('photo-1611916906759-4888e63eb5fd', 'Moto Honda preta e cinza ao pôr do sol', {
       ratio: 3 / 2,
       focus: { x: 0.5, y: 0.55, zoom: 1 },
       widths: [720, 1080, 1600, 2200],
