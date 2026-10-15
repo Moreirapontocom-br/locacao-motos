@@ -37,7 +37,7 @@ export function HowItWorks() {
   }
 
   return (
-    <section id="como-funciona" aria-labelledby="como-funciona-titulo" className="section-y bg-white">
+    <section id="como-funciona" aria-labelledby="como-funciona-titulo" className="section-y">
       <div className="container-page">
         <Reveal className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading id="como-funciona-titulo" eyebrow={howItWorks.eyebrow} title={howItWorks.title} description={howItWorks.description} uppercase />
@@ -46,7 +46,7 @@ export function HowItWorks() {
             role="tablist"
             aria-label="Modalidade de locação"
             onKeyDown={onKeyDown}
-            className="grid w-full grid-cols-2 gap-1 rounded-control bg-ice p-1 ring-1 ring-graphite/[0.08] lg:w-auto lg:min-w-[26rem]"
+            className="grid w-full grid-cols-2 gap-1 rounded-control bg-white p-1 ring-1 ring-graphite/[0.08] lg:w-auto lg:min-w-[26rem]"
           >
             {rentalModes.map((m, i) => {
               const selected = m.id === activeId
@@ -64,7 +64,7 @@ export function HowItWorks() {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => setActiveId(m.id)}
                   className={`min-h-12 rounded-[0.5rem] px-3 py-2 text-sm leading-tight font-semibold transition-colors sm:px-5 ${
-                    selected ? 'bg-graphite text-white shadow-card' : 'text-graphite/75 hover:bg-white hover:text-graphite'
+                    selected ? 'bg-graphite text-white shadow-card' : 'text-graphite/75 hover:bg-ice hover:text-graphite'
                   }`}
                 >
                   {m.name}
@@ -107,7 +107,7 @@ export function HowItWorks() {
           </AnimatePresence>
         </div>
 
-        <Reveal className="mt-14 flex items-start gap-3 rounded-control bg-ice px-5 py-4 text-sm text-muted sm:items-center lg:mt-16">
+        <Reveal className="mt-14 flex items-start gap-3 rounded-control bg-white px-5 py-4 text-sm ring-1 ring-graphite/[0.06] text-muted sm:items-center lg:mt-16">
           <ShieldCheck aria-hidden className="mt-0.5 size-4 shrink-0 text-accent-ink sm:mt-0" />
           <p>{howItWorks.note}</p>
         </Reveal>

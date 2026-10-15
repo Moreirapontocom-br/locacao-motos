@@ -32,6 +32,7 @@ export type ContactOrigin =
   | 'detail-sticky'
   | 'modality'
   | 'faq'
+  | 'finder'
   | 'form'
 
 export interface ContactContext {
@@ -42,6 +43,8 @@ export interface ContactContext {
   modality?: string
   /** Objetivo de utilização (formulário). */
   purpose?: PurposeValue
+  /** Objetivo escolhido no seletor "Encontre sua próxima moto" (rótulo). */
+  goal?: string
 }
 
 const purposeLabel = (value?: PurposeValue) => commercialConfig.purposes.find((p) => p.value === value)?.label
@@ -84,6 +87,8 @@ export function buildContactMessage(context: ContactContext): string {
       return contactMessages.modality(context.modality)
     case 'faq':
       return contactMessages.faq
+    case 'finder':
+      return contactMessages.finder(context.goal, context.modality)
     case 'catalog-help':
       return contactMessages.availability
     case 'form': {

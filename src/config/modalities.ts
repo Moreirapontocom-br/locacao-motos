@@ -38,7 +38,8 @@ export interface RentalMode {
   badge?: string
   /** Situação das condições comerciais desta modalidade. */
   conditions: 'a-confirmar' | 'confirmadas'
-  benefits: string[]
+  /** Valores da comparação, na mesma ordem de `comparisonLabels` (sem dados contratuais). */
+  comparison: string[]
   /** Aviso curto sobre limites da modalidade (nunca promessa). */
   caution?: string
   cta: string
@@ -48,6 +49,9 @@ export interface RentalMode {
   confirmed?: LabeledValue[]
 }
 
+/** Linhas da comparação entre modalidades (Fase 14). Só fatos confirmados. */
+export const comparisonLabels = ['Uso da moto', 'Aquisição da moto', 'Valores, prazos e requisitos']
+
 export const rentalModes: RentalMode[] = [
   {
     id: 'locacao-aquisicao',
@@ -56,12 +60,12 @@ export const rentalModes: RentalMode[] = [
     description:
       'Utilize sua moto durante o contrato e conheça as condições para adquirir a propriedade ao final do período estabelecido.',
     highlighted: true,
-    badge: 'Maior destaque',
+    badge: 'Destaque',
     conditions: 'a-confirmar',
-    benefits: [
-      'Uso da moto durante a vigência contratual.',
-      'Modalidade que contempla possibilidade de aquisição.',
-      'Atendimento para esclarecimento das condições.',
+    comparison: [
+      'Durante a vigência do contrato',
+      'Possível, conforme as condições contratuais',
+      'Informados pela equipe no atendimento',
     ],
     caution: 'A aquisição depende do cumprimento das condições contratuais, que a equipe informa antes da contratação.',
     cta: 'Quero conhecer essa modalidade',
@@ -80,10 +84,10 @@ export const rentalModes: RentalMode[] = [
       'Tenha uma moto à disposição durante o período contratado, sem compromisso de aquisição como parte dessa modalidade.',
     highlighted: false,
     conditions: 'a-confirmar',
-    benefits: [
-      'Acesso à motocicleta durante o contrato.',
-      'Alternativa para quem não deseja adquirir o veículo.',
-      'Consulta de condições pelo atendimento comercial.',
+    comparison: [
+      'Durante o período contratado',
+      'Não faz parte desta modalidade',
+      'Informados pela equipe no atendimento',
     ],
     cta: 'Quero conhecer essa modalidade',
     steps: [

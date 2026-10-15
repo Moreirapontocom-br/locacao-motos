@@ -51,6 +51,14 @@ export const contactMessages = {
     modality
       ? `Olá! Tenho interesse na modalidade de ${modality.toLowerCase()}. Gostaria de conhecer as condições.`
       : 'Olá! Gostaria de conhecer as modalidades de locação de motos.',
+  /** Seletor "Encontre sua próxima moto": leva as respostas, sem afirmar recomendação. */
+  finder: (goal?: string, modality?: string) =>
+    [
+      'Olá! Usei o "Encontre sua próxima moto" no site.',
+      `• Objetivo: ${goal ?? 'não informado'}`,
+      `• Modalidade: ${modality ?? 'ainda não decidi'}`,
+      'Gostaria de saber quais motos atendem ao meu perfil.',
+    ].join('\n'),
   /** Seção de perguntas frequentes. */
   faq: 'Olá! Tenho uma dúvida sobre a locação de motos.',
   /** Catálogo: quem não encontrou a moto procurada. */

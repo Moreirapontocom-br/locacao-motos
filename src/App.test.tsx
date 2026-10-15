@@ -17,8 +17,9 @@ describe('homepage', () => {
   it('exibe o título de motos e os CTAs principais', () => {
     renderAt('/')
     expect(screen.getByRole('heading', { level: 1, name: /sua próxima moto começa aqui/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /conhecer modalidades/i })).toHaveAttribute('href', '/#modalidades')
-    expect(screen.getByRole('link', { name: /explorar motos/i })).toHaveAttribute('href', '/#motos')
+    expect(screen.getByRole('link', { name: /ver motos disponíveis/i })).toHaveAttribute('href', '/#motos')
+    const hero = screen.getByRole('region', { name: /sua próxima moto começa aqui/i })
+    expect(within(hero).getByRole('button', { name: /falar com a equipe/i })).toBeInTheDocument()
     for (const link of screen.getAllByRole('link', { name: /ver todas as motos/i })) {
       expect(link).toHaveAttribute('href', '/motos')
     }
@@ -26,7 +27,7 @@ describe('homepage', () => {
 
   it('as âncoras da navegação existem na home', () => {
     const { container } = renderAt('/')
-    for (const id of ['modalidades', 'como-funciona', 'motos', 'faq', 'contato']) {
+    for (const id of ['modalidades', 'como-funciona', 'motos', 'encontre', 'faq', 'contato']) {
       expect(container.querySelector(`#${id}`), id).not.toBeNull()
     }
   })
@@ -66,7 +67,23 @@ describe('homepage', () => {
     const names = within(showcase).getAllByRole('heading', { level: 3 }).map((h) => h.textContent)
     expect(names).toEqual(motorcycles.filter((m) => m.featured).map((m) => m.name))
     expect(names.slice(0, 2)).toEqual(['Honda CG 160 Start', 'Honda CG 160 Fan'])
-    expect(screen.queryByRole('group', { name: /filtrar motos/i })).not.toBeInTheDocument()
+  })
+
+  it('a frota da home filtra por estilo, só com estilos que existem nos dados', async () => {
+    const user = userEvent.setup()
+    renderAt('/')
+    const filter = screen.getByRole('group', { name: /filtrar motos/i })
+    const styles = new Set(motorcycles.filter((m) => m.featured).map((m) => m.style))
+    // "Todas" + um botão por estilo cadastrado.
+    expect(within(filter).getAllByRole('button')).toHaveLength(styles.size + 1)
+    await user.click(within(filter).getByRole('button', { name: 'Trail' }))
+    const showcase = screen.getByRole('list', { name: 'Motos em destaque' })
+    await waitFor(() =>
+      expect(within(showcase).getAllByRole('heading', { level: 3 }).map((h) => h.textContent)).toEqual(
+        motorcycles.filter((m) => m.featured && m.style === 'trail').map((m) => m.name),
+      ),
+    )
+    expect(within(filter).getByRole('button', { name: 'Trail' })).toHaveAttribute('aria-pressed', 'true')
   })
 
   it('motos de exemplo continuam identificadas na vitrine', () => {
