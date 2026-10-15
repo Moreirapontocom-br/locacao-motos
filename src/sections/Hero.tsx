@@ -38,12 +38,15 @@ export function Hero() {
           // Sem foto (ou falha ao carregar), o fundo fica liso: nenhum texto sob o título.
           placeholderLabel=""
           sizes="(min-width: 1024px) 64vw, 100vw"
-          className="h-full [&>*]:invisible"
-          imgClassName="object-[64%_42%] lg:object-[55%_center]"
+          // Só o conteúdo do espaço reservado (ícone e rótulo) fica oculto; a foto em si continua visível.
+          className="h-full [&>span]:invisible"
+          imgClassName="object-[80%_35%] lg:object-[100%_center]"
         />
       </motion.div>
       {/* Leitura do texto no desktop: sombra só no lado esquerdo. */}
       <div aria-hidden className="scrim-hero-desktop absolute inset-0 -z-10 hidden lg:block" />
+      {/* Leitura do cabeçalho sobre o céu claro da foto. */}
+      <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-36 bg-gradient-to-b from-graphite-900/70 to-transparent" />
 
       <div className="container-page relative grid min-h-[min(100svh,58rem)] items-center pt-[calc(var(--header-h)+24svh)] pb-14 sm:pt-[calc(var(--header-h)+30svh)] lg:grid-cols-12 lg:pt-[calc(var(--header-h)+2.5rem)] lg:pb-16">
         <div className="lg:col-span-7 xl:col-span-6">
