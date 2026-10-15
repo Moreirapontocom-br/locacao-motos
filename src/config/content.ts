@@ -31,12 +31,8 @@ export const hero = {
    *   main: fleetPhoto('cg-160-piloto.jpg', 'Motociclista pilotando uma Honda CG 160'),
    */
   images: {
-    // Fase 15: pessoa pilotando uma Honda, até chegar a foto oficial da CG 160 Fan (Unsplash, Глеб Ефимов).
-    main: unsplash('photo-1562766571-835388f4953f', 'Pessoa pilotando uma moto Honda', {
-      ratio: 3 / 2,
-      focus: { x: 0.5, y: 0.55, zoom: 1 },
-      widths: [720, 1080, 1600, 2200],
-    }),
+    // Fase 15: imagem enviada pelo Rafa (piloto em uma Honda CG 160 Fan ao pôr do sol). Continua com o selo "Foto ilustrativa".
+    main: { src: '/images/frota/capa-cg-160-fan.jpg', alt: 'Piloto em uma Honda CG 160 Fan ao pôr do sol', illustrative: true },
   },
 }
 
