@@ -38,7 +38,8 @@ export function Hero() {
           // Sem foto (ou falha ao carregar), o fundo fica liso: nenhum texto sob o título.
           placeholderLabel=""
           sizes="(min-width: 1024px) 64vw, 100vw"
-          className="h-full [&>*]:invisible"
+          // Só o conteúdo do espaço reservado (ícone e rótulo) fica oculto; a foto em si continua visível.
+          className="h-full [&>span]:invisible"
           imgClassName="object-[64%_42%] lg:object-[55%_center]"
         />
       </motion.div>
