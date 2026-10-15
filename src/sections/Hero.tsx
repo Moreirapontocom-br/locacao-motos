@@ -24,13 +24,14 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-titulo"
-      className="relative isolate flex min-h-[max(36rem,92svh)] items-end overflow-hidden bg-graphite lg:min-h-[min(100svh,62rem)] lg:items-center"
+      className="relative isolate flex min-h-[max(38rem,94svh)] items-end overflow-hidden bg-graphite-900 lg:min-h-[min(100svh,64rem)] lg:items-center"
     >
       <motion.div
-        initial={{ opacity: 0, scale: 1.04 }}
+        initial={{ opacity: 0, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.4, ease }}
-        className="absolute inset-0 -z-10"
+        transition={{ duration: 1.6, ease }}
+        // No desktop a foto ocupa os 3/4 da direita: a moto fica longe do texto e ganha protagonismo.
+        className="absolute inset-0 -z-10 lg:left-[22%] lg:[mask-image:linear-gradient(to_right,transparent,black_30%)]"
       >
         <SmartImage
           image={hero.images.main}
@@ -39,39 +40,40 @@ export function Hero() {
           // Sem foto (ou falha ao carregar), o fundo fica liso: nenhum texto sob o título.
           placeholderLabel=""
           sizes="100vw"
-          className="h-full [&>svg]:invisible"
-          imgClassName="object-[62%_center] lg:object-center"
+          className="h-full [&>*]:invisible"
+          imgClassName="object-[64%_42%] lg:object-[58%_center]"
         />
       </motion.div>
-      {/* Degradês de leitura: base no celular, esquerda no desktop. */}
-      <div aria-hidden className="scrim-bottom absolute inset-0 -z-10 lg:hidden" />
-      <div aria-hidden className="scrim-left absolute inset-0 -z-10 hidden lg:block" />
-      <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b from-graphite/70 to-transparent" />
+      {/* Degradês de leitura: sombra só atrás do texto (base no celular, esquerda no desktop). */}
+      <div aria-hidden className="scrim-hero-mobile absolute inset-0 -z-10 lg:hidden" />
+      <div aria-hidden className="scrim-hero-desktop absolute inset-0 -z-10 hidden lg:block" />
+      <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-36 bg-gradient-to-b from-graphite-900/75 to-transparent" />
 
-      <div className="container-page relative pt-[calc(var(--header-h)+4rem)] pb-14 sm:pb-20 lg:py-32">
-        <div className="max-w-2xl">
-          <motion.p {...fadeUp(0.15)} className="eyebrow mb-6 text-white/85">
-            <span aria-hidden className="h-0.5 w-7 rounded-full bg-accent" />
+      <div className="container-page relative pt-[calc(var(--header-h)+4rem)] pb-12 sm:pb-20 lg:py-36">
+        <div className="max-w-[40rem]">
+          <motion.p {...fadeUp(0.15)} className="eyebrow mb-7 text-white/75">
+            <span aria-hidden className="h-0.5 w-8 rounded-full bg-accent" />
             {hero.eyebrow}
           </motion.p>
 
-          <motion.h1 id="hero-titulo" {...fadeUp(0.22)} className="max-w-[14ch] text-display text-white uppercase">
+          <motion.h1 id="hero-titulo" {...fadeUp(0.22)} className="max-w-[13ch] text-display font-extrabold text-white uppercase [text-shadow:0_2px_24px_rgb(0_0_0/0.25)]">
             {hero.title}
           </motion.h1>
 
-          <motion.p {...fadeUp(0.3)} className="mt-6 max-w-md text-lead text-white/80">
+          <motion.p {...fadeUp(0.3)} className="mt-7 max-w-[30rem] text-lead text-white/75">
             {hero.subtitle}
           </motion.p>
 
-          <motion.div {...fadeUp(0.38)} className="mt-10 grid gap-3 sm:flex">
-            <Button to={hero.primaryCta.to} size="lg" className="sm:min-w-60">
+          {/* Hierarquia: ação principal forte; secundária como link discreto. */}
+          <motion.div {...fadeUp(0.38)} className="mt-11 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:gap-7">
+            <Button to={hero.primaryCta.to} size="lg" className="shadow-accent sm:min-w-64 sm:px-8">
               {hero.primaryCta.label}
               <ArrowDown aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-y-0.5" />
             </Button>
             <ContactButton
-              size="lg"
-              variant="outline-light"
-              className="backdrop-blur-sm sm:min-w-48"
+              size="md"
+              variant="ghost-light"
+              className="self-center sm:self-auto"
               context={{ origin: 'home-contact' }}
               label={hero.secondaryCta.label}
             />

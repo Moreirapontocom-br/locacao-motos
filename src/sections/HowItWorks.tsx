@@ -40,7 +40,7 @@ export function HowItWorks() {
     <section id="como-funciona" aria-labelledby="como-funciona-titulo" className="section-y">
       <div className="container-page">
         <Reveal className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading id="como-funciona-titulo" eyebrow={howItWorks.eyebrow} title={howItWorks.title} description={howItWorks.description} uppercase />
+          <SectionHeading id="como-funciona-titulo" eyebrow={howItWorks.eyebrow} title={howItWorks.title} description={howItWorks.description} />
 
           <div
             role="tablist"
@@ -74,7 +74,7 @@ export function HowItWorks() {
           </div>
         </Reveal>
 
-        <div id={`${baseId}-panel`} role="tabpanel" aria-labelledby={`${baseId}-tab-${mode.id}`} tabIndex={0} className="mt-14 rounded-card outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-8 sm:mt-16">
+        <div id={`${baseId}-panel`} role="tabpanel" aria-labelledby={`${baseId}-tab-${mode.id}`} tabIndex={0} className="mt-head rounded-card outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-8">
           <AnimatePresence mode="wait" initial={false}>
             <motion.ol
               key={mode.id}

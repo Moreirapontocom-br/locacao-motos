@@ -33,25 +33,25 @@ function OptionButton({
       type="button"
       aria-pressed={selected}
       onClick={onSelect}
-      className={`group/opt relative flex min-h-24 w-full items-start justify-between gap-4 rounded-card border p-5 text-left transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out-soft active:translate-y-px motion-reduce:active:translate-y-0 sm:p-6 ${
+      className={`group/opt relative flex min-h-24 w-full items-start justify-between gap-4 rounded-card border bg-white p-5 text-left transition-[border-color,box-shadow,transform] duration-200 ease-out-soft active:scale-[0.99] motion-reduce:active:scale-100 sm:p-6 ${
         selected
-          ? 'border-graphite bg-graphite text-white shadow-card-hover'
-          : 'border-graphite/12 bg-white hover:border-graphite/40 hover:shadow-card'
+          ? 'border-accent shadow-[0_0_0_3px_rgb(249_115_22/0.14),var(--shadow-card)]'
+          : 'border-graphite/10 hover:-translate-y-px hover:border-graphite/30 hover:shadow-card motion-reduce:hover:translate-y-0'
       }`}
     >
       <span>
-        <span className="block font-display text-lg leading-snug font-semibold tracking-[-0.01em]">{label}</span>
-        {description && (
-          <span className={`mt-1.5 block text-sm leading-snug ${selected ? 'text-white/70' : 'text-muted'}`}>{description}</span>
-        )}
+        <span className="block font-display text-[1.0625rem] leading-snug font-semibold tracking-[-0.01em] sm:text-lg">{label}</span>
+        {description && <span className="mt-2 block text-sm leading-relaxed text-muted">{description}</span>}
       </span>
       <span
         aria-hidden
-        className={`mt-0.5 grid size-7 shrink-0 place-items-center rounded-full transition-colors ${
-          selected ? 'bg-accent text-graphite' : 'border border-graphite/15 text-graphite/40 group-hover/opt:border-graphite/40 group-hover/opt:text-graphite'
+        className={`mt-0.5 grid size-6 shrink-0 place-items-center rounded-full transition-[background-color,border-color,color,transform] duration-200 ${
+          selected
+            ? 'scale-100 bg-accent text-graphite'
+            : 'border border-graphite/15 text-graphite/35 group-hover/opt:translate-x-0.5 group-hover/opt:border-graphite/40 group-hover/opt:text-graphite motion-reduce:group-hover/opt:translate-x-0'
         }`}
       >
-        {selected ? <Check className="size-4" strokeWidth={3} /> : <ArrowRight className="size-3.5" />}
+        {selected ? <Check className="size-3.5" strokeWidth={3} /> : <ArrowRight className="size-3" />}
       </span>
     </button>
   )
@@ -110,7 +110,7 @@ export function MotoFinder() {
     exit: (dir: number) => ({ opacity: 0, x: dir * -offset }),
   }
 
-  const headingClass = 'text-h3 uppercase outline-none sm:text-[1.875rem]'
+  const headingClass = 'text-h3 outline-none'
 
   return (
     <section id="encontre" aria-labelledby="encontre-titulo" className="section-y bg-white">
@@ -120,7 +120,7 @@ export function MotoFinder() {
             <span aria-hidden className="h-0.5 w-7 rounded-full bg-current" />
             {finder.eyebrow}
           </p>
-          <h2 id="encontre-titulo" className="text-h2 uppercase">
+          <h2 id="encontre-titulo" className="text-h2">
             {finder.title}
           </h2>
           <p className="mt-5 max-w-sm text-lead text-muted">{finder.description}</p>
@@ -154,7 +154,7 @@ export function MotoFinder() {
         </Reveal>
 
         <Reveal delay={0.08} className="min-w-0 lg:col-span-8">
-          <div className="rounded-panel bg-ice p-5 ring-1 ring-graphite/[0.06] sm:p-10">
+          <div className="rounded-panel bg-ice p-5 ring-1 ring-graphite/[0.06] sm:p-10 lg:p-12">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-semibold text-muted" aria-live="polite" id={`${baseId}-progress`}>
                 Etapa {step + 1} de {finder.steps.length}
@@ -164,9 +164,9 @@ export function MotoFinder() {
                 <button
                   type="button"
                   onClick={() => go((step - 1) as Step)}
-                  className="inline-flex min-h-10 items-center gap-1.5 rounded-control px-3 text-sm font-semibold text-graphite transition-colors hover:bg-graphite/[0.06]"
+                  className="group/back inline-flex min-h-10 items-center gap-1.5 rounded-control border border-graphite/12 bg-white px-3.5 text-sm font-semibold text-graphite transition-[border-color,background-color] duration-200 hover:border-graphite/35"
                 >
-                  <ArrowLeft aria-hidden className="size-4" />
+                  <ArrowLeft aria-hidden className="size-4 transition-transform duration-200 group-hover/back:-translate-x-0.5 motion-reduce:transform-none" />
                   Voltar
                 </button>
               )}
@@ -177,15 +177,21 @@ export function MotoFinder() {
               aria-valuemin={1}
               aria-valuemax={finder.steps.length}
               aria-valuenow={step + 1}
-              className="mt-4 h-1 overflow-hidden rounded-full bg-graphite/10"
+              className="mt-4 grid grid-cols-3 gap-1.5"
             >
-              <div
-                className="h-full rounded-full bg-accent transition-[width] duration-500 ease-out-soft"
-                style={{ width: `${((step + 1) / finder.steps.length) * 100}%` }}
-              />
+              {/* Um segmento por etapa; o preenchimento anima com transform (barato). */}
+              {finder.steps.map((label, i) => (
+                <span key={label} aria-hidden className="h-1 overflow-hidden rounded-pill bg-graphite/10">
+                  <span
+                    className={`block h-full origin-left rounded-pill bg-accent transition-transform duration-500 ease-out-soft ${
+                      i <= step ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
+                </span>
+              ))}
             </div>
 
-            <div className="relative mt-8 overflow-hidden sm:mt-10">
+            <div className="relative mt-9 overflow-hidden sm:mt-11">
               <AnimatePresence mode="wait" custom={direction} initial={false}>
                 <motion.div
                   key={step}
@@ -203,7 +209,7 @@ export function MotoFinder() {
                           {finder.goalQuestion}
                         </h3>
                       </legend>
-                      <div className="mt-7 grid gap-3 sm:grid-cols-2 sm:gap-4">
+                      <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
                         {finder.goals.map((g) => (
                           <OptionButton
                             key={g.value}
@@ -227,7 +233,7 @@ export function MotoFinder() {
                           {finder.modalityQuestion}
                         </h3>
                       </legend>
-                      <div className="mt-7 grid gap-3 sm:grid-cols-2 sm:gap-4">
+                      <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
                         {rentalModes.map((mode) => (
                           <OptionButton
                             key={mode.id}
@@ -254,46 +260,57 @@ export function MotoFinder() {
                       <h3 ref={headingRef} tabIndex={-1} className={headingClass}>
                         {finder.resultTitle}
                       </h3>
-                      <p className="mt-3 text-sm text-graphite">
-                        <span className="text-muted">Objetivo:</span> <strong className="font-semibold">{goalLabel ?? 'não informado'}</strong>
-                        <span aria-hidden className="mx-2 text-muted">·</span>
-                        <span className="text-muted">Modalidade:</span>{' '}
-                        <strong className="font-semibold">{modality ?? 'ainda não decidi'}</strong>
-                      </p>
-                      <p className="mt-5 flex max-w-2xl gap-2.5 text-sm leading-relaxed text-muted">
+                      {/* Respostas escolhidas, em selos discretos. */}
+                      <ul aria-label="Suas respostas" className="mt-4 flex flex-wrap gap-2 text-sm">
+                        <li className="rounded-pill bg-white px-3.5 py-1.5 ring-1 ring-graphite/[0.08]">
+                          <span className="text-muted">Objetivo:</span> <strong className="font-semibold">{goalLabel ?? 'não informado'}</strong>
+                        </li>
+                        <li className="rounded-pill bg-white px-3.5 py-1.5 ring-1 ring-graphite/[0.08]">
+                          <span className="text-muted">Modalidade:</span> <strong className="font-semibold">{modality ?? 'ainda não decidi'}</strong>
+                        </li>
+                      </ul>
+                      <p className="mt-6 flex gap-3 rounded-control border-l-2 border-accent bg-white px-4 py-3.5 text-sm leading-relaxed text-muted">
                         <Info aria-hidden className="mt-0.5 size-4 shrink-0 text-accent-ink" />
                         {result.matched ? finder.resultMatch : finder.resultNoMatch}
                       </p>
 
                       {result.motorcycles.length > 0 ? (
-                        <ul aria-label="Motos do resultado" className="mt-7 grid gap-3 sm:grid-cols-2">
+                        <ul aria-label="Motos do resultado" className="mt-6 grid gap-4 sm:grid-cols-2">
                           {result.motorcycles.map((moto) => (
                             <li key={moto.slug}>
                               <Link
                                 to={`/motos/${moto.slug}`}
                                 onClick={() => trackEvent('moto_interest_click', { origin: 'finder', slug: moto.slug })}
-                                className="group/res flex items-center gap-4 rounded-card bg-white p-3 pr-4 ring-1 ring-graphite/[0.07] transition-shadow duration-300 hover:shadow-card-hover"
+                                className="group/res flex h-full flex-col overflow-hidden rounded-card bg-white ring-1 ring-graphite/[0.07] transition-[transform,box-shadow] duration-300 ease-out-soft hover:-translate-y-0.5 hover:shadow-lift motion-reduce:hover:translate-y-0"
                               >
-                                <SmartImage
-                                  image={moto.images[0] ? { ...moto.images[0], alt: '' } : { src: '', alt: '' }}
-                                  sizes="128px"
-                                  className="aspect-[4/3] w-24 shrink-0 rounded-media"
-                                  imgClassName="transition-transform duration-700 group-hover/res:scale-105"
-                                />
-                                <span className="min-w-0 flex-1">
-                                  <span className="block font-display leading-snug font-semibold">{moto.name}</span>
-                                  <span className="mt-1 block truncate text-xs text-muted">
-                                    {[styleLabels[moto.style], moto.displacement && formatDisplacement(moto.displacement)].filter(Boolean).join(' · ')}
-                                  </span>
-                                  {moto.demo && <DemoBadge label="Exemplo" always className="mt-2" />}
+                                <span className="relative block">
+                                  <SmartImage
+                                    image={moto.images[0] ? { ...moto.images[0], alt: '' } : { src: '', alt: '' }}
+                                    placeholderLabel={moto.images[0] ? undefined : 'Fotos em breve'}
+                                    sizes="(min-width: 640px) 320px, 90vw"
+                                    className="aspect-[16/10]"
+                                    imgClassName="transition-transform duration-700 group-hover/res:scale-[1.03] motion-reduce:transform-none"
+                                  />
+                                  {moto.demo && <DemoBadge label="Exemplo" always className="absolute top-3 left-3" />}
                                 </span>
-                                <ArrowRight aria-hidden className="size-4 shrink-0 text-graphite/50 transition-transform duration-300 group-hover/res:translate-x-1 group-hover/res:text-graphite" />
+                                <span className="flex flex-1 items-end justify-between gap-3 p-4 sm:p-5">
+                                  <span className="min-w-0">
+                                    <span className="block font-display leading-snug font-semibold">{moto.name}</span>
+                                    <span className="mt-1 block truncate text-xs text-muted">
+                                      {[styleLabels[moto.style], moto.displacement && formatDisplacement(moto.displacement)].filter(Boolean).join(' · ')}
+                                    </span>
+                                  </span>
+                                  <span className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-graphite">
+                                    Detalhes
+                                    <ArrowRight aria-hidden className="size-3.5 transition-transform duration-300 group-hover/res:translate-x-0.5" />
+                                  </span>
+                                </span>
                               </Link>
                             </li>
                           ))}
                         </ul>
                       ) : (
-                        <p className="mt-7 rounded-card bg-white p-5 text-sm text-muted">
+                        <p className="mt-6 rounded-card bg-white p-5 text-sm text-muted ring-1 ring-graphite/[0.07]">
                           Nenhuma moto está cadastrada no catálogo no momento. Fale com a equipe para saber das opções.
                         </p>
                       )}
