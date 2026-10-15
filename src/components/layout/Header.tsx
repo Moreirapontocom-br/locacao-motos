@@ -64,7 +64,7 @@ export function Header() {
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ease-out-soft ${
         solid
           ? 'border-b border-white/[0.08] bg-graphite/[0.92] shadow-[0_8px_24px_-16px_rgb(0_0_0/0.6)] backdrop-blur-xl'
-          : 'border-b border-transparent bg-gradient-to-b from-graphite/70 to-transparent'
+          : 'border-b border-white/[0.06] bg-transparent'
       }`}
     >
       <a
@@ -111,7 +111,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <div className="hidden sm:block">
-            <ContactButton size="sm" context={{ origin: 'header' }} label="Contato" className="px-5" />
+            <ContactButton size="sm" context={{ origin: 'header' }} label="Falar no WhatsApp" className="rounded-pill px-5" />
           </div>
           <button
             type="button"

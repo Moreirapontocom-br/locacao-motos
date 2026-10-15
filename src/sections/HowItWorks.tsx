@@ -8,6 +8,7 @@ import { rentalModes } from '../config/modalities'
 
 /**
  * Passo a passo por modalidade, em abas acessíveis (setas, Home e End).
+ * Fase 15: visual simplificado (ícone numerado + título + uma linha), sem números gigantes.
  * As etapas são uma explicação comercial geral, não o procedimento contratual.
  */
 export function HowItWorks() {
@@ -46,7 +47,7 @@ export function HowItWorks() {
             role="tablist"
             aria-label="Modalidade de locação"
             onKeyDown={onKeyDown}
-            className="grid w-full grid-cols-2 gap-1 rounded-control bg-white p-1 ring-1 ring-graphite/[0.08] lg:w-auto lg:min-w-[26rem]"
+            className="grid w-full grid-cols-2 gap-1 rounded-pill bg-white p-1 ring-1 ring-graphite/[0.08] lg:w-auto lg:min-w-[26rem]"
           >
             {rentalModes.map((m, i) => {
               const selected = m.id === activeId
@@ -63,7 +64,7 @@ export function HowItWorks() {
                   aria-controls={`${baseId}-panel`}
                   tabIndex={selected ? 0 : -1}
                   onClick={() => setActiveId(m.id)}
-                  className={`min-h-12 rounded-[0.5rem] px-3 py-2 text-sm leading-tight font-semibold transition-colors sm:px-5 ${
+                  className={`min-h-11 rounded-pill px-3 py-2 text-sm leading-tight font-semibold transition-colors sm:px-5 ${
                     selected ? 'bg-graphite text-white shadow-card' : 'text-graphite/75 hover:bg-ice hover:text-graphite'
                   }`}
                 >
@@ -83,32 +84,31 @@ export function HowItWorks() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               aria-label={`Etapas da ${mode.name.toLowerCase()}`}
-              className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8"
+              className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10"
             >
               {mode.steps.map((step, i) => (
-                <li key={step.title} className="border-t-2 border-graphite/10 pt-6">
-                  <p
-                    aria-hidden
-                    className="font-display text-[3.5rem] leading-none font-bold tracking-[-0.04em] text-transparent [-webkit-text-stroke-color:var(--color-accent)] [-webkit-text-stroke-width:1.5px] sm:text-[4.5rem]"
-                  >
-                    {String(i + 1).padStart(2, '0')}
-                  </p>
-                  <div className="mt-5 flex items-center gap-3">
-                    <step.icon aria-hidden className="size-5 shrink-0 text-accent-ink" strokeWidth={1.8} />
-                    <h3 className="text-lg leading-snug font-bold sm:text-xl">
+                <li key={step.title} className="flex gap-4 lg:flex-col lg:gap-5">
+                  <span aria-hidden className="relative grid size-14 shrink-0 place-items-center rounded-full bg-accent/10 text-accent-ink">
+                    <step.icon className="size-6" strokeWidth={1.8} />
+                    <span className="absolute -top-1 -right-1 grid size-6 place-items-center rounded-full bg-graphite font-display text-[0.6875rem] font-bold text-white ring-2 ring-ice">
+                      {i + 1}
+                    </span>
+                  </span>
+                  <div>
+                    <h3 className="text-lg leading-snug font-bold">
                       <span className="sr-only">Etapa {i + 1}: </span>
                       {step.title}
                     </h3>
+                    <p className="mt-1.5 max-w-xs text-[0.9375rem] leading-relaxed text-muted">{step.description}</p>
                   </div>
-                  <p className="mt-3 max-w-sm text-[0.95rem] leading-relaxed text-muted">{step.description}</p>
                 </li>
               ))}
             </motion.ol>
           </AnimatePresence>
         </div>
 
-        <Reveal className="mt-14 flex items-start gap-3 rounded-control bg-white px-5 py-4 text-sm ring-1 ring-graphite/[0.06] text-muted sm:items-center lg:mt-16">
-          <ShieldCheck aria-hidden className="mt-0.5 size-4 shrink-0 text-accent-ink sm:mt-0" />
+        <Reveal className="mt-12 flex max-w-3xl items-start gap-2.5 border-t border-graphite/[0.08] pt-6 text-sm text-muted lg:mt-14">
+          <ShieldCheck aria-hidden className="mt-0.5 size-4 shrink-0 text-accent-ink" />
           <p>{howItWorks.note}</p>
         </Reveal>
       </div>
