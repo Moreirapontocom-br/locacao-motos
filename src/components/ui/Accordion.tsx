@@ -23,7 +23,7 @@ export function Accordion({ items, defaultOpen = 0 }: { items: FaqItem[]; defaul
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="group/acc flex w-full items-center justify-between gap-6 rounded-control py-6 text-left font-display text-lg font-semibold tracking-[-0.015em] transition-colors hover:text-accent-ink sm:text-xl"
+                className="group/acc flex w-full items-center justify-between gap-6 rounded-control py-5 text-left font-display text-base font-semibold tracking-[-0.015em] transition-colors hover:text-accent-ink sm:text-lg"
               >
                 {item.question}
                 <span

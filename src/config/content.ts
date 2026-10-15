@@ -17,52 +17,80 @@ export const navigation: NavItem[] = [
 ]
 
 export const hero = {
-  eyebrow: 'Locação de motos',
+  eyebrow: 'Locação de motos Honda',
   title: 'Sua próxima moto começa aqui.',
   subtitle:
-    'Conheça nossas opções de locação de motos. Escolha entre alugar pelo período desejado ou contratar uma modalidade com possibilidade de aquisição.',
-  primaryCta: { label: 'Conhecer modalidades', to: '/#modalidades' },
-  secondaryCta: { label: 'Explorar motos', to: '/#motos' },
+    'Motos para trabalhar e rodar todos os dias, em locação tradicional ou com possibilidade de aquisição.',
+  primaryCta: { label: 'Ver motos disponíveis', to: '/#motos' },
+  secondaryCta: { label: 'Falar com a equipe' },
   /**
-   * Foto ILUSTRATIVA (Unsplash), com selo na página. Quando houver a foto oficial
-   * (horizontal, 4:3, até ~300 KB), salve em public/images/frota/ e troque por:
+   * Foto ILUSTRATIVA (Unsplash), com selo na página. Ocupa toda a largura do
+   * banner (Fase 14). Quando houver a foto oficial (horizontal, de preferência
+   * 16:9 ou 3:2, ~2000 px de largura, até ~400 KB), salve em public/images/frota/ e troque por:
    *   main: fleetPhoto('cg-160-piloto.jpg', 'Motociclista pilotando uma Honda CG 160'),
    */
   images: {
     main: unsplash('photo-1572452571879-3d67d5b2a39f', 'Motociclista pilotando moto urbana pela rua', {
-      ratio: 4 / 3,
-      focus: { x: 0.5, y: 0.55, zoom: 1.05 },
-      widths: [640, 960, 1280, 1600],
+      ratio: 3 / 2,
+      focus: { x: 0.5, y: 0.55, zoom: 1 },
+      widths: [720, 1080, 1600, 2200],
     }),
   },
-  points: ['Duas modalidades de locação', 'Motos Honda, com fotos e detalhes', 'Condições informadas pela equipe'],
 }
 
 export const rentalModesSection = {
   eyebrow: 'Modalidades',
   title: 'Dois caminhos. A moto certa para você.',
-  description: 'Conheça nossas modalidades e escolha a opção que melhor combina com seus objetivos.',
+  description: 'Compare as duas modalidades e escolha a que combina com o seu momento.',
   note: 'Valores, prazos, requisitos e condições contratuais ainda não foram confirmados neste site. A equipe informa tudo no atendimento, antes de qualquer contratação.',
 }
 
 export const featured = {
-  eyebrow: 'Motos',
-  title: 'Encontre a moto ideal para sua rotina.',
-  description:
-    'Modelos Honda do nosso catálogo. A disponibilidade de cada moto e as condições de locação são confirmadas pela equipe.',
+  eyebrow: 'Frota',
+  title: 'Motos para a sua rotina.',
+  description: 'Modelos Honda do nosso catálogo. Disponibilidade e condições de cada moto são confirmadas pela equipe.',
+}
+
+/**
+ * "Encontre sua próxima moto" (Fase 14): seletor em etapas.
+ * As respostas NÃO determinam modelos por conta própria: hoje nenhuma moto tem
+ * modalidades cadastradas em motorcycles.ts, então o resultado mostra as motos
+ * do catálogo sem afirmar que são ideais para o perfil. Quando uma moto tiver
+ * `modalities` oficiais, o resultado passa a filtrar por elas (ver lib/finder.ts).
+ */
+export const finder = {
+  eyebrow: 'Encontre sua próxima moto',
+  title: 'Duas perguntas. Um caminho.',
+  description: 'Conte como você pretende usar a moto e qual modalidade prefere.',
+  steps: ['Objetivo', 'Modalidade', 'Resultado'],
+  goalQuestion: 'Para que você vai usar a moto?',
+  goals: [
+    { value: 'trabalhar', label: 'Trabalhar', description: 'Entregas, aplicativos e serviços na rua.' },
+    { value: 'dia-a-dia', label: 'Dia a dia', description: 'Deslocamentos na cidade e compromissos.' },
+    { value: 'aquisicao', label: 'Interesse em aquisição futura', description: 'Quer usar hoje e pensa em ter a moto.' },
+    { value: 'explorar', label: 'Explorar opções', description: 'Ainda está conhecendo as possibilidades.' },
+  ],
+  modalityQuestion: 'Qual modalidade você prefere?',
+  resultTitle: 'Motos do catálogo',
+  /** Mostrado quando não há dados oficiais para relacionar modelos às respostas. */
+  resultNoMatch:
+    'Ainda não temos informações oficiais para indicar modelos por perfil. Estas são as motos do catálogo: a equipe confirma quais atendem ao que você escolheu.',
+  /** Mostrado quando há motos com a modalidade escolhida cadastrada oficialmente. */
+  resultMatch: 'Motos do catálogo com a modalidade escolhida cadastrada. Disponibilidade e condições são confirmadas pela equipe.',
 }
 
 export const howItWorks = {
-  eyebrow: 'Como funciona',
-  title: 'Entenda como funciona',
+  eyebrow: 'Processo',
+  title: 'Como funciona a locação',
   description: 'Escolha a modalidade para ver o caminho até a moto.',
   note: 'Explicação geral, não é o contrato. As condições, os prazos e os documentos são informados pela equipe, e o site não faz reservas nem contratações.',
 }
 
 /** Seção editorial: peça de campanha, sem promessas de custo, renda ou aprovação. */
 export const editorial = {
+  eyebrow: 'Mobilidade',
   title: 'Mais liberdade para seguir seu caminho.',
-  text: 'Uma moto pode fazer diferença na mobilidade do dia a dia. Conheça nossas opções e encontre uma modalidade de locação adequada aos seus objetivos.',
+  text: 'Uma moto muda a forma de se deslocar, trabalhar e cumprir a rotina. A locação é um jeito de começar sem complicação: você escolhe a moto e a modalidade, e a equipe explica as condições.',
   /** Imagem ilustrativa: motociclista na estrada ao pôr do sol. */
   image: unsplash('photo-1558981806-ec527fa84c39', 'Motociclista em estrada ao pôr do sol', {
     ratio: 4 / 3,

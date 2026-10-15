@@ -19,7 +19,7 @@ export function Faq() {
           <ContactButton variant="dark" className="mt-8" context={{ origin: 'faq' }} label="Tirar uma dúvida pelo WhatsApp" />
         </Reveal>
         <Reveal delay={0.08}>
-          <Accordion items={faq.items} />
+          <Accordion items={faq.items} defaultOpen={null} />
         </Reveal>
       </div>
     </section>
